@@ -55,6 +55,5 @@ val ComicAppTypography = Typography(
     labelMedium = TextStyle(
         fontSize = 12.sp,
         fontWeight = FontWeight.Medium
-)
-
+    )
 )
