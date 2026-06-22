@@ -11,9 +11,10 @@ fun AppNavHost(){
 
     NavHost(
         navController = navController,
-        startDestination = AuthGraph
+        startDestination = CatalogGraph
     ){
         authGraph(navController)
+        catalogGraph(navController)
 
         composable<MainTabsStructure> {
             // TOD: Bottom Navigation logic implement,

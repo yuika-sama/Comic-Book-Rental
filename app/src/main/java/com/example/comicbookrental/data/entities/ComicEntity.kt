@@ -14,5 +14,8 @@ data class ComicEntity(
     val description: String,
     val avgRating: String,
     val rentalPrice: String,
-    val releaseDate: String
+    val releaseDate: String,
+    val viewCount: Int = 0,
+    val ratingsCount: Int = 0,
+    val isFeatured: Boolean = false
 )
