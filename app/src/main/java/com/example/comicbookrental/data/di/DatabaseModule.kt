@@ -2,6 +2,7 @@ package com.example.comicbookrental.data.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.comicbookrental.data.dao.UserDao
 import com.example.comicbookrental.data.local.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -19,7 +20,7 @@ object DatabaseModule
     @Singleton
     fun provideAppDatabase(
         @ApplicationContext context: Context
-    ) : AppDatabase
+    ): AppDatabase
     {
         return Room.databaseBuilder(
             context,
@@ -29,6 +30,14 @@ object DatabaseModule
             // need to write Migration queries if some schema change
             .fallbackToDestructiveMigration(false)
             .build()
+    }
+
+    @Provides
+    fun provideUserDao(
+        db: AppDatabase
+    ): UserDao
+    {
+        return db.userDao
     }
 
 }
