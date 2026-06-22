@@ -1,6 +1,5 @@
 package com.example.comicbookrental.ui.screens
 
-import android.media.FaceDetector
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,10 +17,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,7 +36,7 @@ import androidx.compose.ui.unit.sp
 import com.example.comicbookrental.ui.components.BrutalistTextField
 import com.example.comicbookrental.ui.components.FacebookLoginButton
 import com.example.comicbookrental.ui.components.GoogleLoginButton
-import com.example.comicbookrental.ui.components.LoginButton
+import com.example.comicbookrental.ui.components.BrutalistButton
 import com.example.comicbookrental.ui.theme.AntonFont
 import com.example.comicbookrental.ui.theme.HankenGroteskFont
 
@@ -81,6 +78,7 @@ fun LoginScreen()
                     color = MaterialTheme.colorScheme.primary
                 )
                 HorizontalDivider(Modifier, DividerDefaults.Thickness, DividerDefaults.color)
+                Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = "YOUR NEXT ISSUE AWAITS",
                     fontFamily = HankenGroteskFont,
@@ -117,7 +115,8 @@ fun LoginScreen()
                     }
                 )
                 Spacer(modifier = Modifier.height(32.dp))
-                LoginButton(
+                BrutalistButton(
+                    text = "LOGIN",
                     onClick = { Log.d("Login", "Logged In") },
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -159,7 +158,7 @@ fun LoginScreen()
                     )
                 }
 
-//                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.height(24.dp))
 
                 Row(modifier = Modifier.padding(bottom = 24.dp)) {
                     Text(
