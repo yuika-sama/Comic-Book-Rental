@@ -118,11 +118,11 @@ private fun ColorPalette() {
         ColorItem("Surface", Surface)
         ColorItem("Surface Variant", SurfaceVariant)
 
-        ColorItem("Text Primary", TextPrimary)
-        ColorItem("Text Secondary", TextSecondary)
-        ColorItem("Text Disabled", TextDisabled)
+        ColorItem("Text Primary", OnSurface)
+        ColorItem("Text Secondary", OnSurfaceVariant)
+        ColorItem("Text Disabled", Outline)
 
-        ColorItem("Border", Border)
+        ColorItem("Border", OutlineVariant)
     }
 }
 
@@ -294,7 +294,7 @@ private fun DimensionSection() {
                         )
                         .border(
                             width = 1.dp,
-                            color = Border,
+                            color = OutlineVariant,
                             shape = RoundedCornerShape(
                                 Dimens.Radius.Card
                             )
@@ -317,7 +317,7 @@ private fun DimensionSection() {
                     Text(
                         text = "Author: Tappei Nagatsuki",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = TextSecondary
+                        color = OnSurfaceVariant
                     )
 
                     Text(
@@ -328,7 +328,7 @@ private fun DimensionSection() {
                     Text(
                         text = "The story centers on Subaru Natsuki, a hikikomori who suddenly finds himself transported to another world while on his way home from a convenience store.",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = TextSecondary,
+                        color = OnSurfaceVariant,
                         maxLines = 3
                     )
 

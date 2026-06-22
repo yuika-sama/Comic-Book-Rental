@@ -2,6 +2,7 @@ package com.example.comicbookrental.data.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.comicbookrental.data.dao.ComicDao
 import com.example.comicbookrental.data.dao.UserDao
 import com.example.comicbookrental.data.local.AppDatabase
 import dagger.Module
@@ -27,8 +28,7 @@ object DatabaseModule
             AppDatabase::class.java,
             "comic_rental_db"
         )
-            // need to write Migration queries if some schema change
-            .fallbackToDestructiveMigration(false)
+            .fallbackToDestructiveMigration(true)
             .build()
     }
 
@@ -38,6 +38,14 @@ object DatabaseModule
     ): UserDao
     {
         return db.userDao
+    }
+
+    @Provides
+    fun provideComicDao(
+        db: AppDatabase
+    ): ComicDao
+    {
+        return db.comicDao
     }
 
 }

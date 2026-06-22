@@ -25,6 +25,24 @@ interface ComicDao {
     @Query("SELECT * FROM comics WHERE id = :comicId")
     fun getComicById(comicId: Int): Flow<ComicEntity?>
 
+    // --- Home sections ---
+
+    /** Featured carousel: flagged comics, most-viewed first. */
+    @Query("SELECT * FROM comics WHERE isFeatured = 1 ORDER BY viewCount DESC")
+    fun getFeaturedComics(): Flow<List<ComicEntity>>
+
+    /** New Releases row: newest by release date. */
+    @Query("SELECT * FROM comics ORDER BY releaseDate DESC LIMIT :limit")
+    fun getNewReleases(limit: Int): Flow<List<ComicEntity>>
+
+    /** Top Rated Epics: highest rating first (CAST so "5.0" sorts above "4.9" numerically). */
+    @Query("SELECT * FROM comics ORDER BY CAST(avgRating AS REAL) DESC LIMIT :limit")
+    fun getTopRated(limit: Int): Flow<List<ComicEntity>>
+
+    /** Popular Genres: distinct genre names present in the catalog. */
+    @Query("SELECT DISTINCT genre FROM comics ORDER BY genre")
+    fun getGenres(): Flow<List<String>>
+
     @Query("SELECT * FROM reviews WHERE comicId = :comicId ORDER BY commentDate DESC")
     fun getReviewsForComic(comicId: Int): Flow<List<ReviewEntity>>
 }
