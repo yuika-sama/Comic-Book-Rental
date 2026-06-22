@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import com.example.comicbookrental.ui.navigation.AppNavHost
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.screens.DesignTestPreview
+import com.example.comicbookrental.ui.screens.LoginScreen
 
 class MainActivity : ComponentActivity()
 {
@@ -20,7 +21,8 @@ class MainActivity : ComponentActivity()
         enableEdgeToEdge()
         setContent {
             ComicBookRentalTheme {
-                AppNavHost()
+//                AppNavHost()
+                LoginScreen()
             }
         }
     }
