@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.example.comicbookrental.ui.navigation.AppNavHost
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.screens.DesignTestPreview
 
@@ -19,10 +20,7 @@ class MainActivity : ComponentActivity()
         enableEdgeToEdge()
         setContent {
             ComicBookRentalTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Log.d("Hoang", "$innerPadding")
-                    DesignTestPreview()
-                }
+                AppNavHost()
             }
         }
     }
