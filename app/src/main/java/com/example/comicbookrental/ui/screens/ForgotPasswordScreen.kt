@@ -1,11 +1,9 @@
 package com.example.comicbookrental.ui.screens
 
-import android.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.clipScrollableContainer
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,24 +16,16 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.Replay
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.currentCompositeKeyHash
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -45,15 +35,14 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.comicbookrental.ui.components.BrutalistButton
 import com.example.comicbookrental.ui.components.BrutalistTextField
-import com.example.comicbookrental.ui.theme.AntonFont
-import com.example.comicbookrental.ui.theme.HankenGroteskFont
+import com.example.comicbookrental.ui.theme.Anton
+import com.example.comicbookrental.ui.theme.HankenGrotesk
 
 @Composable
 fun ForgotPasswordScreen()
@@ -76,7 +65,7 @@ fun ForgotPasswordScreen()
         ) {
             Text(
                 text = "PANEL RUSH",
-                fontFamily = AntonFont,
+                fontFamily = Anton,
                 fontSize = 28.sp,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -116,7 +105,7 @@ fun ForgotPasswordScreen()
 
                 Text(
                    text = "RECOVER YOUR ACCOUNT",
-                   fontFamily = AntonFont,
+                   fontFamily = Anton,
                    fontSize = 28.sp,
                    color = Color.Black,
                    textAlign = TextAlign.Center
@@ -131,7 +120,7 @@ fun ForgotPasswordScreen()
                         }
                         append("to your inbox")
                     },
-                    fontFamily = HankenGroteskFont,
+                    fontFamily = HankenGrotesk,
                     fontSize = 14.sp,
                     color = Color.DarkGray,
                     textAlign = TextAlign.Center,
@@ -166,7 +155,7 @@ fun ForgotPasswordScreen()
                     Text(
                         text = "BACK TO LOGIN",
                         color = MaterialTheme.colorScheme.secondary,
-                        fontFamily = HankenGroteskFont,
+                        fontFamily = HankenGrotesk,
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp
                     )
@@ -210,7 +199,7 @@ fun ForgotPasswordScreen()
             Text(
                 text = "THE FIGHT • NEVER LOSE YOUR PROGRESS • SECURE YOUR COLLECTION • ",
                 color = Color.White,
-                fontFamily = AntonFont,
+                fontFamily = Anton,
                 fontSize = 18.sp,
                 letterSpacing = 1.sp,
                 modifier = Modifier.basicMarquee(

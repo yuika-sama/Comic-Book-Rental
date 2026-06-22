@@ -1,6 +1,5 @@
 package com.example.comicbookrental.ui.screens
 
-import android.R
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -29,8 +27,6 @@ import androidx.compose.material.icons.outlined.Security
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.Divider
-import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -54,8 +50,8 @@ import com.example.comicbookrental.ui.components.BrutalistTextField
 import com.example.comicbookrental.ui.components.FacebookLoginButton
 import com.example.comicbookrental.ui.components.GoogleLoginButton
 import com.example.comicbookrental.ui.components.BrutalistButton
-import com.example.comicbookrental.ui.theme.AntonFont
-import com.example.comicbookrental.ui.theme.HankenGroteskFont
+import com.example.comicbookrental.ui.theme.Anton
+import com.example.comicbookrental.ui.theme.HankenGrotesk
 
 @Composable
 fun RegisterScreen()
@@ -84,7 +80,7 @@ fun RegisterScreen()
         ) {
             Text(
                 text = "PANEL RUSH",
-                fontFamily = AntonFont,
+                fontFamily = Anton,
                 fontSize = 28.sp,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -117,7 +113,7 @@ fun RegisterScreen()
         ) {
             Text(
                 text = "JOIN THE",
-                fontFamily = AntonFont,
+                fontFamily = Anton,
                 fontSize = 48.sp,
                 color = MaterialTheme.colorScheme.primary,
                 modifier =  Modifier.offset(y = 12.dp)
@@ -138,7 +134,7 @@ fun RegisterScreen()
                 ) {
                     Text(
                         text = "SQUAD",
-                        fontFamily = AntonFont,
+                        fontFamily = Anton,
                         fontSize = 48.sp,
                         color = Color.Black
                     )
@@ -237,7 +233,7 @@ fun RegisterScreen()
                                 }
                                 append(" AND PRIVACY PROTOCOLS.")
                             },
-                            fontFamily = HankenGroteskFont,
+                            fontFamily = HankenGrotesk,
                             fontSize = 12.sp,
                             color = Color.Black,
                             lineHeight = 16.sp
@@ -264,12 +260,12 @@ fun RegisterScreen()
                     ) {
                         Text(
                             text = "ALREADY A MEMBER? ",
-                            fontFamily = HankenGroteskFont,
+                            fontFamily = HankenGrotesk,
                             fontSize = 12.sp
                         )
                         Text(
                             text = "LOGIN HERE",
-                            fontFamily = HankenGroteskFont,
+                            fontFamily = HankenGrotesk,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.Blue,

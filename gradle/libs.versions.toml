@@ -10,8 +10,10 @@ kotlin = "2.2.10"
 composeBom = "2024.09.00"
 foundation = "1.11.3"
 foundationLayout = "1.11.3"
+runtime = "1.11.3"
 
 [libraries]
+androidx-compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "runtime" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

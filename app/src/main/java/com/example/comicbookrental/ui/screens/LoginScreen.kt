@@ -37,8 +37,8 @@ import com.example.comicbookrental.ui.components.BrutalistTextField
 import com.example.comicbookrental.ui.components.FacebookLoginButton
 import com.example.comicbookrental.ui.components.GoogleLoginButton
 import com.example.comicbookrental.ui.components.BrutalistButton
-import com.example.comicbookrental.ui.theme.AntonFont
-import com.example.comicbookrental.ui.theme.HankenGroteskFont
+import com.example.comicbookrental.ui.theme.Anton
+import com.example.comicbookrental.ui.theme.HankenGrotesk
 
 @Composable
 fun LoginScreen()
@@ -73,7 +73,7 @@ fun LoginScreen()
             ) {
                 Text(
                     text = "PANEL RUSH",
-                    fontFamily = AntonFont,
+                    fontFamily = Anton,
                     fontSize = 56.sp,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -81,7 +81,7 @@ fun LoginScreen()
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = "YOUR NEXT ISSUE AWAITS",
-                    fontFamily = HankenGroteskFont,
+                    fontFamily = HankenGrotesk,
                     letterSpacing = 2.sp,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
@@ -107,7 +107,7 @@ fun LoginScreen()
                     trailingContent = {
                         Text(
                             text = "FORGOT?",
-                            fontFamily = HankenGroteskFont,
+                            fontFamily = HankenGrotesk,
                             fontSize = 12.sp,
                             color = MaterialTheme.colorScheme.primary,
                             fontWeight = FontWeight.Bold
@@ -132,7 +132,7 @@ fun LoginScreen()
                     )
                     Text(
                         text = " OR CONNECT WITH ",
-                        fontFamily = HankenGroteskFont,
+                        fontFamily = HankenGrotesk,
                         fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold
@@ -163,14 +163,14 @@ fun LoginScreen()
                 Row(modifier = Modifier.padding(bottom = 24.dp)) {
                     Text(
                         text = "New to the collection? ",
-                        fontFamily = HankenGroteskFont,
+                        fontFamily = HankenGrotesk,
                         color = Color.Black
                     )
                     Text(
                         text = "JOIN TODAY",
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold,
-                        fontFamily = HankenGroteskFont,
+                        fontFamily = HankenGrotesk,
                         modifier = Modifier.clickable { /* Navigate to register */ }
                     )
                 }

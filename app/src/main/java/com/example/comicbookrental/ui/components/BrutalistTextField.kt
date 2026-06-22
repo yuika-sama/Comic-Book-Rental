@@ -29,7 +29,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.room.util.splitToIntList
-import com.example.comicbookrental.ui.theme.HankenGroteskFont
+import com.example.comicbookrental.ui.theme.HankenGrotesk
 
 @Composable
 fun BrutalistTextField(
@@ -51,7 +51,7 @@ fun BrutalistTextField(
         ){
             Text(
                 text = label,
-                fontFamily = HankenGroteskFont,
+                fontFamily = HankenGrotesk,
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
                 color = Color.Black
@@ -63,7 +63,7 @@ fun BrutalistTextField(
             value = value,
             onValueChange = onValueChange,
             textStyle = TextStyle(
-                fontFamily = HankenGroteskFont,
+                fontFamily = HankenGrotesk,
                 fontSize = 16.sp,
                 color = Color.Black
             ),
@@ -90,7 +90,7 @@ fun BrutalistTextField(
                             Text(
                                 text = placeholder,
                                 color = Color.Gray,
-                                fontFamily = HankenGroteskFont,
+                                fontFamily = HankenGrotesk,
                                 fontSize = 16.sp
                             )
                         }

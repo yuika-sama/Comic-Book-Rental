@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.comicbookrental.ui.theme.AntonFont
+import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.Dimens.ShadowOffset.shadowOffset
 
 @Composable
@@ -53,7 +53,7 @@ fun BrutalistButton(
         ) {
             Text(
                 text = text,
-                fontFamily = AntonFont,
+                fontFamily = Anton,
                 fontSize = 24.sp,
                 color = Color.White
             )

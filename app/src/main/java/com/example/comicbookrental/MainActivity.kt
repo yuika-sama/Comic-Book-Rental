@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import com.example.comicbookrental.ui.navigation.AppNavHost
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.screens.DesignTestPreview
+import com.example.comicbookrental.ui.screens.ForgotPasswordScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
