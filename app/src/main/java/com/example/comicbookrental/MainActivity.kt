@@ -11,9 +11,9 @@ import androidx.compose.ui.Modifier
 import com.example.comicbookrental.ui.navigation.AppNavHost
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.screens.DesignTestPreview
-import com.example.comicbookrental.ui.screens.rentals.RentalsScreen
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity()
 {
     override fun onCreate(savedInstanceState: Bundle?)
@@ -22,7 +22,8 @@ class MainActivity : ComponentActivity()
         enableEdgeToEdge()
         setContent {
             ComicBookRentalTheme {
-                RentalsScreen()
+//                AppNavHost()
+                ForgotPasswordScreen()
             }
         }
     }
