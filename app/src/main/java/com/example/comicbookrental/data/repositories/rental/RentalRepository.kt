@@ -1,9 +1,14 @@
 package com.example.comicbookrental.data.repositories.rental
 
-import com.example.comicbookrental.data.entities.RentalEntity
-import kotlinx.coroutines.flow.Flow
+import com.example.comicbookrental.data.models.Rental
 
 interface RentalRepository {
-    fun getAllRentals(): Flow<List<RentalEntity>>
-    suspend fun insertRental(rental: RentalEntity)
+
+    fun getAllRentals(): List<Rental>
+
+    fun insertRental(rental: Rental)
+
+    fun deleteRental(rentalId: Int)
+
+    fun getRentalById(rentalId: Int): Rental?
 }

@@ -1,68 +1,86 @@
 package com.example.comicbookrental.ui.screens.rentals
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.example.comicbookrental.data.entities.RentalEntity
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.comicbookrental.data.models.Rental
 import com.example.comicbookrental.ui.components.RentalCard
-import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 
 @Composable
 fun RentalsScreen(
-    viewModel: RentalViewModel = hiltViewModel()
+    viewModel: RentalViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    MyRentalsContent(
+    RentalsContent(
         rentals = uiState.rentalList,
-        onInsertTestRental = viewModel::insertTestRental
+        onInsertTestRental = viewModel::insertTestRental,
+        onDeleteRental = viewModel::deleteRental
     )
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
+
 @Composable
-fun MyRentalsScreenPreview() {
+fun RentalsContent(
+    rentals: List<Rental>,
+    onInsertTestRental: () -> Unit,
+    onDeleteRental: (Int) -> Unit
+) {
+    if (rentals.isEmpty()) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text("📚", style =
+                    MaterialTheme.typography.displayLarge)
+                Spacer(Modifier.height(16.dp))
+                Text("No Rentals Yet", style = MaterialTheme.typography.titleLarge)
+                Spacer(Modifier.height(8.dp))
+                Text("Browse comics and rent your first title.")
+                Spacer(Modifier.height(16.dp))
 
-    val mockRentals = listOf(
+                Button(onClick = onInsertTestRental) {
+                    Text("Insert Test Rental")
+                }
+            }
+        }
+        return
+    }
 
-        RentalEntity(
-            rentalId = 1,
-            comicId = 101,
-            userId = 1,
-            rentalDate = System.currentTimeMillis(),
-            dueDate = System.currentTimeMillis() + 6048000000000000,
-            status = "ACTIVE"
-        ),
-
-        RentalEntity(
-            rentalId = 2,
-            comicId = 102,
-            userId = 1,
-            rentalDate = System.currentTimeMillis(),
-            dueDate = System.currentTimeMillis() + 1209600000,
-            status = "ACTIVE"
-        ),
-
-        RentalEntity(
-            rentalId = 3,
-            comicId = 103,
-            userId = 2,
-            rentalDate = System.currentTimeMillis(),
-            dueDate = System.currentTimeMillis() - 86400000,
-            status = "EXPIRED"
-        )
-    )
-
-    MyRentalsContent(
-//        rentals = mockRentals,
-        onInsertTestRental = {},
-        rentals = emptyList()
-    )
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(16.dp)
+    ) {
+        items(
+            rentals,
+            key = { it.rentalId }
+        ) { rental ->
+            RentalCard(
+                rental = rental,
+                onDeleteClick = {
+                    onDeleteRental(rental.rentalId)
+                }
+            )
+        }
+    }
 }

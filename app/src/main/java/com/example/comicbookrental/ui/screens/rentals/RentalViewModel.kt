@@ -1,45 +1,56 @@
 package com.example.comicbookrental.ui.screens.rentals
 
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.comicbookrental.data.entities.RentalEntity
+import com.example.comicbookrental.data.models.Rental
+import com.example.comicbookrental.data.models.RentalStatus
 import com.example.comicbookrental.data.repositories.rental.RentalRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.example.comicbookrental.data.repositories.rental.RentalRepositoryImpl
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import javax.inject.Inject
+import kotlin.random.Random
 
-@HiltViewModel
-class RentalViewModel @Inject constructor(
-    private val rentalRepository: RentalRepository
-) : ViewModel() {
+class RentalViewModel : ViewModel() {
 
-    private val _uiState = MutableStateFlow(RentalUIState())
+    private val repository: RentalRepository =
+        RentalRepositoryImpl()
+
+    private val _uiState =
+        MutableStateFlow(RentalUiState())
+
     val uiState = _uiState.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            rentalRepository.getAllRentals().collect { rentals ->
-                _uiState.value = _uiState.value.copy(
-                    rentalList = rentals
-                )
-            }
-        }
+        loadRentals()
+    }
+
+    private fun loadRentals() {
+        _uiState.value = _uiState.value.copy(
+            rentalList = repository.getAllRentals()
+        )
     }
 
     fun insertTestRental() {
-        viewModelScope.launch {
-            rentalRepository.insertRental(
-                RentalEntity(
-                    comicId = 1,
-                    userId = 1,
-                    rentalDate = System.currentTimeMillis(),
-                    dueDate = System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000,
-                    status = "ACTIVE"
-                )
+        val now = System.currentTimeMillis()
+        val sevenDays = 7 * 24 * 60 * 60 * 1000L
+
+        repository.insertRental(
+            Rental(
+                rentalId = Random.nextInt(1000, 9999),
+                comicId = 999,
+                userId = 1,
+                comicTitle = "Chainsaw Man",
+                comicCoverUrl = "",
+                rentalDate = now,
+                dueDate = now + sevenDays,
+                status = RentalStatus.ACTIVE
             )
-        }
+        )
+
+        loadRentals()
+    }
+
+    fun deleteRental(rentalId: Int) {
+        repository.deleteRental(rentalId)
+        loadRentals()
     }
 }

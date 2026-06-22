@@ -1,20 +1,27 @@
 package com.example.comicbookrental.data.repositories.rental
 
-import com.example.comicbookrental.data.dao.RentalDao
-import com.example.comicbookrental.data.entities.RentalEntity
-import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
+import com.example.comicbookrental.data.mock.MockRentalData
+import com.example.comicbookrental.data.models.Rental
 
+class RentalRepositoryImpl : RentalRepository {
 
-class RentalRepositoryImpl @Inject constructor(
-    private val rentalDao: RentalDao
-) : RentalRepository {
-
-    override fun getAllRentals(): Flow<List<RentalEntity>> {
-        return rentalDao.getAllRentals()
+    override fun getAllRentals(): List<Rental> {
+        return MockRentalData.rentals.toList()
     }
 
-    override suspend fun insertRental(rental: RentalEntity) {
-        rentalDao.insertRental(rental)
+    override fun insertRental(rental: Rental) {
+        MockRentalData.rentals.add(rental)
+    }
+
+    override fun deleteRental(rentalId: Int) {
+        MockRentalData.rentals.removeIf {
+            it.rentalId == rentalId
+        }
+    }
+
+    override fun getRentalById(rentalId: Int): Rental? {
+        return MockRentalData.rentals.find {
+            it.rentalId == rentalId
+        }
     }
 }
