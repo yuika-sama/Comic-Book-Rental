@@ -76,4 +76,8 @@ object Dimens {
         val Medium = 24.dp
         val Large = 32.dp
     }
+
+    object ShadowOffset{
+        val shadowOffset = 6.dp
+    }
 }

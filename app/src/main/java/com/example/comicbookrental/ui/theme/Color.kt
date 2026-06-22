@@ -74,3 +74,13 @@ val Info = Color(0xFF0284C7)
 
 /** Rating star fill. */
 val Rating = Color(0xFFFBBF24)
+
+// Text
+val TextPrimary = Color(0xFF121212)
+val TextSecondary = Color(0xFF666666)
+val TextDisabled = Color(0xFFAAAAAA)
+
+// Border
+val Border = Color(0xFFD4D4D4)
+
+val FacebookColorPrimary = Color(0xFF1777F1)

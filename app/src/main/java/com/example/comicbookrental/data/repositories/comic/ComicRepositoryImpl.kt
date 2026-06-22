@@ -1,40 +1,79 @@
 package com.example.comicbookrental.data.repositories.comic
 
-import com.example.comicbookrental.data.dao.ComicDao
 import com.example.comicbookrental.data.entities.ComicEntity
 import com.example.comicbookrental.data.entities.ReviewEntity
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class ComicRepositoryImpl @Inject constructor(
-    private val dao: ComicDao,
-) : ComicRepository {
+@Singleton
+class ComicRepositoryImpl @Inject constructor() : ComicRepository {
 
-    override fun getAllComics(): Flow<List<ComicEntity>> = dao.getAllComics()
+    private val comicsFlow = MutableStateFlow<List<ComicEntity>>(SampleComics.list)
+    private val reviewsFlow = MutableStateFlow<List<ReviewEntity>>(emptyList())
 
-    override fun searchComics(query: String): Flow<List<ComicEntity>> = dao.searchComics(query)
+    override fun getAllComics(): Flow<List<ComicEntity>> = comicsFlow
 
-    override fun getComicById(comicId: Int): Flow<ComicEntity?> = dao.getComicById(comicId)
+    override fun searchComics(query: String): Flow<List<ComicEntity>> {
+        return comicsFlow.map { list ->
+            list.filter {
+                it.title.contains(query, ignoreCase = true) ||
+                it.author.contains(query, ignoreCase = true)
+            }
+        }
+    }
 
-    override fun getReviewsForComic(comicId: Int): Flow<List<ReviewEntity>> =
-        dao.getReviewsForComic(comicId)
+    override fun getComicById(comicId: Int): Flow<ComicEntity?> {
+        return comicsFlow.map { list ->
+            list.find { it.id == comicId }
+        }
+    }
 
-    override fun getFeaturedComics(): Flow<List<ComicEntity>> = dao.getFeaturedComics()
+    override fun getReviewsForComic(comicId: Int): Flow<List<ReviewEntity>> {
+        return reviewsFlow.map { list ->
+            list.filter { it.comicId == comicId }
+                .sortedByDescending { it.commentDate }
+        }
+    }
 
-    override fun getNewReleases(limit: Int): Flow<List<ComicEntity>> = dao.getNewReleases(limit)
+    override fun getFeaturedComics(): Flow<List<ComicEntity>> {
+        return comicsFlow.map { list ->
+            list.filter { it.isFeatured }
+                .sortedByDescending { it.viewCount }
+        }
+    }
 
-    override fun getTopRated(limit: Int): Flow<List<ComicEntity>> = dao.getTopRated(limit)
+    override fun getNewReleases(limit: Int): Flow<List<ComicEntity>> {
+        return comicsFlow.map { list ->
+            list.sortedByDescending { it.releaseDate }
+                .take(limit)
+        }
+    }
 
-    override fun getGenres(): Flow<List<String>> = dao.getGenres()
+    override fun getTopRated(limit: Int): Flow<List<ComicEntity>> {
+        return comicsFlow.map { list ->
+            list.sortedByDescending { it.avgRating.toDoubleOrNull() ?: 0.0 }
+                .take(limit)
+        }
+    }
 
-    override suspend fun insertComics(comics: List<ComicEntity>) = dao.insertComics(comics)
+    override fun getGenres(): Flow<List<String>> {
+        return comicsFlow.map { list ->
+            list.map { it.genre }
+                .distinct()
+                .sorted()
+        }
+    }
+
+    override suspend fun insertComics(comics: List<ComicEntity>) {
+        comicsFlow.value = (comicsFlow.value + comics).distinctBy { it.id }
+    }
 
     override suspend fun seedIfEmpty() {
-        // Peek the current catalog once; only seed when there's nothing there yet.
-        val existing = dao.getAllComics().first()
-        if (existing.isEmpty()) {
-            dao.insertComics(SampleComics.list)
+        if (comicsFlow.value.isEmpty()) {
+            comicsFlow.value = SampleComics.list
         }
     }
 }
