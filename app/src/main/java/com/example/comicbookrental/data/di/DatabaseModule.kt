@@ -2,8 +2,11 @@ package com.example.comicbookrental.data.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.comicbookrental.data.dao.RentalDao
 import com.example.comicbookrental.data.dao.UserDao
 import com.example.comicbookrental.data.local.AppDatabase
+import com.example.comicbookrental.data.repositories.rental.RentalRepository
+import com.example.comicbookrental.data.repositories.rental.RentalRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,4 +43,10 @@ object DatabaseModule
         return db.userDao
     }
 
+    @Provides
+    fun provideRentalDao(
+        db: AppDatabase
+    ): RentalDao {
+        return db.rentalDao
+    }
 }
