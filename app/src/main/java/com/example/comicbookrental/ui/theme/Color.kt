@@ -4,30 +4,30 @@ import androidx.compose.ui.graphics.Color
 
 
 
-val Primary = Color(0xFFCB660E)
-val PrimaryContainer = Color(0xFFFFF3E0)
+val Primary = Color(0xFFFF4E00)
+val PrimaryContainer = Color(0xFFFFDCD2)
 
-val Secondary = Color(0xFF92400E)
-val SecondaryContainer = Color(0xFFFEF3C7)
+val Secondary = Color(0xFF2E5BFF)
+val SecondaryContainer = Color(0xFFD5DFFF)
 
-// Status
+// Status (Giữ nguyên các màu không có trong ảnh, đổi Info theo Tertiary)
 val Success = Color(0xFF16A34A)
 val Warning = Color(0xFFEAB308)
 val Error = Color(0xFFDC2626)
-val Info = Color(0xFF0284C7)
+val Info = Color(0xFF098EFF)
 
 // Rating
 val Rating = Color(0xFFFBBF24)
 
 // Background
-val Background = Color(0xFFFFFEFA)
-val Surface = Color.White
-val SurfaceVariant = Color(0xFFFAF7F2)
+val Background = Color(0xFFFFFFFF)
+val Surface = Color(0xFFFFFFFF)
+val SurfaceVariant = Color(0xFFEFEFEF)
 
-// Text
-val TextPrimary = Color(0xFF3B2F2F)
-val TextSecondary = Color(0xFF7C6A58)
-val TextDisabled = Color(0xFFB0A08F)
+// Text (Dùng dải màu Neutral)
+val TextPrimary = Color(0xFF121212)
+val TextSecondary = Color(0xFF666666)
+val TextDisabled = Color(0xFFAAAAAA)
 
 // Border
-val Border = Color(0xFFE8DCCB)
+val Border = Color(0xFFD4D4D4)
