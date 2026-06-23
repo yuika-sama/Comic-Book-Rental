@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.screens
+package com.example.comicbookrental.ui.screens.auth
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
@@ -39,8 +39,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.comicbookrental.ui.components.AuthTopHeader
 import com.example.comicbookrental.ui.components.BrutalistButton
 import com.example.comicbookrental.ui.components.BrutalistTextField
+import com.example.comicbookrental.ui.components.LoopText
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.HankenGrotesk
 
@@ -58,24 +60,8 @@ fun ForgotPasswordScreen()
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(0.8f),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "PANEL RUSH",
-                fontFamily = Anton,
-                fontSize = 28.sp,
-                color = MaterialTheme.colorScheme.primary
-            )
-            Icon(
-                imageVector = Icons.Default.Close,
-                contentDescription = "Close",
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable { /* Xử lý đóng/back */ }
-            )
-        }
+
+        AuthTopHeader()
 
         Box(
             modifier = Modifier
@@ -190,23 +176,6 @@ fun ForgotPasswordScreen()
             }
         }
 
-        Box(
-            modifier =  Modifier
-                .fillMaxWidth()
-                .background(Color.Black)
-                .padding(vertical = 12.dp)
-        ){
-            Text(
-                text = "THE FIGHT • NEVER LOSE YOUR PROGRESS • SECURE YOUR COLLECTION • ",
-                color = Color.White,
-                fontFamily = Anton,
-                fontSize = 18.sp,
-                letterSpacing = 1.sp,
-                modifier = Modifier.basicMarquee(
-                    iterations = Int.MAX_VALUE,
-                    velocity = 30.dp
-                )
-            )
-        }
+        LoopText(value = "THE FIGHT • NEVER LOSE YOUR PROGRESS • SECURE YOUR COLLECTION • ")
     }
 }

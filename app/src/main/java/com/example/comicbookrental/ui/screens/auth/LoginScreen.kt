@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.screens
+package com.example.comicbookrental.ui.screens.auth
 
 import android.util.Log
 import androidx.compose.foundation.background

@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.screens
+package com.example.comicbookrental.ui.screens.auth
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -46,6 +46,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.comicbookrental.ui.components.AuthTopHeader
 import com.example.comicbookrental.ui.components.BrutalistTextField
 import com.example.comicbookrental.ui.components.FacebookLoginButton
 import com.example.comicbookrental.ui.components.GoogleLoginButton
@@ -72,25 +73,8 @@ fun RegisterScreen()
             .padding(bottom = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(0.8f),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "PANEL RUSH",
-                fontFamily = Anton,
-                fontSize = 28.sp,
-                color = MaterialTheme.colorScheme.primary
-            )
-            Icon(
-                imageVector = Icons.Default.Close,
-                contentDescription = "Close",
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable { /* Xử lý đóng/back */ }
-            )
-        }
+        AuthTopHeader()
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
