@@ -1,6 +1,7 @@
 package com.example.comicbookrental.ui.screens.reset_password
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -8,22 +9,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.comicbookrental.ui.components.AuthIconBox
 import com.example.comicbookrental.ui.components.AuthTopHeader
 import com.example.comicbookrental.ui.components.BrutalistButton
@@ -40,12 +45,24 @@ import com.example.comicbookrental.ui.theme.extendedColors
 
 @Composable
 fun ResetPasswordScreen(
+    email: String,
     onPasswordResetSuccess: () -> Unit = {},
-    onCancelClick: () -> Unit = {}
+    onCancelClick: () -> Unit = {},
+    viewModel: ResetPasswordViewModel = hiltViewModel()
 ) {
-    var newPassword by remember { mutableStateOf("") }
-    var confirmNewPassword by remember { mutableStateOf("") }
+    val state by viewModel.uiState.collectAsState()
     val ink = MaterialTheme.extendedColors.ink
+
+    LaunchedEffect(email) {
+        viewModel.initEmail(email)
+    }
+
+    LaunchedEffect(state.isSuccess) {
+        if (state.isSuccess) {
+            onPasswordResetSuccess()
+            viewModel.resetSuccessState()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -98,29 +115,121 @@ fun ResetPasswordScreen(
 
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
+                if (state.errorMessage != null) {
+                    Text(
+                        text = state.errorMessage!!,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = Dimens.Spacing.ListItemSpacing)
+                    )
+                }
+
                 BrutalistTextField(
-                    value = newPassword,
-                    onValueChange = { newPassword = it },
+                    value = state.newPassword,
+                    onValueChange = viewModel::onNewPasswordChange,
                     label = "NEW PASSWORD",
                     placeholder = "Enter your new password",
                     leadingIcon = Icons.Default.Lock,
-                    isPassword = true
+                    isPassword = !state.isPasswordShow,
+                    trailingContent = {
+                        if (state.isPasswordShow)
+                        {
+                            Icon(
+                                imageVector = Icons.Outlined.VisibilityOff,
+                                contentDescription = "Hide Password",
+                                modifier = Modifier
+                                    .size(Dimens.Icon.Medium)
+                                    .clickable {
+                                        viewModel.onTogglePasswordVisibility()
+                                    },
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                        else
+                        {
+                            Icon(
+                                imageVector = Icons.Outlined.Visibility,
+                                contentDescription = "Show Password",
+                                modifier = Modifier
+                                    .size(Dimens.Icon.Medium)
+                                    .clickable {
+                                        viewModel.onTogglePasswordVisibility()
+                                    },
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
                 )
+
+                if (state.newPasswordErrorMessage != null) {
+                    Text(
+                        text = state.newPasswordErrorMessage!!,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = Dimens.Spacing.ListItemSpacing)
+                    )
+                }
                 
                 Spacer(modifier = Modifier.height(Dimens.Spacing.ListItemSpacing))
                 
-                PasswordStrengthEvaluator(strength = 3, label = "Almost invincible")
+                PasswordStrengthEvaluator(strength = state.passwordStrength, label = state.passwordStrengthLabel)
 
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
                 BrutalistTextField(
-                    value = confirmNewPassword,
-                    onValueChange = { confirmNewPassword = it },
+                    value = state.confirmPassword,
+                    onValueChange = viewModel::onConfirmPasswordChange,
                     label = "CONFIRM NEW PASSWORD",
                     placeholder = "Enter your confirm password",
                     leadingIcon = Icons.Default.Lock,
-                    isPassword = true
+                    isPassword = !state.isConfirmPasswordShow,
+                    trailingContent = {
+                        if (state.isConfirmPasswordShow)
+                        {
+                            Icon(
+                                imageVector = Icons.Outlined.VisibilityOff,
+                                contentDescription = "Hide Password",
+                                modifier = Modifier
+                                    .size(Dimens.Icon.Medium)
+                                    .clickable {
+                                        viewModel.onToggleConfirmPasswordVisibility()
+                                    },
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                        else
+                        {
+                            Icon(
+                                imageVector = Icons.Outlined.Visibility,
+                                contentDescription = "Show Password",
+                                modifier = Modifier
+                                    .size(Dimens.Icon.Medium)
+                                    .clickable {
+                                        viewModel.onToggleConfirmPasswordVisibility()
+                                    },
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
                 )
+
+                if (state.confirmPasswordErrorMessage != null) {
+                    Text(
+                        text = state.confirmPasswordErrorMessage!!,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = Dimens.Spacing.ListItemSpacing)
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
@@ -131,8 +240,8 @@ fun ResetPasswordScreen(
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
                 BrutalistButton(
-                    text = "UPDATE PASSWORD",
-                    onClick = onPasswordResetSuccess,
+                    text = if (state.isLoading) "UPDATING..." else "UPDATE PASSWORD",
+                    onClick = { viewModel.resetPassword() },
                     modifier = Modifier.fillMaxWidth()
                 )
                 
@@ -156,6 +265,7 @@ fun ResetPasswordScreen(
 private fun ResetPasswordPreview() {
     ComicBookRentalTheme {
         ResetPasswordScreen(
+            email = "comic.rent@gmail.com",
             onPasswordResetSuccess = {},
             onCancelClick = {}
         )

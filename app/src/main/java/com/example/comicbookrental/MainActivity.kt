@@ -9,6 +9,7 @@ import com.example.comicbookrental.ui.screens.forgot_password.ForgotPasswordScre
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.screens.login.LoginScreen
 import com.example.comicbookrental.ui.screens.register.RegisterScreen
+import com.example.comicbookrental.ui.screens.reset_password.ResetPasswordScreen
 import com.example.comicbookrental.ui.screens.verify_otp.VerifyOtpScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +23,7 @@ class MainActivity : ComponentActivity()
         setContent {
             ComicBookRentalTheme {
 //                AppNavHost()
-                VerifyOtpScreen(email = AuthMockData.VALID_EMAIL)
+                ResetPasswordScreen(email = AuthMockData.VALID_EMAIL)
             }
         }
     }

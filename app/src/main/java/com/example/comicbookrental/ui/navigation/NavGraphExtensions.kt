@@ -48,12 +48,14 @@ fun NavGraphBuilder.authGraph(navController: NavHostController){
             val route = backStackEntry.toRoute<InputOtp>()
             VerifyOtpScreen(
                 email = route.email,
-                onVerifySuccess = { navController.navigate(ChangePassword) },
+                onVerifySuccess = { navController.navigate(ChangePassword(route.email)) },
                 onBackClick = { navController.popBackStack() }
             )
         }
-        composable<ChangePassword> {
+        composable<ChangePassword> { backStackEntry ->
+            val route = backStackEntry.toRoute<ChangePassword>()
             ResetPasswordScreen(
+                email = route.email,
                 onPasswordResetSuccess = {
                     navController.navigate(LoginRoute) {
                         popUpTo(AuthGraph) { inclusive = true }

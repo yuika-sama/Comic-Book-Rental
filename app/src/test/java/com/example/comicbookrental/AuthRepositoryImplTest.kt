@@ -63,4 +63,17 @@ class AuthRepositoryImplTest {
         assertTrue(result.isFailure)
         assertEquals(AuthMockData.INVALID_OTP_ERROR, result.exceptionOrNull())
     }
+
+    @Test
+    fun resetPassword_withValidPassword_returnsSuccess() = runBlocking {
+        val result = repository.resetPassword(AuthMockData.VALID_EMAIL, "newSecurePassword123")
+        assertTrue(result.isSuccess)
+    }
+
+    @Test
+    fun resetPassword_withErrorPassword_returnsFailureWithServerError() = runBlocking {
+        val result = repository.resetPassword(AuthMockData.VALID_EMAIL, "error12345")
+        assertTrue(result.isFailure)
+        assertEquals(AuthMockData.SERVER_ERROR, result.exceptionOrNull())
+    }
 }

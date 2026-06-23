@@ -99,4 +99,20 @@ class AuthRepositoryImpl @Inject constructor() : AuthRepository
             Result.failure(e)
         }
     }
+
+    override suspend fun resetPassword(email: String, newPassword: String): Result<Unit>
+    {
+        delay(AuthMockData.NETWORK_DELAY)
+        return try
+        {
+            if (newPassword == "error12345")
+            {
+                throw AuthMockData.SERVER_ERROR
+            }
+            Result.success(Unit)
+        } catch (e: Exception)
+        {
+            Result.failure(e)
+        }
+    }
 }
