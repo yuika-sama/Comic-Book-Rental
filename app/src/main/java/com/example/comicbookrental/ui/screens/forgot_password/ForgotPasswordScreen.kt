@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.screens.auth
+package com.example.comicbookrental.ui.screens.forgot_password
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,18 +16,19 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Replay
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
@@ -39,6 +40,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.comicbookrental.ui.components.AuthTopHeader
 import com.example.comicbookrental.ui.components.BrutalistButton
 import com.example.comicbookrental.ui.components.BrutalistTextField
@@ -52,11 +54,19 @@ import com.example.comicbookrental.ui.theme.extendedColors
 @Composable
 fun ForgotPasswordScreen(
     onBackToLoginClick: () -> Unit = {},
-    onSendOtpClick: () -> Unit = {}
+    onSendOtpClick: (String) -> Unit = {},
+    viewModel: ForgotPasswordViewModel = hiltViewModel()
 ) {
-    var email by rememberSaveable { mutableStateOf("") }
+    val state by viewModel.uiState.collectAsState()
     val ink = MaterialTheme.extendedColors.ink
     val shape = RoundedCornerShape(Dimens.Radius.Sm)
+
+    LaunchedEffect(state.isSuccess) {
+        if (state.isSuccess) {
+            onSendOtpClick(state.email)
+            viewModel.resetSuccessState()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -122,19 +132,54 @@ fun ForgotPasswordScreen(
 
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
+                if (state.errorMessage != null) {
+                    Text(
+                        text = state.errorMessage!!,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = Dimens.Spacing.ListItemSpacing)
+                    )
+                }
+
                 BrutalistTextField(
-                    value = email,
-                    onValueChange = { email = it },
+                    value = state.email,
+                    onValueChange = viewModel::onEmailChange,
                     label = "SECRET IDENTITY (EMAIL)",
                     placeholder = "superhero@panelrush.com",
                     leadingIcon = Icons.Outlined.Email
                 )
 
+                if (state.emailErrorMessage != null) {
+                    Text(
+                        text = state.emailErrorMessage!!,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = Dimens.Spacing.ListItemSpacing)
+                    )
+                }
+
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
+                if (state.isLoading) {
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .width(48.dp),
+                        trackColor = MaterialTheme.colorScheme.surfaceVariant
+                    )
+                    Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
+                }
+
                 BrutalistButton(
-                    text = "SEND OTP",
-                    onClick = onSendOtpClick,
+                    text = if (state.isLoading) "SENDING..." else "SEND OTP",
+                    onClick = { viewModel.sendOtp() },
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -157,7 +202,6 @@ fun ForgotPasswordScreen(
                 }
             }
 
-            // Floating icon box at the top center of the card
             Box(
                 modifier = Modifier.align(Alignment.TopCenter)
             ) {
@@ -188,16 +232,5 @@ fun ForgotPasswordScreen(
         Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
         LoopText(value = "THE FIGHT • NEVER LOSE YOUR PROGRESS • SECURE YOUR COLLECTION • ")
-    }
-}
-
-@Preview(showBackground = true, backgroundColor = 0xFFFCF9F8)
-@Composable
-private fun ForgotPasswordPreview() {
-    ComicBookRentalTheme {
-        ForgotPasswordScreen(
-            onBackToLoginClick = {},
-            onSendOtpClick = {}
-        )
     }
 }

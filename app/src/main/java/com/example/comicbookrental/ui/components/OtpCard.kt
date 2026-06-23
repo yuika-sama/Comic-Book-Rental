@@ -25,12 +25,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.comicbookrental.ui.theme.Dimens
+import androidx.compose.ui.focus.FocusRequester
 import com.example.comicbookrental.ui.theme.extendedColors
 
 @Composable
 fun OtpCard(
+    otpValues: List<String>,
+    onOtpChange: (Int, String) -> Unit,
+    focusRequesters: List<FocusRequester>,
     onVerifyClick: () -> Unit = {},
     onResendClick: () -> Unit = {},
+    isLoading: Boolean = false,
+    resendCooldownSeconds: Int = 0,
+    errorMessage: String? = null,
     modifier: Modifier = Modifier
 ){
     ComicCard(
@@ -60,13 +67,30 @@ fun OtpCard(
 
         Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
-        OtpInputRow(otpCount = 5)
+        if (errorMessage != null) {
+            Text(
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = Dimens.Spacing.ListItemSpacing)
+            )
+        }
+
+        OtpInputRow(
+            otpCount = 5,
+            otpValues = otpValues,
+            onOtpChange = onOtpChange,
+            focusRequesters = focusRequesters
+        )
 
         Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
         BrutalistButton(
-            text = "VERIFY",
-            onClick = onVerifyClick,
+            text = if (isLoading) "VERIFYING..." else "VERIFY",
+            onClick = { if (!isLoading) onVerifyClick() },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -82,17 +106,19 @@ fun OtpCard(
             Text(
                 text = "RESEND CODE",
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable { onResendClick() }
+                color = if (resendCooldownSeconds > 0 || isLoading) MaterialTheme.colorScheme.primary.copy(alpha = 0.5f) else MaterialTheme.colorScheme.primary,
+                modifier = Modifier.clickable(enabled = resendCooldownSeconds == 0 && !isLoading) { onResendClick() }
             )
         }
 
-        Spacer(modifier = Modifier.height(Dimens.Spacing.StackSm))
+        if (resendCooldownSeconds > 0) {
+            Spacer(modifier = Modifier.height(Dimens.Spacing.StackSm))
 
-        Text(
-            text = "Wait 54 seconds before resending.",
-            style = MaterialTheme.typography.bodySmall.copy(fontStyle = FontStyle.Italic),
-            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
-        )
+            Text(
+                text = "Wait $resendCooldownSeconds seconds before resending.",
+                style = MaterialTheme.typography.bodySmall.copy(fontStyle = FontStyle.Italic),
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+            )
+        }
     }
 }

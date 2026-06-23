@@ -5,14 +5,15 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 // Aliased: route object `HomeRoute` (this package) vs the screen composable of the same name.
 import com.example.comicbookrental.ui.screens.home.HomeRoute as HomeScreenEntry
 
 import com.example.comicbookrental.ui.screens.login.LoginScreen
 import com.example.comicbookrental.ui.screens.register.RegisterScreen
-import com.example.comicbookrental.ui.screens.auth.ForgotPasswordScreen
-import com.example.comicbookrental.ui.screens.auth.VerifyOtpScreen
-import com.example.comicbookrental.ui.screens.auth.ResetPasswordScreen
+import com.example.comicbookrental.ui.screens.forgot_password.ForgotPasswordScreen
+import com.example.comicbookrental.ui.screens.verify_otp.VerifyOtpScreen
+import com.example.comicbookrental.ui.screens.reset_password.ResetPasswordScreen
 
 fun NavGraphBuilder.authGraph(navController: NavHostController){
     navigation<AuthGraph>(startDestination = LoginRoute){
@@ -40,11 +41,13 @@ fun NavGraphBuilder.authGraph(navController: NavHostController){
         composable<ForgetPassword> {
             ForgotPasswordScreen(
                 onBackToLoginClick = { navController.popBackStack() },
-                onSendOtpClick = { navController.navigate(InputOtp) }
+                onSendOtpClick = { email -> navController.navigate(InputOtp(email)) }
             )
         }
-        composable<InputOtp> {
+        composable<InputOtp> { backStackEntry ->
+            val route = backStackEntry.toRoute<InputOtp>()
             VerifyOtpScreen(
+                email = route.email,
                 onVerifySuccess = { navController.navigate(ChangePassword) },
                 onBackClick = { navController.popBackStack() }
             )

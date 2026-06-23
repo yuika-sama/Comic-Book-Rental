@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable object LoginRoute
 @Serializable object RegisterRoute
 @Serializable object ForgetPassword
-@Serializable object InputOtp
+@Serializable data class InputOtp(val email: String)
 @Serializable object ChangePassword
 @Serializable object Profile
 

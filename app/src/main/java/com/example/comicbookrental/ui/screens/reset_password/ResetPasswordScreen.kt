@@ -1,6 +1,5 @@
-package com.example.comicbookrental.ui.screens.auth
+package com.example.comicbookrental.ui.screens.reset_password
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.example.comicbookrental.ui.components.AuthIconBox
 import com.example.comicbookrental.ui.components.AuthTopHeader
 import com.example.comicbookrental.ui.components.BrutalistButton

@@ -12,4 +12,13 @@ object AuthMockData
     val CREDENTIAL_ERROR = IllegalArgumentException("Wrong email or password")
     val EMAIL_EXIST_ERROR =
         IllegalArgumentException("Email already exists. Please use a different email.")
+    val EMAIL_NOT_FOUND_ERROR =
+        IllegalArgumentException("No account found with this email address.")
+
+    const val VALID_OTP = "12345"
+    const val EXPIRED_OTP = "88888"
+    const val ERROR_OTP = "99999"
+
+    val INVALID_OTP_ERROR = IllegalArgumentException("Invalid OTP. Please check the code and try again.")
+    val OTP_EXPIRED_ERROR = IllegalArgumentException("OTP has expired. Please request a new code.")
 }

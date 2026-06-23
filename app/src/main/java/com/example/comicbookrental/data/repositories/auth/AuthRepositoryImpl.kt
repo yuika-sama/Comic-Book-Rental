@@ -64,4 +64,39 @@ class AuthRepositoryImpl @Inject constructor() : AuthRepository
             Result.failure(e)
         }
     }
+
+    override suspend fun sendOtp(email: String): Result<Unit>
+    {
+        delay(AuthMockData.NETWORK_DELAY)
+        return try
+        {
+            when
+            {
+                email == AuthMockData.ERROR_EMAIL -> throw AuthMockData.SERVER_ERROR
+                email == AuthMockData.VALID_EMAIL || email == AuthMockData.EXISTING_EMAIL -> Result.success(Unit)
+                else -> throw AuthMockData.EMAIL_NOT_FOUND_ERROR
+            }
+        } catch (e: Exception)
+        {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun verifyOtp(email: String, otp: String): Result<Unit>
+    {
+        delay(AuthMockData.NETWORK_DELAY)
+        return try
+        {
+            when (otp)
+            {
+                AuthMockData.ERROR_OTP -> throw AuthMockData.SERVER_ERROR
+                AuthMockData.EXPIRED_OTP -> throw AuthMockData.OTP_EXPIRED_ERROR
+                AuthMockData.VALID_OTP -> Result.success(Unit)
+                else -> throw AuthMockData.INVALID_OTP_ERROR
+            }
+        } catch (e: Exception)
+        {
+            Result.failure(e)
+        }
+    }
 }
