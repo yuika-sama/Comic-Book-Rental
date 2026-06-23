@@ -11,7 +11,7 @@ import androidx.compose.ui.layout.ContentScale
 import coil3.compose.AsyncImage
 
 @Composable
-fun ComicCover(
+fun CartComicCover(
     imageUrl: String,
     title: String,
     modifier: Modifier = Modifier

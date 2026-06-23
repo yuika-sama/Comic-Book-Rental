@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.comicbookrental.ui.components.ComicCover
+import com.example.comicbookrental.ui.components.CartComicCover
 import com.example.comicbookrental.ui.components.ComicTitleBlock
 import com.example.comicbookrental.ui.components.ComicTopBar
 import com.example.comicbookrental.ui.components.HazardBanner
@@ -37,6 +37,7 @@ import com.example.comicbookrental.ui.components.SimilarTitlesSection
 import com.example.comicbookrental.ui.components.SynopsisCard
 import com.example.comicbookrental.ui.components.TopBarIconButton
 import com.example.comicbookrental.ui.components.halftoneBackground
+//import com.example.comicbookrental.ui.components.halftoneBackground
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 
@@ -152,7 +153,7 @@ fun ComicDetailScreen(
                     badgeText = state.badgeText,
                     modifier = Modifier.padding(horizontal = Dimens.Spacing.Margin),
                     cover = {
-                        ComicCover(url = state.coverUrl, contentDescription = state.title)
+                        CartComicCover(url = state.coverUrl, contentDescription = state.title)
                     },
                 )
             }

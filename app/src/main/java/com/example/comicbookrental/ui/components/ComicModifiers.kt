@@ -24,28 +24,6 @@ fun Modifier.comicHardShadow(
     }
 }
 
-fun Modifier.comicHalftoneBackground(
-    dotColor: Color,
-    dotRadius: Dp = 2.dp,
-    spacing: Dp = 12.dp
-): Modifier = this.drawBehind {
-    val radiusPx = dotRadius.toPx()
-    val spacingPx = spacing.toPx()
-    val cols = (size.width / spacingPx).toInt()
-    val rows = (size.height / spacingPx).toInt()
-
-    // Align pattern by centering the grid
-    val startX = (size.width - cols * spacingPx) / 2
-    val startY = (size.height - rows * spacingPx) / 2
-
-    for (i in 0..cols) {
-        for (j in 0..rows) {
-            drawCircle(
-                color = dotColor,
-                radius = radiusPx,
-                center = Offset(startX + i * spacingPx, startY + j * spacingPx)
-            )
-        }
 /**
  * A subtle halftone (dot) texture drawn behind the content — the "nod to the printing process"
  * from DESIGN.md, used as the background of secondary surfaces / section gutters.
@@ -63,9 +41,11 @@ fun Modifier.halftoneBackground(
     val step = spacing.toPx()
     val tinted = dotColor.copy(alpha = alpha)
     var y = 0f
-    while (y <= size.height) {
+    while (y <= size.height)
+    {
         var x = 0f
-        while (x <= size.width) {
+        while (x <= size.width)
+        {
             drawCircle(color = tinted, radius = radius, center = Offset(x, y))
             x += step
         }
@@ -89,7 +69,8 @@ fun Modifier.hazardStripes(
     val period = thickness + gap.toPx()
     // 45° lines sweeping across; offset the start by height so the whole face is covered.
     var x = 0f
-    while (x <= size.width + size.height) {
+    while (x <= size.width + size.height)
+    {
         drawLine(
             color = tinted,
             start = Offset(x, 0f),
@@ -97,5 +78,32 @@ fun Modifier.hazardStripes(
             strokeWidth = thickness,
         )
         x += period
+    }
+}
+
+fun Modifier.comicHalftoneBackground(
+    dotColor: Color,
+    dotRadius: Dp = 2.dp,
+    spacing: Dp = 12.dp
+): Modifier = this.drawBehind {
+    val radiusPx = dotRadius.toPx()
+    val spacingPx = spacing.toPx()
+    val cols = (size.width / spacingPx).toInt()
+    val rows = (size.height / spacingPx).toInt()
+
+    // Align pattern by centering the grid
+    val startX = (size.width - cols * spacingPx) / 2
+    val startY = (size.height - rows * spacingPx) / 2
+
+    for (i in 0..cols)
+    {
+        for (j in 0..rows)
+        {
+            drawCircle(
+                color = dotColor,
+                radius = radiusPx,
+                center = Offset(startX + i * spacingPx, startY + j * spacingPx)
+            )
+        }
     }
 }

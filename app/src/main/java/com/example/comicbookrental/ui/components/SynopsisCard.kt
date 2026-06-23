@@ -52,25 +52,3 @@ fun SynopsisCard(
         )
     }
 }
-
-@Preview(showBackground = true, backgroundColor = 0xFFFCF9F8, widthDp = 360)
-@Composable
-private fun SynopsisCardPreview() {
-    ComicBookRentalTheme {
-        // Demonstrate the card on a halftone page background, as it sits in the screen.
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surface)
-                .halftoneBackground()
-                .padding(Dimens.Spacing.Margin),
-        ) {
-            SynopsisCard(
-                text = "In the rain-slicked canyons of Neo-Tokyo, a forgotten ghost in the " +
-                    "machine wakes up with a single directive: justice. Issue #42 takes us deep " +
-                    "into the mainframe as Revenant faces the Iron Shogun's digital enforcers.",
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
-    }
-}

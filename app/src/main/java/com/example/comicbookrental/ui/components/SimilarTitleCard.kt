@@ -31,7 +31,7 @@ import com.example.comicbookrental.ui.theme.extendedColors
  * with the [title] and [price] as plain text underneath (no bordered text panel — that's what
  * sets it apart from [NewReleaseCard]).
  *
- * [cover] is a slot for the artwork (pass a [ComicCover]); defaults to a flat placeholder.
+ * [cover] is a slot for the artwork (pass a [CartComicCover]); defaults to a flat placeholder.
  */
 @Composable
 fun SimilarTitleCard(

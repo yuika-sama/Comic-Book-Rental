@@ -23,7 +23,7 @@ import com.example.comicbookrental.data.models.rentalDays
 import com.example.comicbookrental.data.models.totalPrice
 import com.example.comicbookrental.ui.components.ComicButton
 import com.example.comicbookrental.ui.components.ComicButtonVariant
-import com.example.comicbookrental.ui.components.ComicCover
+import com.example.comicbookrental.ui.components.CartComicCover
 import com.example.comicbookrental.ui.components.comicHardShadow
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.Dimens
@@ -61,7 +61,7 @@ fun CartItemCard(
             Dimens.Spacing.StackMd
         )
     ) {
-        ComicCover(
+        CartComicCover(
             imageUrl = item.comicCoverUrl,
             title = item.comicTitle,
             modifier = Modifier

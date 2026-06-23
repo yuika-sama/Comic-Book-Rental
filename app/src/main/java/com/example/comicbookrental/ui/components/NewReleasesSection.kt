@@ -49,7 +49,7 @@ fun NewReleasesSection(
                     author = comic.author,
                     rating = comic.rating,
                     onClick = { onComicClick(comic.id) },
-                    cover = { ComicCover(url = comic.coverImageUrl, contentDescription = comic.title) },
+                    cover = { CartComicCover(url = comic.coverImageUrl, contentDescription = comic.title) },
                     modifier = Modifier.width(cardWidth),
                 )
             }

@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.comicbookrental.ui.components.ComicCard
-import com.example.comicbookrental.ui.components.ComicCover
+import com.example.comicbookrental.ui.components.CartComicCover
 import com.example.comicbookrental.ui.components.ComicSearchField
 import com.example.comicbookrental.ui.components.FeaturedCarousel
 import com.example.comicbookrental.ui.components.NewReleasesSection
@@ -147,7 +147,7 @@ private fun SearchResultItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Dimens.Spacing.ContentSpacing),
         ) {
-            ComicCover(
+            CartComicCover(
                 url = comic.coverImageUrl,
                 contentDescription = comic.title,
                 modifier = Modifier.size(width = 48.dp, height = 64.dp),

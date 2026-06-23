@@ -17,7 +17,7 @@ import coil.compose.AsyncImage
  * RankedEpicCard), nên mặc định lấp đầy Box cha bằng [Modifier.fillMaxSize].
  */
 @Composable
-fun ComicCover(
+fun CartComicCover(
     url: String,
     contentDescription: String?,
     modifier: Modifier = Modifier,

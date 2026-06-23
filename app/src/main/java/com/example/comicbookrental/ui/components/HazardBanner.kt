@@ -18,9 +18,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
+import com.example.comicbookrental.ui.theme.InkBlack
 import com.example.comicbookrental.ui.theme.extendedColors
 
 /**
@@ -67,18 +73,6 @@ fun HazardBanner(
             modifier = Modifier
                 .clickable(onClick = onDismiss)
                 .size(Dimens.Icon.Medium),
-        )
-    }
-}
-
-@Preview(showBackground = true, backgroundColor = 0xFFFCF9F8, widthDp = 360)
-@Composable
-private fun HazardBannerPreview() {
-    ComicBookRentalTheme {
-        HazardBanner(
-            message = "Digital edition includes bonus art gallery.",
-            onDismiss = {},
-            modifier = Modifier.padding(Dimens.Spacing.Margin),
         )
     }
 }
