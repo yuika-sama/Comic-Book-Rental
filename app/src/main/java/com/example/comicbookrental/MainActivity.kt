@@ -1,17 +1,16 @@
 package com.example.comicbookrental
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
-import com.example.comicbookrental.ui.navigation.AppNavHost
+import com.example.comicbookrental.data.mock.AuthMockData
+import com.example.comicbookrental.ui.screens.forgot_password.ForgotPasswordScreen
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
-import com.example.comicbookrental.ui.screens.DesignTestPreview
-import com.example.comicbookrental.ui.screens.ForgotPasswordScreen
+import com.example.comicbookrental.ui.screens.login.LoginScreen
+import com.example.comicbookrental.ui.screens.register.RegisterScreen
+import com.example.comicbookrental.ui.screens.reset_password.ResetPasswordScreen
+import com.example.comicbookrental.ui.screens.verify_otp.VerifyOtpScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +23,7 @@ class MainActivity : ComponentActivity()
         setContent {
             ComicBookRentalTheme {
 //                AppNavHost()
-                ForgotPasswordScreen()
+                ResetPasswordScreen(email = AuthMockData.VALID_EMAIL)
             }
         }
     }
