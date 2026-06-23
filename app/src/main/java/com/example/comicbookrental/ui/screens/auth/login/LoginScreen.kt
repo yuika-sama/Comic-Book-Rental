@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.screens.auth
+package com.example.comicbookrental.ui.screens.auth.login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,22 +12,30 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+//import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.comicbookrental.ui.components.BrutalistTextField
 import com.example.comicbookrental.ui.components.FacebookLoginButton
 import com.example.comicbookrental.ui.components.GoogleLoginButton
@@ -41,12 +49,19 @@ import com.example.comicbookrental.ui.theme.extendedColors
 
 @Composable
 fun LoginScreen(
+    viewModel: LoginViewModel = hiltViewModel(),
     onRegisterClick: () -> Unit = {},
     onForgotPasswordClick: () -> Unit = {},
     onLoginSuccess: () -> Unit = {}
 ) {
-    var email by rememberSaveable { mutableStateOf("") }
-    var password by rememberSaveable { mutableStateOf("") }
+    val state by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(state.isSuccess) {
+        if (state.isSuccess){
+            onLoginSuccess()
+            viewModel.resetSuccessState()
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -90,19 +105,43 @@ fun LoginScreen(
                 
                 Spacer(modifier = Modifier.height(Dimens.Sizes.ButtonHeight))
 
+                if (state.errorMessage != null){
+                    Text(
+                        text = state.errorMessage!!,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = Dimens.Spacing.ListItemSpacing)
+                    )
+                }
+
                 BrutalistTextField(
-                    value = email,
-                    onValueChange = { email = it },
+                    value = state.email,
+                    onValueChange =  viewModel::onEmailChange,
                     label = "EMAIL ADDRESS",
                     placeholder = "comic.rent@gmail.com",
                     leadingIcon = Icons.Outlined.Email
                 )
+
+                if (state.emailErrorMessage != null){
+                    Text(
+                        text = state.emailErrorMessage!!,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = Dimens.Spacing.ListItemSpacing)
+                    )
+                }
                 
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
                 
                 BrutalistTextField(
-                    value = password,
-                    onValueChange = { password = it },
+                    value = state.password,
+                    onValueChange = viewModel::onPasswordChange,
                     label = "PASSWORD",
                     placeholder = "••••••••",
                     leadingIcon = Icons.Outlined.Lock,
@@ -116,12 +155,33 @@ fun LoginScreen(
                         )
                     }
                 )
+
+                if (state.passwordErrorMessage != null){
+                    Text(
+                        text = state.passwordErrorMessage!!,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = Dimens.Spacing.ListItemSpacing)
+                    )
+                }
                 
-                Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
+                Spacer(modifier = Modifier.height(Dimens.Spacing.ContentSpacing))
+
+                if (state.isLoading){
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.align(Alignment.CenterHorizontally).width(48.dp),
+                        trackColor = MaterialTheme.colorScheme.surfaceVariant
+                    )
+                    Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
+                }
                 
                 BrutalistButton(
-                    text = "LOGIN",
-                    onClick = onLoginSuccess,
+                    text = if (state.isLoading) "AUTHENTICATING..." else "LOGIN",
+                    onClick = {viewModel.login()},
                     modifier = Modifier.fillMaxWidth()
                 )
                 
@@ -155,11 +215,11 @@ fun LoginScreen(
                     horizontalArrangement = Arrangement.spacedBy(Dimens.Spacing.Gutter)
                 ) {
                     GoogleLoginButton(
-                        onClick = {},
+                        onClick = {viewModel.onOAuthLogin()},
                         modifier = Modifier.weight(1f)
                     )
                     FacebookLoginButton(
-                        onClick = {},
+                        onClick = {viewModel.onOAuthLogin()},
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -181,17 +241,5 @@ fun LoginScreen(
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true, backgroundColor = 0xFFFCF9F8)
-@Composable
-private fun LoginPreview() {
-    ComicBookRentalTheme {
-        LoginScreen(
-            onRegisterClick = {},
-            onForgotPasswordClick = {},
-            onLoginSuccess = {}
-        )
     }
 }

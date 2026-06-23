@@ -9,6 +9,7 @@ import com.example.comicbookrental.ui.screens.auth.ForgotPasswordScreen
 import com.example.comicbookrental.ui.screens.auth.RegisterScreen
 import com.example.comicbookrental.ui.screens.auth.ResetPasswordScreen
 import com.example.comicbookrental.ui.screens.auth.VerifyOtpScreen
+import com.example.comicbookrental.ui.screens.auth.login.LoginScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity()
         setContent {
             ComicBookRentalTheme {
 //                AppNavHost()
-                ResetPasswordScreen()
+                LoginScreen()
             }
         }
     }

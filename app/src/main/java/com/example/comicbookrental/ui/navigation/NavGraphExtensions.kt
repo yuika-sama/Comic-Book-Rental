@@ -8,7 +8,7 @@ import androidx.navigation.navigation
 // Aliased: route object `HomeRoute` (this package) vs the screen composable of the same name.
 import com.example.comicbookrental.ui.screens.home.HomeRoute as HomeScreenEntry
 
-import com.example.comicbookrental.ui.screens.auth.LoginScreen
+import com.example.comicbookrental.ui.screens.auth.login.LoginScreen
 import com.example.comicbookrental.ui.screens.auth.RegisterScreen
 import com.example.comicbookrental.ui.screens.auth.ForgotPasswordScreen
 import com.example.comicbookrental.ui.screens.auth.VerifyOtpScreen

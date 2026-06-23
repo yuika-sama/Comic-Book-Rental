@@ -83,8 +83,6 @@ fun FacebookLoginButton(
                 tint = Color.White
             )
 
-            Spacer(modifier = Modifier.width(Dimens.Spacing.StackSm))
-
             Text(
                 text = "FACEBOOK",
                 style = MaterialTheme.typography.titleMedium,
