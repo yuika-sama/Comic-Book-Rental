@@ -12,6 +12,8 @@ import com.example.comicbookrental.ui.navigation.AppNavHost
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.screens.DesignTestPreview
 import com.example.comicbookrental.ui.screens.ForgotPasswordScreen
+import com.example.comicbookrental.ui.screens.cart.CartScreen
+import com.example.comicbookrental.ui.screens.rentals.MyRentalsScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +26,9 @@ class MainActivity : ComponentActivity()
         setContent {
             ComicBookRentalTheme {
 //                AppNavHost()
-                ForgotPasswordScreen()
+//                ForgotPasswordScreen()
+//                MyRentalsScreen()
+
             }
         }
     }
