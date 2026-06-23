@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.screens.auth
+package com.example.comicbookrental.ui.screens.register
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -25,13 +25,17 @@ import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Security
 import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -40,11 +44,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.comicbookrental.ui.components.AuthTopHeader
 import com.example.comicbookrental.ui.components.BrutalistTextField
 import com.example.comicbookrental.ui.components.FacebookLoginButton
@@ -54,18 +60,25 @@ import com.example.comicbookrental.ui.components.ComicCard
 import com.example.comicbookrental.ui.components.comicHalftoneBackground
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
+import com.example.comicbookrental.ui.theme.Success
 import com.example.comicbookrental.ui.theme.extendedColors
 
 @Composable
 fun RegisterScreen(
+    viewModel: RegisterViewModel = hiltViewModel(),
     onLoginClick: () -> Unit = {},
     onRegisterSuccess: () -> Unit = {}
-) {
-    var fullName by rememberSaveable { mutableStateOf("") }
-    var email by rememberSaveable { mutableStateOf("") }
-    var password by rememberSaveable { mutableStateOf("") }
-    var confirmPassword by rememberSaveable { mutableStateOf("") }
-    var isAgreed by rememberSaveable { mutableStateOf(false) }
+)
+{
+    val state by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(state.isSuccess) {
+        if (state.isSuccess)
+        {
+            onRegisterSuccess()
+            viewModel.resetSuccessState()
+        }
+    }
 
     val ink = MaterialTheme.extendedColors.ink
 
@@ -82,11 +95,11 @@ fun RegisterScreen(
         AuthTopHeader(onCloseClick = onLoginClick)
 
         HorizontalDivider(
-            color = ink, 
+            color = ink,
             thickness = Dimens.Border.Standard,
             modifier = Modifier.padding(horizontal = Dimens.Spacing.Margin)
         )
-        
+
         Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
         Column(
@@ -102,7 +115,12 @@ fun RegisterScreen(
                 modifier = Modifier.offset(y = 12.dp)
             )
 
-            Box(modifier = Modifier.padding(end = Dimens.Elevation.Resting, bottom = Dimens.Elevation.Resting)) {
+            Box(
+                modifier = Modifier.padding(
+                    end = Dimens.Elevation.Resting,
+                    bottom = Dimens.Elevation.Resting
+                )
+            ) {
                 Box(
                     modifier = Modifier
                         .matchParentSize()
@@ -111,7 +129,10 @@ fun RegisterScreen(
                 )
                 Box(
                     modifier = Modifier
-                        .background(MaterialTheme.colorScheme.secondary, RoundedCornerShape(Dimens.Radius.Sm))
+                        .background(
+                            MaterialTheme.colorScheme.secondary,
+                            RoundedCornerShape(Dimens.Radius.Sm)
+                        )
                         .border(Dimens.Border.Standard, ink, RoundedCornerShape(Dimens.Radius.Sm))
                         .padding(horizontal = Dimens.Spacing.Gutter, vertical = Dimens.GridUnit)
                 ) {
@@ -134,54 +155,154 @@ fun RegisterScreen(
                 shadowOffset = Dimens.Elevation.Resting,
                 contentPadding = PaddingValues(Dimens.Spacing.AuthPadding)
             ) {
+                if (state.errorMessage != null)
+                {
+                    Text(
+                        text = state.errorMessage!!,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = Dimens.Spacing.ListItemSpacing)
+                    )
+                }
+
                 BrutalistTextField(
-                    value = fullName,
-                    onValueChange = { fullName = it },
+                    value = state.fullName,
+                    onValueChange = viewModel::onNameChange,
                     label = "FULL NAME",
                     placeholder = "WADE WILSON",
                     leadingIcon = Icons.Outlined.Person
                 )
-                
+
                 Spacer(modifier = Modifier.height(Dimens.Spacing.StackMd))
 
                 BrutalistTextField(
-                    value = email,
-                    onValueChange = { email = it },
+                    value = state.email,
+                    onValueChange = viewModel::onEmailChange,
                     label = "EMAIL ADDRESS",
                     placeholder = "HERO@PANELRUSH.COM",
                     leadingIcon = Icons.Outlined.Email
                 )
-                
+
+                if (state.emailError != null)
+                {
+                    Text(
+                        text = state.emailError!!,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = Dimens.Spacing.ListItemSpacing)
+                    )
+                }
+
                 Spacer(modifier = Modifier.height(Dimens.Spacing.StackMd))
 
                 BrutalistTextField(
-                    value = password,
-                    onValueChange = { password = it },
+                    value = state.password,
+                    onValueChange = viewModel::onPasswordChange,
                     label = "SECRET IDENTITY (PASSWORD)",
                     placeholder = "••••••••",
                     leadingIcon = Icons.Outlined.Lock,
-                    isPassword = true,
+                    isPassword = !state.isViewPassword,
                     trailingContent = {
-                        Icon(
-                            imageVector = Icons.Outlined.Visibility,
-                            contentDescription = "Show Password",
-                            modifier = Modifier.size(Dimens.Icon.Medium),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                        if (state.isViewPassword)
+                        {
+                            Icon(
+                                imageVector = Icons.Outlined.VisibilityOff,
+                                contentDescription = "Hide Password",
+                                modifier = Modifier
+                                    .size(Dimens.Icon.Medium)
+                                    .clickable {
+                                        viewModel.onTogglePasswordVisibility()
+                                    },
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                        else
+                        {
+                            Icon(
+                                imageVector = Icons.Outlined.Visibility,
+                                contentDescription = "Show Password",
+                                modifier = Modifier
+                                    .size(Dimens.Icon.Medium)
+                                    .clickable {
+                                        viewModel.onTogglePasswordVisibility()
+                                    },
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
                     }
                 )
-                
+
+                if (state.passwordError != null)
+                {
+                    Text(
+                        text = state.passwordError!!,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = Dimens.Spacing.ListItemSpacing)
+                    )
+                }
+
                 Spacer(modifier = Modifier.height(Dimens.Spacing.StackMd))
 
                 BrutalistTextField(
-                    value = confirmPassword,
-                    onValueChange = { confirmPassword = it },
+                    value = state.confirmPassword,
+                    onValueChange = viewModel::onConfirmPasswordChange,
                     label = "CONFIRM PASSWORD",
                     placeholder = "••••••••",
                     leadingIcon = Icons.Outlined.Security,
-                    isPassword = true
+                    isPassword = !state.isViewConfirmPassword,
+                    trailingContent = {
+                        if (state.isViewPassword)
+                        {
+                            Icon(
+                                imageVector = Icons.Outlined.VisibilityOff,
+                                contentDescription = "Hide Password",
+                                modifier = Modifier
+                                    .size(Dimens.Icon.Medium)
+                                    .clickable {
+                                        viewModel.onToggleConfirmPasswordVisibility()
+                                    },
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                        else
+                        {
+                            Icon(
+                                imageVector = Icons.Outlined.Visibility,
+                                contentDescription = "Show Password",
+                                modifier = Modifier
+                                    .size(Dimens.Icon.Medium)
+                                    .clickable {
+                                        viewModel.onToggleConfirmPasswordVisibility()
+                                    },
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
                 )
-                
+
+                if (state.confirmPasswordError != null)
+                {
+                    Text(
+                        text = state.confirmPasswordError!!,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = Dimens.Spacing.ListItemSpacing)
+                    )
+                }
+
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
                 Row(
@@ -189,8 +310,8 @@ fun RegisterScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Checkbox(
-                        checked = isAgreed,
-                        onCheckedChange = { isAgreed = it },
+                        checked = state.isAgreed,
+                        onCheckedChange = viewModel::onAcceptTermsChange,
                         colors = CheckboxDefaults.colors(
                             checkedColor = MaterialTheme.colorScheme.primary,
                             uncheckedColor = ink,
@@ -204,7 +325,12 @@ fun RegisterScreen(
                     Text(
                         text = buildAnnotatedString {
                             append("I AGREE TO THE ")
-                            withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.secondary, textDecoration = TextDecoration.Underline)) {
+                            withStyle(
+                                style = SpanStyle(
+                                    color = MaterialTheme.colorScheme.secondary,
+                                    textDecoration = TextDecoration.Underline
+                                )
+                            ) {
                                 append("CRITICAL ALLIANCE TERMS")
                             }
                             append(" AND PRIVACY PROTOCOLS.")
@@ -217,15 +343,30 @@ fun RegisterScreen(
 
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
+                if (state.isLoading)
+                {
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .width(48.dp),
+                        trackColor = MaterialTheme.colorScheme.surfaceVariant
+                    )
+                    Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
+                }
+
                 BrutalistButton(
                     text = "SIGN UP",
-                    onClick = onRegisterSuccess,
+                    onClick = { viewModel.onSignUp() },
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
-                HorizontalDivider(thickness = Dimens.Border.Hairline, color = MaterialTheme.colorScheme.outlineVariant)
+                HorizontalDivider(
+                    thickness = Dimens.Border.Hairline,
+                    color = MaterialTheme.colorScheme.outlineVariant
+                )
 
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
@@ -246,33 +387,22 @@ fun RegisterScreen(
                     )
                 }
             }
-            
+
             Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(Dimens.Spacing.Gutter)
-            ){
+            ) {
                 GoogleLoginButton(
-                    onClick = {},
+                    onClick = { viewModel.onOAuthLogin() },
                     modifier = Modifier.weight(1f)
                 )
                 FacebookLoginButton(
-                    onClick = {},
+                    onClick = { viewModel.onOAuthLogin() },
                     modifier = Modifier.weight(1f)
                 )
             }
         }
-    }
-}
-
-@Preview(showBackground = true, backgroundColor = 0xFFFCF9F8)
-@Composable
-private fun RegisterPreview() {
-    ComicBookRentalTheme {
-        RegisterScreen(
-            onLoginClick = {},
-            onRegisterSuccess = {}
-        )
     }
 }

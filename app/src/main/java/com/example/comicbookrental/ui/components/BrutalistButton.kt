@@ -38,7 +38,8 @@ fun BrutalistButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
-){
+)
+{
     val shape = RoundedCornerShape(Dimens.Radius.Button)
     val ink = MaterialTheme.extendedColors.ink
     val containerColor = MaterialTheme.colorScheme.primary
@@ -48,7 +49,6 @@ fun BrutalistButton(
     val interactionSource = remember { MutableInteractionSource() }
     val pressed by interactionSource.collectIsPressedAsState()
 
-    // Collapse shadow and translate content on press
     val shadowOffset by animateDpAsState(
         targetValue = if (pressed) 0.dp else restingOffset,
         label = "brutalistButtonShadow",

@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.screens.auth.login
+package com.example.comicbookrental.ui.screens.login
 
 data class LoginUiState(
     val email: String = "",

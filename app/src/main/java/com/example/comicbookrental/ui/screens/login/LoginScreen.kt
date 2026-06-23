@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.screens.auth.login
+package com.example.comicbookrental.ui.screens.login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,13 +25,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -43,7 +39,6 @@ import com.example.comicbookrental.ui.components.BrutalistButton
 import com.example.comicbookrental.ui.components.ComicCard
 import com.example.comicbookrental.ui.components.comicHalftoneBackground
 import com.example.comicbookrental.ui.theme.AuthTitleSize
-import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
@@ -53,11 +48,13 @@ fun LoginScreen(
     onRegisterClick: () -> Unit = {},
     onForgotPasswordClick: () -> Unit = {},
     onLoginSuccess: () -> Unit = {}
-) {
+)
+{
     val state by viewModel.uiState.collectAsState()
 
     LaunchedEffect(state.isSuccess) {
-        if (state.isSuccess){
+        if (state.isSuccess)
+        {
             onLoginSuccess()
             viewModel.resetSuccessState()
         }
@@ -68,8 +65,7 @@ fun LoginScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .comicHalftoneBackground(dotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.05f))
-            .padding(Dimens.Spacing.ScreenPadding),
-        contentAlignment = Alignment.Center
+            .padding(Dimens.Spacing.ScreenPadding), contentAlignment = Alignment.Center
     ) {
         ComicCard(
             modifier = Modifier.fillMaxWidth(),
@@ -89,23 +85,23 @@ fun LoginScreen(
                     style = MaterialTheme.typography.displayLarge.copy(fontSize = AuthTitleSize),
                     color = MaterialTheme.colorScheme.primary
                 )
-                
+
                 HorizontalDivider(
-                    color = MaterialTheme.extendedColors.ink, 
-                    thickness = Dimens.Border.Standard
+                    color = MaterialTheme.extendedColors.ink, thickness = Dimens.Border.Standard
                 )
-                
+
                 Spacer(modifier = Modifier.height(Dimens.Spacing.ListItemSpacing))
-                
+
                 Text(
                     text = "YOUR NEXT ISSUE AWAITS",
                     style = MaterialTheme.typography.labelLarge.copy(letterSpacing = 2.sp),
                     color = MaterialTheme.colorScheme.onSurface
                 )
-                
+
                 Spacer(modifier = Modifier.height(Dimens.Sizes.ButtonHeight))
 
-                if (state.errorMessage != null){
+                if (state.errorMessage != null)
+                {
                     Text(
                         text = state.errorMessage!!,
                         color = MaterialTheme.colorScheme.error,
@@ -119,13 +115,14 @@ fun LoginScreen(
 
                 BrutalistTextField(
                     value = state.email,
-                    onValueChange =  viewModel::onEmailChange,
+                    onValueChange = viewModel::onEmailChange,
                     label = "EMAIL ADDRESS",
                     placeholder = "comic.rent@gmail.com",
                     leadingIcon = Icons.Outlined.Email
                 )
 
-                if (state.emailErrorMessage != null){
+                if (state.emailErrorMessage != null)
+                {
                     Text(
                         text = state.emailErrorMessage!!,
                         color = MaterialTheme.colorScheme.error,
@@ -136,9 +133,9 @@ fun LoginScreen(
                             .padding(bottom = Dimens.Spacing.ListItemSpacing)
                     )
                 }
-                
+
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
-                
+
                 BrutalistTextField(
                     value = state.password,
                     onValueChange = viewModel::onPasswordChange,
@@ -151,12 +148,11 @@ fun LoginScreen(
                             text = "FORGOT?",
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.clickable { onForgotPasswordClick() }
-                        )
-                    }
-                )
+                            modifier = Modifier.clickable { onForgotPasswordClick() })
+                    })
 
-                if (state.passwordErrorMessage != null){
+                if (state.passwordErrorMessage != null)
+                {
                     Text(
                         text = state.passwordErrorMessage!!,
                         color = MaterialTheme.colorScheme.error,
@@ -167,26 +163,29 @@ fun LoginScreen(
                             .padding(bottom = Dimens.Spacing.ListItemSpacing)
                     )
                 }
-                
+
                 Spacer(modifier = Modifier.height(Dimens.Spacing.ContentSpacing))
 
-                if (state.isLoading){
+                if (state.isLoading)
+                {
                     CircularProgressIndicator(
                         color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.align(Alignment.CenterHorizontally).width(48.dp),
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .width(48.dp),
                         trackColor = MaterialTheme.colorScheme.surfaceVariant
                     )
                     Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
                 }
-                
+
                 BrutalistButton(
                     text = if (state.isLoading) "AUTHENTICATING..." else "LOGIN",
-                    onClick = {viewModel.login()},
+                    onClick = { viewModel.login() },
                     modifier = Modifier.fillMaxWidth()
                 )
-                
+
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
-                
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
@@ -207,20 +206,18 @@ fun LoginScreen(
                         color = MaterialTheme.extendedColors.ink
                     )
                 }
-                
+
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
-                
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(Dimens.Spacing.Gutter)
                 ) {
                     GoogleLoginButton(
-                        onClick = {viewModel.onOAuthLogin()},
-                        modifier = Modifier.weight(1f)
+                        onClick = { viewModel.onOAuthLogin() }, modifier = Modifier.weight(1f)
                     )
                     FacebookLoginButton(
-                        onClick = {viewModel.onOAuthLogin()},
-                        modifier = Modifier.weight(1f)
+                        onClick = { viewModel.onOAuthLogin() }, modifier = Modifier.weight(1f)
                     )
                 }
 
@@ -236,8 +233,7 @@ fun LoginScreen(
                         text = "JOIN TODAY",
                         color = MaterialTheme.colorScheme.primary,
                         style = MaterialTheme.typography.labelLarge,
-                        modifier = Modifier.clickable { onRegisterClick() }
-                    )
+                        modifier = Modifier.clickable { onRegisterClick() })
                 }
             }
         }

@@ -5,11 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
-import com.example.comicbookrental.ui.screens.auth.ForgotPasswordScreen
-import com.example.comicbookrental.ui.screens.auth.RegisterScreen
-import com.example.comicbookrental.ui.screens.auth.ResetPasswordScreen
-import com.example.comicbookrental.ui.screens.auth.VerifyOtpScreen
-import com.example.comicbookrental.ui.screens.auth.login.LoginScreen
+import com.example.comicbookrental.ui.screens.login.LoginScreen
+import com.example.comicbookrental.ui.screens.register.RegisterScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,7 +19,7 @@ class MainActivity : ComponentActivity()
         setContent {
             ComicBookRentalTheme {
 //                AppNavHost()
-                LoginScreen()
+                RegisterScreen()
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.screens.auth.login
+package com.example.comicbookrental.ui.screens.login
 
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
@@ -20,15 +20,24 @@ class LoginViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
-    fun onEmailChange(newValue: String){
+    fun onEmailChange(newValue: String)
+    {
         _uiState.update { it.copy(email = newValue, emailErrorMessage = "", errorMessage = "") }
     }
 
-    fun onPasswordChange(newValue: String){
-        _uiState.update { it.copy(password = newValue, passwordErrorMessage = "", errorMessage = "") }
+    fun onPasswordChange(newValue: String)
+    {
+        _uiState.update {
+            it.copy(
+                password = newValue,
+                passwordErrorMessage = "",
+                errorMessage = ""
+            )
+        }
     }
 
-    fun login(){
+    fun login()
+    {
         val currentState = _uiState.value
 
         if (currentState.isLoading) return
@@ -42,9 +51,9 @@ class LoginViewModel @Inject constructor(
 
             result.fold(
                 onSuccess = {
-                    _uiState.update {it.copy(isLoading = false, isSuccess = true)}
+                    _uiState.update { it.copy(isLoading = false, isSuccess = true) }
                 },
-                onFailure = {exception ->
+                onFailure = { exception ->
                     _uiState.update {
                         it.copy(
                             isLoading = false,
@@ -56,16 +65,17 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun onOAuthLogin(){
+    fun onOAuthLogin()
+    {
         _uiState.update { it.copy(isLoading = true, errorMessage = "") }
 
         viewModelScope.launch {
             val result = repository.oAuthLogin()
             result.fold(
                 onSuccess = {
-                    _uiState.update {it.copy(isLoading = false, isSuccess = true)}
+                    _uiState.update { it.copy(isLoading = false, isSuccess = true) }
                 },
-                onFailure = {exception ->
+                onFailure = { exception ->
                     _uiState.update {
                         it.copy(
                             isLoading = false,
@@ -81,18 +91,24 @@ class LoginViewModel @Inject constructor(
     {
         var isValid = true
 
-        if (currentState.email.isBlank() || currentState.email.isEmpty()){
+        if (currentState.email.isBlank() || currentState.email.isEmpty())
+        {
             _uiState.update { it.copy(emailErrorMessage = "Email is required") }
             isValid = false
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(currentState.email).matches()){
+        }
+        else if (!Patterns.EMAIL_ADDRESS.matcher(currentState.email).matches())
+        {
             _uiState.update { it.copy(emailErrorMessage = "Invalid email format") }
             isValid = false
         }
 
-        if (currentState.password.isBlank() || currentState.password.isEmpty()){
+        if (currentState.password.isBlank() || currentState.password.isEmpty())
+        {
             _uiState.update { it.copy(passwordErrorMessage = "Password is required") }
             isValid = false
-        } else if (currentState.password.length < 8){
+        }
+        else if (currentState.password.length < 8)
+        {
             _uiState.update { it.copy(passwordErrorMessage = "Password must be at least 8 characters") }
             isValid = false
         }
@@ -100,7 +116,8 @@ class LoginViewModel @Inject constructor(
         return isValid
     }
 
-    fun resetSuccessState(){
+    fun resetSuccessState()
+    {
         _uiState.update { it.copy(isSuccess = false) }
     }
 }
