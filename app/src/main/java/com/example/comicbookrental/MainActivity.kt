@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.screens.auth.ForgotPasswordScreen
 import com.example.comicbookrental.ui.screens.auth.RegisterScreen
+import com.example.comicbookrental.ui.screens.auth.ResetPasswordScreen
 import com.example.comicbookrental.ui.screens.auth.VerifyOtpScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity()
         setContent {
             ComicBookRentalTheme {
 //                AppNavHost()
-                VerifyOtpScreen()
+                ResetPasswordScreen()
             }
         }
     }
