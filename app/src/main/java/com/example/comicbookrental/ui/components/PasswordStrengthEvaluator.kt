@@ -13,34 +13,29 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.Error
-import com.example.comicbookrental.ui.theme.InkBlack
 import com.example.comicbookrental.ui.theme.Success
 import com.example.comicbookrental.ui.theme.TextSecondary
 import com.example.comicbookrental.ui.theme.Warning
+import com.example.comicbookrental.ui.theme.extendedColors
 
 @Composable
 fun PasswordStrengthEvaluator(
     strength: Int,
     label: String
-)
-{
+) {
+    val ink = MaterialTheme.extendedColors.ink
     Column(
         modifier = Modifier.fillMaxWidth(),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            horizontalArrangement = Arrangement.spacedBy(Dimens.Radius.Sm)
         ) {
             repeat(4) { index ->
-                val color = when
-                {
+                val color = when {
                     index < strength && strength <= 1 -> Error
                     index < strength && strength <= 2 -> Warning
                     index < strength && strength <= 4 -> Success
@@ -49,21 +44,17 @@ fun PasswordStrengthEvaluator(
                 Box(
                     modifier = Modifier
                         .weight(1f)
-                        .height(8.dp)
-                        .border(1.dp, InkBlack)
+                        .height(Dimens.Sizes.SecurityIndicatorHeight)
+                        .border(Dimens.Border.Hairline, ink)
                         .background(color)
                 )
             }
         }
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(Dimens.Spacing.StackSm))
         Text(
             text = label,
-            style = TextStyle(
-                fontStyle = FontStyle.Italic,
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp,
-                color = InkBlack
-            )
+            style = MaterialTheme.typography.bodySmall.copy(fontStyle = FontStyle.Italic),
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

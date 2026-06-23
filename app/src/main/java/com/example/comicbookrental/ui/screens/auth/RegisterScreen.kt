@@ -1,12 +1,12 @@
 package com.example.comicbookrental.ui.screens.auth
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,9 +17,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
@@ -38,12 +38,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.comicbookrental.ui.components.AuthTopHeader
@@ -51,228 +50,229 @@ import com.example.comicbookrental.ui.components.BrutalistTextField
 import com.example.comicbookrental.ui.components.FacebookLoginButton
 import com.example.comicbookrental.ui.components.GoogleLoginButton
 import com.example.comicbookrental.ui.components.BrutalistButton
-import com.example.comicbookrental.ui.theme.Anton
-import com.example.comicbookrental.ui.theme.HankenGrotesk
+import com.example.comicbookrental.ui.components.ComicCard
+import com.example.comicbookrental.ui.components.comicHalftoneBackground
+import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
+import com.example.comicbookrental.ui.theme.Dimens
+import com.example.comicbookrental.ui.theme.extendedColors
 
 @Composable
-fun RegisterScreen()
-{
+fun RegisterScreen(
+    onLoginClick: () -> Unit = {},
+    onRegisterSuccess: () -> Unit = {}
+) {
     var fullName by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var confirmPassword by rememberSaveable { mutableStateOf("") }
     var isAgreed by rememberSaveable { mutableStateOf(false) }
 
+    val ink = MaterialTheme.extendedColors.ink
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
+            .comicHalftoneBackground(dotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.05f))
             .systemBarsPadding()
             .verticalScroll(rememberScrollState())
-            .padding(bottom = 32.dp),
+            .padding(bottom = Dimens.Spacing.SectionSpacing),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AuthTopHeader()
+        AuthTopHeader(onCloseClick = onLoginClick)
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(3.dp)
-                .background(Color.Black)
-                .padding(top =  4.dp)
+        HorizontalDivider(
+            color = ink, 
+            thickness = Dimens.Border.Standard,
+            modifier = Modifier.padding(horizontal = Dimens.Spacing.Margin)
         )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(3.dp)
-                .offset(x = 2.dp, y = 2.dp)
-                .background(Color.Gray.copy(alpha = 0.5f))
-        )
-        Spacer(modifier = Modifier.height(32.dp))
+        
+        Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = Dimens.Spacing.ScreenPadding)
         ) {
             Text(
                 text = "JOIN THE",
-                fontFamily = Anton,
-                fontSize = 48.sp,
+                style = MaterialTheme.typography.displayLarge,
                 color = MaterialTheme.colorScheme.primary,
-                modifier =  Modifier.offset(y = 12.dp)
+                modifier = Modifier.offset(y = 12.dp)
             )
 
-            Box(modifier = Modifier.padding(end = 6.dp, bottom = 6.dp)) {
+            Box(modifier = Modifier.padding(end = Dimens.Elevation.Resting, bottom = Dimens.Elevation.Resting)) {
                 Box(
                     modifier = Modifier
                         .matchParentSize()
-                        .offset(x = 6.dp, y = 6.dp)
-                        .background(Color.Black)
+                        .offset(x = Dimens.Elevation.Resting, y = Dimens.Elevation.Resting)
+                        .background(ink, RoundedCornerShape(Dimens.Radius.Sm))
                 )
                 Box(
                     modifier = Modifier
-                        .background(MaterialTheme.colorScheme.secondary)
-                        .border(3.dp, Color.Black)
-                        .padding(horizontal = 16.dp, vertical = 4.dp)
+                        .background(MaterialTheme.colorScheme.secondary, RoundedCornerShape(Dimens.Radius.Sm))
+                        .border(Dimens.Border.Standard, ink, RoundedCornerShape(Dimens.Radius.Sm))
+                        .padding(horizontal = Dimens.Spacing.Gutter, vertical = Dimens.GridUnit)
                 ) {
                     Text(
                         text = "SQUAD",
-                        fontFamily = Anton,
-                        fontSize = 48.sp,
-                        color = Color.Black
+                        style = MaterialTheme.typography.displayLarge,
+                        color = MaterialTheme.colorScheme.onSecondary
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(end = 8.dp, bottom = 8.dp)
-            ){
-                Box(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .offset(x = 8.dp, y = 8.dp)
-                        .background(Color.Black)
+            ComicCard(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(Dimens.Radius.Sm),
+                containerColor = MaterialTheme.colorScheme.background,
+                borderColor = ink,
+                borderWidth = Dimens.Border.Standard,
+                shadowOffset = Dimens.Elevation.Resting,
+                contentPadding = PaddingValues(Dimens.Spacing.AuthPadding)
+            ) {
+                BrutalistTextField(
+                    value = fullName,
+                    onValueChange = { fullName = it },
+                    label = "FULL NAME",
+                    placeholder = "WADE WILSON",
+                    leadingIcon = Icons.Outlined.Person
+                )
+                
+                Spacer(modifier = Modifier.height(Dimens.Spacing.StackMd))
+
+                BrutalistTextField(
+                    value = email,
+                    onValueChange = { email = it },
+                    label = "EMAIL ADDRESS",
+                    placeholder = "HERO@PANELRUSH.COM",
+                    leadingIcon = Icons.Outlined.Email
+                )
+                
+                Spacer(modifier = Modifier.height(Dimens.Spacing.StackMd))
+
+                BrutalistTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = "SECRET IDENTITY (PASSWORD)",
+                    placeholder = "••••••••",
+                    leadingIcon = Icons.Outlined.Lock,
+                    isPassword = true,
+                    trailingContent = {
+                        Icon(
+                            imageVector = Icons.Outlined.Visibility,
+                            contentDescription = "Show Password",
+                            modifier = Modifier.size(Dimens.Icon.Medium),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                )
+                
+                Spacer(modifier = Modifier.height(Dimens.Spacing.StackMd))
+
+                BrutalistTextField(
+                    value = confirmPassword,
+                    onValueChange = { confirmPassword = it },
+                    label = "CONFIRM PASSWORD",
+                    placeholder = "••••••••",
+                    leadingIcon = Icons.Outlined.Security,
+                    isPassword = true
+                )
+                
+                Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
+
+                Row(
+                    verticalAlignment = Alignment.Top,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Checkbox(
+                        checked = isAgreed,
+                        onCheckedChange = { isAgreed = it },
+                        colors = CheckboxDefaults.colors(
+                            checkedColor = MaterialTheme.colorScheme.primary,
+                            uncheckedColor = ink,
+                            checkmarkColor = MaterialTheme.colorScheme.onPrimary
+                        ),
+                        modifier = Modifier.size(Dimens.Icon.Medium)
+                    )
+
+                    Spacer(modifier = Modifier.width(Dimens.Spacing.ContentSpacing))
+
+                    Text(
+                        text = buildAnnotatedString {
+                            append("I AGREE TO THE ")
+                            withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.secondary, textDecoration = TextDecoration.Underline)) {
+                                append("CRITICAL ALLIANCE TERMS")
+                            }
+                            append(" AND PRIVACY PROTOCOLS.")
+                        },
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        lineHeight = 16.sp
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
+
+                BrutalistButton(
+                    text = "SIGN UP",
+                    onClick = onRegisterSuccess,
+                    modifier = Modifier.fillMaxWidth()
                 )
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.White)
-                        .offset(y = 4.dp)
-                        .border(width =  2.dp, color = Color.Black)
-                        .padding(horizontal = 24.dp, vertical = 32.dp)
+                Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
+
+                HorizontalDivider(thickness = Dimens.Border.Hairline, color = MaterialTheme.colorScheme.outlineVariant)
+
+                Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
                 ) {
-                    BrutalistTextField(
-                        value = fullName,
-                        onValueChange = { fullName = it },
-                        label = "FULL NAME",
-                        placeholder = "WADE WILSON",
-                        leadingIcon = Icons.Outlined.Person
+                    Text(
+                        text = "ALREADY A MEMBER? ",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    BrutalistTextField(
-                        value = email,
-                        onValueChange = { email = it },
-                        label = "EMAIL ADDRESS",
-                        placeholder = "HERO@PANELRUSH.COM",
-                        leadingIcon = Icons.Outlined.Email
+                    Text(
+                        text = "LOGIN HERE",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.clickable { onLoginClick() }
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    BrutalistTextField(
-                        value = password,
-                        onValueChange = { password = it },
-                        label = "SECRET IDENTITY (PASSWORD)",
-                        placeholder = "••••••••",
-                        leadingIcon = Icons.Outlined.Lock,
-                        isPassword = true,
-                        trailingContent = {
-                            Icon(
-                                imageVector = Icons.Outlined.Visibility,
-                                contentDescription = "Show Password",
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    BrutalistTextField(
-                        value = confirmPassword,
-                        onValueChange = { confirmPassword = it },
-                        label = "CONFIRM PASSWORD",
-                        placeholder = "••••••••",
-                        leadingIcon = Icons.Outlined.Security,
-                        isPassword = true
-                    )
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    Row(
-                        verticalAlignment = Alignment.Top,
-                        modifier =  Modifier.fillMaxWidth()
-                    ) {
-                        Checkbox(
-                            checked = isAgreed,
-                            onCheckedChange = {isAgreed = it},
-                            colors = CheckboxDefaults.colors(
-                                checkedColor = MaterialTheme.colorScheme.primary,
-                                uncheckedColor = Color.Black,
-                                checkmarkColor = MaterialTheme.colorScheme.onPrimary
-                            ),
-                            modifier = Modifier.size(24.dp)
-                        )
-
-                        Spacer(modifier = Modifier.width(12.dp))
-
-                        Text(
-                            text = buildAnnotatedString {
-                                append("I AGREE TO THE ")
-                                withStyle(style = SpanStyle(color = Color.Blue, textDecoration = TextDecoration.Underline)) {
-                                    append("CRITICAL ALLIANCE TERMS")
-                                }
-                                append(" AND PRIVACY PROTOCOLS.")
-                            },
-                            fontFamily = HankenGrotesk,
-                            fontSize = 12.sp,
-                            color = Color.Black,
-                            lineHeight = 16.sp
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    BrutalistButton(
-                        text = "SIGN UP",
-                        onClick = { Log.d("Register", "Registered") },
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    HorizontalDivider(Modifier, thickness = 1.dp, color = Color.LightGray)
-
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = "ALREADY A MEMBER? ",
-                            fontFamily = HankenGrotesk,
-                            fontSize = 12.sp
-                        )
-                        Text(
-                            text = "LOGIN HERE",
-                            fontFamily = HankenGrotesk,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Blue,
-                            modifier = Modifier.clickable { /* Điều hướng về Login */ }
-                        )
-                    }
                 }
             }
-            Spacer(modifier = Modifier.height(24.dp))
+            
+            Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.spacedBy(Dimens.Spacing.Gutter)
             ){
                 GoogleLoginButton(
                     onClick = {},
-                    modifier = Modifier
+                    modifier = Modifier.weight(1f)
                 )
                 FacebookLoginButton(
                     onClick = {},
-                    modifier = Modifier
+                    modifier = Modifier.weight(1f)
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFFCF9F8)
+@Composable
+private fun RegisterPreview() {
+    ComicBookRentalTheme {
+        RegisterScreen(
+            onLoginClick = {},
+            onRegisterSuccess = {}
+        )
     }
 }

@@ -10,48 +10,52 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.comicbookrental.ui.theme.Background
-import com.example.comicbookrental.ui.theme.InkBlack
-import com.example.comicbookrental.ui.theme.Primary
-import kotlinx.coroutines.sync.Mutex
+import com.example.comicbookrental.ui.theme.Dimens
+import com.example.comicbookrental.ui.theme.extendedColors
 
 @Composable
 fun SecurityAlert(
     message: String
 ){
+    val shape = RoundedCornerShape(Dimens.Radius.Sm)
+    val ink = MaterialTheme.extendedColors.ink
+    val primaryColor = MaterialTheme.colorScheme.primary
+
     Row (
         modifier = Modifier
             .fillMaxWidth()
-            .border(2.dp, InkBlack)
-            .background(Background)
-            .padding(end = 16.dp),
+            .clip(shape)
+            .border(Dimens.Border.Standard, ink, shape)
+            .background(MaterialTheme.colorScheme.background)
+            .padding(end = Dimens.Spacing.Gutter),
         verticalAlignment = Alignment.CenterVertically
     ){
         Box(
             modifier = Modifier
-                .width(15.dp)
+                .width(Dimens.Sizes.SecurityAlertStripeWidth)
                 .fillMaxHeight()
                 .drawBehind{
-                    val stripeWidth = 5.dp.toPx()
+                    val stripeWidth = Dimens.Sizes.StripePatternWidth.toPx()
                     var x = 0f
                     while (x < size.width + size.height){
                         drawLine(
-                            color = Primary,
+                            color = primaryColor,
                             start = Offset(x, 0f),
                             end = Offset(x - size.height, size.height),
                             strokeWidth = stripeWidth
@@ -59,19 +63,19 @@ fun SecurityAlert(
                         x += stripeWidth * 2
                     }
                 }
-                .border(width = 2.dp, color = InkBlack)
+                .border(width = Dimens.Border.Standard, color = ink)
         )
 
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(Dimens.Spacing.Gutter))
 
         Icon(
             imageVector = Icons.Default.Warning,
             contentDescription = null,
-            tint = Primary,
-            modifier = Modifier.size(32.dp)
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(Dimens.Icon.Large)
         )
 
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(Dimens.Spacing.ContentSpacing))
 
         Text(
             text = buildAnnotatedString {
@@ -80,9 +84,9 @@ fun SecurityAlert(
                 }
                 append(message)
             },
-            fontSize = 13.sp,
-            lineHeight = 16.sp,
-            modifier = Modifier.padding(vertical = 12.dp)
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.padding(vertical = Dimens.Spacing.ContentSpacing)
         )
     }
 }

@@ -8,11 +8,60 @@ import androidx.navigation.navigation
 // Aliased: route object `HomeRoute` (this package) vs the screen composable of the same name.
 import com.example.comicbookrental.ui.screens.home.HomeRoute as HomeScreenEntry
 
+import com.example.comicbookrental.ui.screens.auth.LoginScreen
+import com.example.comicbookrental.ui.screens.auth.RegisterScreen
+import com.example.comicbookrental.ui.screens.auth.ForgotPasswordScreen
+import com.example.comicbookrental.ui.screens.auth.VerifyOtpScreen
+import com.example.comicbookrental.ui.screens.auth.ResetPasswordScreen
+
 fun NavGraphBuilder.authGraph(navController: NavHostController){
     navigation<AuthGraph>(startDestination = LoginRoute){
         composable <LoginRoute>{
-            // TODO: Navigation between auth graph
-            Text("Login")
+            LoginScreen(
+                onRegisterClick = { navController.navigate(RegisterRoute) },
+                onForgotPasswordClick = { navController.navigate(ForgetPassword) },
+                onLoginSuccess = {
+                    navController.navigate(CatalogGraph) {
+                        popUpTo(AuthGraph) { inclusive = true }
+                    }
+                }
+            )
+        }
+        composable<RegisterRoute> {
+            RegisterScreen(
+                onLoginClick = { navController.popBackStack() },
+                onRegisterSuccess = { 
+                    navController.navigate(LoginRoute) {
+                        popUpTo(LoginRoute) { inclusive = true }
+                    }
+                }
+            )
+        }
+        composable<ForgetPassword> {
+            ForgotPasswordScreen(
+                onBackToLoginClick = { navController.popBackStack() },
+                onSendOtpClick = { navController.navigate(InputOtp) }
+            )
+        }
+        composable<InputOtp> {
+            VerifyOtpScreen(
+                onVerifySuccess = { navController.navigate(ChangePassword) },
+                onBackClick = { navController.popBackStack() }
+            )
+        }
+        composable<ChangePassword> {
+            ResetPasswordScreen(
+                onPasswordResetSuccess = {
+                    navController.navigate(LoginRoute) {
+                        popUpTo(AuthGraph) { inclusive = true }
+                    }
+                },
+                onCancelClick = {
+                    navController.navigate(LoginRoute) {
+                        popUpTo(AuthGraph) { inclusive = true }
+                    }
+                }
+            )
         }
     }
 }

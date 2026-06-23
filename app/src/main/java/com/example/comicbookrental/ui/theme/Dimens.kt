@@ -17,6 +17,8 @@ object Dimens {
         val SectionSpacing = 24.dp
         val ContentSpacing = 12.dp
         val ListItemSpacing = 8.dp
+        val AuthPadding = 24.dp
+        val BorderSeparator = 3.dp
 
         // DESIGN.md 8-point scale
         val Margin = 20.dp      // outer screen margin (4-col mobile grid)
@@ -69,6 +71,13 @@ object Dimens {
 
         val BottomBarHeight = 64.dp
         val AvatarSize = 48.dp
+        
+        val SecurityIndicatorHeight = 8.dp
+        val OtpBoxWidth = 48.dp
+        val OtpBoxHeight = 64.dp
+        val SecurityAlertStripeWidth = 15.dp
+        val AuthIconBoxSize = 72.dp
+        val StripePatternWidth = 5.dp
     }
 
     object Icon {

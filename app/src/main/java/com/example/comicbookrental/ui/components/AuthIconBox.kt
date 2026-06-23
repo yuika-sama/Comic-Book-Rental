@@ -11,32 +11,36 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
+import com.example.comicbookrental.ui.theme.Dimens
+import com.example.comicbookrental.ui.theme.extendedColors
 
 @Composable
 fun AuthIconBox(
     icon: ImageVector
 ){
+    val shape = androidx.compose.foundation.shape.RoundedCornerShape(Dimens.Radius.Sm)
+    val ink = MaterialTheme.extendedColors.ink
+    val shadowOffset = Dimens.Elevation.Resting
+
     Box(
         modifier = Modifier
-            .size(70.dp)
-            .background(Color.Black)
+            .size(Dimens.Sizes.AuthIconBoxSize)
+            .background(ink, shape)
     ){
         Box(
             modifier = Modifier
-                .offset(x = (-4).dp, y = (-4).dp)
+                .offset(x = -shadowOffset, y = -shadowOffset)
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.primary)
-                .border(2.dp, Color.Black),
+                .background(MaterialTheme.colorScheme.primary, shape)
+                .border(Dimens.Border.Standard, ink, shape),
             contentAlignment = Alignment.Center
         ){
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = Color.White,
-                modifier = Modifier.size(35.dp)
+                tint = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.size(Dimens.Icon.Large)
             )
         }
     }
