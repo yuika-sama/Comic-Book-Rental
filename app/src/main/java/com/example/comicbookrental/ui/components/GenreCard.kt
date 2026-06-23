@@ -16,7 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
@@ -30,6 +32,9 @@ fun GenreCard(
     modifier: Modifier = Modifier,
     accent: Color = MaterialTheme.colorScheme.primary,
     filled: Boolean = true,
+    height: Dp = Dimens.Sizes.ButtonHeight,
+    textStyle: TextStyle = MaterialTheme.typography.headlineSmall.copy(fontFamily = Anton),
+    horizontalPadding: Dp = Dimens.Spacing.SectionSpacing,
     onClick: () -> Unit = {},
 ) {
     val shape = RoundedCornerShape(Dimens.Radius.Sm)
@@ -41,18 +46,18 @@ fun GenreCard(
 
     Box(
         modifier = modifier
-            .height(Dimens.Sizes.ButtonHeight)
+            .height(height)
             .comicHardShadow(shape = shape, offset = Dimens.Elevation.Resting, color = frame)
             .clip(shape)
             .background(container)
             .border(width = Dimens.Border.Standard, color = frame, shape = shape)
             .clickable(onClick = onClick)
-            .padding(horizontal = Dimens.Spacing.SectionSpacing),
+            .padding(horizontal = horizontalPadding),
         contentAlignment = Alignment.Center,
     ) {
         Text(
             text = label.uppercase(),
-            style = MaterialTheme.typography.headlineSmall.copy(fontFamily = Anton),
+            style = textStyle,
             color = content,
         )
     }

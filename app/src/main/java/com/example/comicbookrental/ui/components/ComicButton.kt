@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,7 +30,6 @@ import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
-/** The two button styles defined in DESIGN.md → Components → Buttons. */
 enum class ComicButtonVariant {
     /** Action Orange fill, white uppercase Anton, hard ink shadow. */
     Primary,
@@ -46,15 +46,17 @@ fun ComicButton(
     modifier: Modifier = Modifier,
     variant: ComicButtonVariant = ComicButtonVariant.Primary,
     enabled: Boolean = true,
+    containerColor: Color? = null,
+    contentColor: Color? = null,
 ) {
     val shape = RoundedCornerShape(Dimens.Radius.Button)
     val ink = MaterialTheme.extendedColors.ink
 
-    val containerColor = when (variant) {
+    val resolvedContainer = containerColor ?: when (variant) {
         ComicButtonVariant.Primary -> MaterialTheme.colorScheme.primary
         ComicButtonVariant.Secondary -> MaterialTheme.colorScheme.surface
     }
-    val contentColor = when (variant) {
+    val resolvedContent = contentColor ?: when (variant) {
         ComicButtonVariant.Primary -> MaterialTheme.colorScheme.onPrimary
         ComicButtonVariant.Secondary -> MaterialTheme.colorScheme.onSurface
     }
@@ -81,7 +83,7 @@ fun ComicButton(
             .offset(x = pressTranslation, y = pressTranslation)
             .comicHardShadow(shape = shape, offset = shadowOffset, color = ink)
             .clip(shape)
-            .background(containerColor)
+            .background(resolvedContainer)
             .border(width = Dimens.Border.Standard, color = ink, shape = shape)
             .clickable(
                 interactionSource = interactionSource,
@@ -95,7 +97,7 @@ fun ComicButton(
     ) {
         Text(
             text = if (variant == ComicButtonVariant.Primary) text.uppercase() else text,
-            color = contentColor,
+            color = resolvedContent,
             textAlign = TextAlign.Center,
             style = if (variant == ComicButtonVariant.Primary) {
                 // Uppercase Anton for the "Action" look.

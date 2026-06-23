@@ -66,6 +66,9 @@ object Dimens {
         val ComicCoverWidth = 120.dp
         val ComicCoverHeight = 180.dp
 
+        val SimilarCardWidth = 150.dp   // card width in the Detail "Similar Titles" row
+
+        val ChipHeight = 28.dp      // compact genre tag (Comic Detail), smaller than a button
         val ButtonHeight = 48.dp
         val LargeButtonHeight = 56.dp
 

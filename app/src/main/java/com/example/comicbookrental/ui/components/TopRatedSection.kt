@@ -9,14 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.comicbookrental.data.entities.ComicEntity
+import com.example.comicbookrental.ui.model.ComicUi
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 
 
 @Composable
 fun TopRatedSection(
-    comics: List<ComicEntity>,
+    comics: List<ComicUi>,
     onComicClick: (Int) -> Unit,
     onExplore: () -> Unit,
     modifier: Modifier = Modifier,
@@ -40,9 +40,10 @@ fun TopRatedSection(
                 title = comic.title,
                 author = comic.author,
                 genre = comic.genre,
-                rating = comic.avgRating,
+                rating = comic.rating,
                 ratingsCount = comic.ratingsCount,
                 accent = rankAccent(index),
+                cover = { ComicCover(url = comic.coverImageUrl, contentDescription = comic.title) },
                 onClick = { onComicClick(comic.id) },
             )
         }
@@ -63,17 +64,15 @@ private fun TopRatedSectionPreview() {
     ComicBookRentalTheme {
         TopRatedSection(
             comics = listOf(
-                ComicEntity(
+                ComicUi(
                     id = 1, title = "The Last Warrior", coverImageUrl = "", genre = "Fantasy",
-                    author = "H. Miller", publisher = "Forge", description = "",
-                    avgRating = "5.0", rentalPrice = "3.49", releaseDate = "2099-01-01",
-                    ratingsCount = 12000,
+                    author = "H. Miller", description = "",
+                    rating = "5.0", ratingsCount = 12000, priceLabel = "$3.49",
                 ),
-                ComicEntity(
+                ComicUi(
                     id = 2, title = "Cobalt Mystery", coverImageUrl = "", genre = "Mystery",
-                    author = "S. Lane", publisher = "Noir House", description = "",
-                    avgRating = "4.9", rentalPrice = "2.99", releaseDate = "2099-02-01",
-                    ratingsCount = 8500,
+                    author = "S. Lane", description = "",
+                    rating = "4.9", ratingsCount = 8500, priceLabel = "$2.99",
                 ),
             ),
             onComicClick = {},

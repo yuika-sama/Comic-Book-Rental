@@ -6,22 +6,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 
-/**
- * Type scale from DESIGN.md mapped onto Material 3 [Typography] slots.
- * Anton (condensed) drives display/headline; Hanken Grotesk handles everything functional.
- *
- * DESIGN.md token        -> M3 slot
- *   display-hero  (48)   -> displayLarge
- *   headline-lg   (32)   -> headlineLarge
- *   headline-lg-mobile(28)-> headlineMedium
- *   headline-md   (24)   -> headlineSmall
- *   body-lg       (18)   -> bodyLarge
- *   body-md       (16)   -> bodyMedium
- *   label-bold    (14)   -> labelLarge
- *   caption       (12)   -> labelSmall
- * Slots with no DESIGN.md token (title*, bodySmall, labelMedium) are derived from
- * Hanken Grotesk so every component still renders in a brand font.
- */
+
 val ComicAppTypography = Typography(
 
     // --- Display (Anton) ---

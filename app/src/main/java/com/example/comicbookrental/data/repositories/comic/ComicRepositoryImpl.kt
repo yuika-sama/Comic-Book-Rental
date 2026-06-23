@@ -1,18 +1,42 @@
 package com.example.comicbookrental.data.repositories.comic
 
+import android.content.Context
+import com.example.comicbookrental.data.dto.ComicDto
+import com.example.comicbookrental.data.dto.toEntity
+import com.example.comicbookrental.data.dto.toReviewEntities
 import com.example.comicbookrental.data.entities.ComicEntity
 import com.example.comicbookrental.data.entities.ReviewEntity
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.json.Json
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ComicRepositoryImpl @Inject constructor() : ComicRepository {
+class ComicRepositoryImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
+) : ComicRepository {
 
-    private val comicsFlow = MutableStateFlow<List<ComicEntity>>(SampleComics.list)
+    private val json = Json { ignoreUnknownKeys = true }
+
+    private val comicsFlow = MutableStateFlow<List<ComicEntity>>(emptyList())
     private val reviewsFlow = MutableStateFlow<List<ReviewEntity>>(emptyList())
+
+    init {
+        loadFromAssets()
+    }
+
+    /** Đọc comics.json trong assets, tách thành comics + reviews. */
+    private fun loadFromAssets() {
+        val text = context.assets.open("comics.json")
+            .bufferedReader()
+            .use { it.readText() }
+        val dtos = json.decodeFromString<List<ComicDto>>(text)
+        comicsFlow.value = dtos.map { it.toEntity() }
+        reviewsFlow.value = dtos.flatMap { it.toReviewEntities() }
+    }
 
     override fun getAllComics(): Flow<List<ComicEntity>> = comicsFlow
 
@@ -73,7 +97,7 @@ class ComicRepositoryImpl @Inject constructor() : ComicRepository {
 
     override suspend fun seedIfEmpty() {
         if (comicsFlow.value.isEmpty()) {
-            comicsFlow.value = SampleComics.list
+            loadFromAssets()
         }
     }
 }

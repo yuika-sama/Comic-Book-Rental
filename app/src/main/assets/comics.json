@@ -1,0 +1,155 @@
+[
+  {
+    "id": 1,
+    "title": "Neon Reckoning: Issue #1",
+    "coverImageUrl": "https://picsum.photos/seed/neon-reckoning/400/600",
+    "genre": "Action",
+    "author": "R. Vance",
+    "publisher": "Panel Rush",
+    "description": "In a world of metal and madness, one hero rises to reclaim the grid. Experience the dawn of a new legend.",
+    "avgRating": "4.9",
+    "rentalPrice": "3.49",
+    "releaseDate": "2025-05-20",
+    "viewCount": 48200,
+    "ratingsCount": 15300,
+    "isFeatured": true,
+    "reviews": [
+      { "userName": "GridRunner", "rating": 5, "comment": "The art kicks off swinging — absolutely electric opener.", "commentDate": 1747958400000 },
+      { "userName": "M. Holt", "rating": 5, "comment": "Best #1 I've read this year. Sold on the whole arc.", "commentDate": 1748044800000 },
+      { "userName": "neon_kid", "rating": 4, "comment": "Pacing is wild. Lost me for a panel or two but worth it.", "commentDate": 1748217600000 }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Cyber Saints",
+    "coverImageUrl": "https://picsum.photos/seed/cyber-saints/400/600",
+    "genre": "Sci-Fi",
+    "author": "K. Mori",
+    "publisher": "Panel Rush",
+    "description": "When the city's AI gods turn on their makers, a band of outcasts becomes humanity's last prayer.",
+    "avgRating": "4.7",
+    "rentalPrice": "2.99",
+    "releaseDate": "2025-04-11",
+    "viewCount": 39100,
+    "ratingsCount": 9800,
+    "isFeatured": true,
+    "reviews": [
+      { "userName": "haloFix", "rating": 5, "comment": "Mori's worldbuilding is unreal. Every page drips atmosphere.", "commentDate": 1744416000000 },
+      { "userName": "D. Reyes", "rating": 4, "comment": "Great cast, a touch heavy on exposition early on.", "commentDate": 1744588800000 }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "The Last Warrior",
+    "coverImageUrl": "https://picsum.photos/seed/last-warrior/400/600",
+    "genre": "Fantasy",
+    "author": "H. Miller",
+    "publisher": "Dark Horse",
+    "description": "A lone knight marches across a dying kingdom to face the prophecy that claimed everyone he loved.",
+    "avgRating": "5.0",
+    "rentalPrice": "3.49",
+    "releaseDate": "2024-11-02",
+    "viewCount": 51200,
+    "ratingsCount": 12000,
+    "isFeatured": true,
+    "reviews": [
+      { "userName": "ProphecyFan", "rating": 5, "comment": "Heartbreaking and gorgeous. A modern classic.", "commentDate": 1730764800000 },
+      { "userName": "S. Tran", "rating": 5, "comment": "The final pages had me speechless. Perfect.", "commentDate": 1731024000000 },
+      { "userName": "knight_err", "rating": 5, "comment": "Miller never misses. Buy it twice.", "commentDate": 1731283200000 }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Cobalt Mystery",
+    "coverImageUrl": "https://picsum.photos/seed/cobalt-mystery/400/600",
+    "genre": "Noir",
+    "author": "S. Lane",
+    "publisher": "Viz Media",
+    "description": "A rain-soaked detective chases a killer who only strikes under neon blue light.",
+    "avgRating": "4.9",
+    "rentalPrice": "2.49",
+    "releaseDate": "2025-01-18",
+    "viewCount": 27400,
+    "ratingsCount": 8500,
+    "isFeatured": false,
+    "reviews": [
+      { "userName": "rainwatch", "rating": 5, "comment": "Pure noir mood. The blue palette is a character of its own.", "commentDate": 1737158400000 },
+      { "userName": "L. Park", "rating": 4, "comment": "Twist landed hard. Wish it ran a few pages longer.", "commentDate": 1737417600000 }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Tree of Aeons",
+    "coverImageUrl": "https://picsum.photos/seed/tree-of-aeons/400/600",
+    "genre": "Fantasy",
+    "author": "M. Chen",
+    "publisher": "Kodansha",
+    "description": "A wandering seed grows into a world-tree, and with it, the fate of every realm it touches.",
+    "avgRating": "4.9",
+    "rentalPrice": "2.99",
+    "releaseDate": "2025-06-01",
+    "viewCount": 18700,
+    "ratingsCount": 6400,
+    "isFeatured": false,
+    "reviews": [
+      { "userName": "rootbound", "rating": 5, "comment": "Quietly epic. The scale creeps up on you beautifully.", "commentDate": 1748822400000 }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Ghost Protocol",
+    "coverImageUrl": "https://picsum.photos/seed/ghost-protocol/400/600",
+    "genre": "Sci-Fi",
+    "author": "J. Doe",
+    "publisher": "Viz Media",
+    "description": "A deleted agent comes back online with one directive: erase the people who erased her.",
+    "avgRating": "4.2",
+    "rentalPrice": "2.49",
+    "releaseDate": "2025-05-28",
+    "viewCount": 21500,
+    "ratingsCount": 7100,
+    "isFeatured": false,
+    "reviews": [
+      { "userName": "deadpixel", "rating": 4, "comment": "Tense and stylish. Lead is ice-cold in the best way.", "commentDate": 1748390400000 },
+      { "userName": "V. Okoye", "rating": 4, "comment": "Solid revenge thriller, a bit familiar in spots.", "commentDate": 1748563200000 }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Iron Vendetta",
+    "coverImageUrl": "https://picsum.photos/seed/iron-vendetta/400/600",
+    "genre": "Action",
+    "author": "D. Castle",
+    "publisher": "Dark Horse",
+    "description": "Framed and forgotten, a war hero builds a one-man army to bring down the syndicate that buried him.",
+    "avgRating": "4.6",
+    "rentalPrice": "2.99",
+    "releaseDate": "2025-03-09",
+    "viewCount": 30200,
+    "ratingsCount": 8900,
+    "isFeatured": false,
+    "reviews": [
+      { "userName": "boltcutter", "rating": 5, "comment": "Brutal, lean, satisfying. Action choreography is top-tier.", "commentDate": 1741564800000 },
+      { "userName": "A. Greer", "rating": 4, "comment": "Castle delivers. Villain could've used more depth.", "commentDate": 1741824000000 }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Midnight Ledger",
+    "coverImageUrl": "https://picsum.photos/seed/midnight-ledger/400/600",
+    "genre": "Mystery",
+    "author": "A. Frost",
+    "publisher": "Yen Press",
+    "description": "Every name in the ledger is a debt — and every debt is paid in blood by dawn.",
+    "avgRating": "4.5",
+    "rentalPrice": "1.99",
+    "releaseDate": "2025-02-14",
+    "viewCount": 16400,
+    "ratingsCount": 5200,
+    "isFeatured": false,
+    "reviews": [
+      { "userName": "ledgerline", "rating": 5, "comment": "Creeping dread done right. Couldn't put it down.", "commentDate": 1739491200000 },
+      { "userName": "C. Maddox", "rating": 4, "comment": "Atmospheric and mean. Ending leaves you wanting more.", "commentDate": 1739750400000 }
+    ]
+  }
+]

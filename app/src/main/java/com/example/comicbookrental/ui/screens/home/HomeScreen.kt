@@ -26,13 +26,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.comicbookrental.data.entities.ComicEntity
 import com.example.comicbookrental.ui.components.ComicCard
+import com.example.comicbookrental.ui.components.ComicCover
 import com.example.comicbookrental.ui.components.ComicSearchField
 import com.example.comicbookrental.ui.components.FeaturedCarousel
 import com.example.comicbookrental.ui.components.NewReleasesSection
 import com.example.comicbookrental.ui.components.PopularGenresSection
 import com.example.comicbookrental.ui.components.TopRatedSection
+import com.example.comicbookrental.ui.model.ComicUi
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
@@ -137,7 +138,7 @@ fun HomeScreen(
 
 @Composable
 private fun SearchResultItem(
-    comic: ComicEntity,
+    comic: ComicUi,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -146,10 +147,10 @@ private fun SearchResultItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Dimens.Spacing.ContentSpacing),
         ) {
-            Box(
-                modifier = Modifier
-                    .size(width = 48.dp, height = 64.dp)
-                    .background(MaterialTheme.colorScheme.secondaryContainer),
+            ComicCover(
+                url = comic.coverImageUrl,
+                contentDescription = comic.title,
+                modifier = Modifier.size(width = 48.dp, height = 64.dp),
             )
             Column(
                 modifier = Modifier.weight(1f),
@@ -170,13 +171,13 @@ private fun SearchResultItem(
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    text = "★ ${comic.avgRating}",
+                    text = "★ ${comic.rating}",
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.extendedColors.rating,
                 )
             }
             Text(
-                text = "$${comic.rentalPrice}",
+                text = comic.priceLabel,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary,
             )
@@ -231,11 +232,10 @@ private fun ErrorState(message: String) {
 @Composable
 private fun HomeScreenPreview() {
     val sample = { id: Int, title: String, genre: String, author: String, rating: String, count: Int ->
-        ComicEntity(
+        ComicUi(
             id = id, title = title, coverImageUrl = "", genre = genre, author = author,
-            publisher = "Acme", description = "One hero rises to reclaim the grid in a world of metal and madness.",
-            avgRating = rating, rentalPrice = "2.99", releaseDate = "2099-01-01",
-            ratingsCount = count, isFeatured = true,
+            description = "One hero rises to reclaim the grid in a world of metal and madness.",
+            rating = rating, ratingsCount = count, priceLabel = "$2.99",
         )
     }
     ComicBookRentalTheme {

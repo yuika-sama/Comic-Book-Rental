@@ -15,6 +15,8 @@ import com.example.comicbookrental.ui.screens.DesignTestPreview
 import com.example.comicbookrental.ui.screens.ForgotPasswordScreen
 import com.example.comicbookrental.ui.screens.cart.CartScreen
 import com.example.comicbookrental.ui.screens.rentals.MyRentalsScreen
+import com.example.comicbookrental.ui.screens.home.HomeRoute
+import com.example.comicbookrental.ui.screens.home.HomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

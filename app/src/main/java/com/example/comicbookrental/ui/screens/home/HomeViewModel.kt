@@ -2,8 +2,9 @@ package com.example.comicbookrental.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.comicbookrental.data.entities.ComicEntity
 import com.example.comicbookrental.data.repositories.comic.ComicRepository
+import com.example.comicbookrental.ui.model.ComicUi
+import com.example.comicbookrental.ui.model.toUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -20,18 +21,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * Holds and exposes state for the Home screen.
- *
- * MVVM contract: the View only reads [uiState] and calls [onSearchQueryChange]; all data access
- * stays behind [ComicRepository].
- *
- * State is assembled from two reactive sources:
- *  - [sectionsFlow]: the four section flows combined into one [HomeData]; any DB change refreshes
- *    the relevant section automatically.
- *  - search: the current query mapped to results (or null when not searching).
- * The two are combined into [HomeUiState.Content].
- */
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val comicRepository: ComicRepository,
@@ -47,17 +36,21 @@ class HomeViewModel @Inject constructor(
         comicRepository.getGenres(),
     ) { featured, newReleases, topRated, genres ->
         HomeData(
-            featured = featured,
-            newReleases = newReleases,
+            featured = featured.map { it.toUi() },
+            newReleases = newReleases.map { it.toUi() },
             genres = genres,
-            topRated = topRated,
+            topRated = topRated.map { it.toUi() },
         )
     }
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val searchFlow: Flow<List<ComicEntity>?> = _searchQuery.flatMapLatest { query ->
-        if (query.isBlank()) flowOf(null) else comicRepository.searchComics(query.trim())
+    private val searchFlow: Flow<List<ComicUi>?> = _searchQuery.flatMapLatest { query ->
+        if (query.isBlank()) {
+            flowOf(null)
+        } else {
+            comicRepository.searchComics(query.trim()).map { list -> list.map { it.toUi() } }
+        }
     }
 
     val uiState: StateFlow<HomeUiState> =
