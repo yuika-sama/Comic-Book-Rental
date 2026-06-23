@@ -11,6 +11,10 @@ import com.example.comicbookrental.ui.screens.login.LoginScreen
 import com.example.comicbookrental.ui.screens.register.RegisterScreen
 import com.example.comicbookrental.ui.screens.reset_password.ResetPasswordScreen
 import com.example.comicbookrental.ui.screens.verify_otp.VerifyOtpScreen
+import com.example.comicbookrental.ui.screens.DesignTestPreview
+import com.example.comicbookrental.ui.screens.ForgotPasswordScreen
+import com.example.comicbookrental.ui.screens.cart.CartScreen
+import com.example.comicbookrental.ui.screens.rentals.MyRentalsScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
