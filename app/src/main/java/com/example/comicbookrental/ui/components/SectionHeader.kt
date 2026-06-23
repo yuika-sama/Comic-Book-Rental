@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
@@ -32,6 +33,7 @@ fun SectionHeader(
     modifier: Modifier = Modifier,
     actionLabel: String? = null,
     onActionClick: (() -> Unit)? = null,
+    leadingIcon: ImageVector? = null,
     titleColor: Color = MaterialTheme.colorScheme.onBackground,
     underlineColor: Color = MaterialTheme.colorScheme.primary,
     actionColor: Color = MaterialTheme.colorScheme.primary,
@@ -41,19 +43,32 @@ fun SectionHeader(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Column {
-            Text(
-                text = title.uppercase(),
-                style = MaterialTheme.typography.headlineSmall,
-                color = titleColor,
-            )
-            Box(
-                modifier = Modifier
-                    .padding(top = 4.dp)
-                    .height(4.dp)
-                    .width(48.dp)
-                    .background(underlineColor),
-            )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(Dimens.Spacing.StackSm),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (leadingIcon != null) {
+                Icon(
+                    imageVector = leadingIcon,
+                    contentDescription = null,
+                    tint = titleColor,
+                    modifier = Modifier.size(Dimens.Icon.Medium),
+                )
+            }
+            Column {
+                Text(
+                    text = title.uppercase(),
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = titleColor,
+                )
+                Box(
+                    modifier = Modifier
+                        .padding(top = 4.dp)
+                        .height(4.dp)
+                        .width(48.dp)
+                        .background(underlineColor),
+                )
+            }
         }
 
         if (actionLabel != null && onActionClick != null) {

@@ -11,14 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.comicbookrental.data.entities.ComicEntity
+import com.example.comicbookrental.ui.model.ComicUi
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 
 
 @Composable
 fun FeaturedCarousel(
-    comics: List<ComicEntity>,
+    comics: List<ComicUi>,
     onComicClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
     cardWidth: Dp = 300.dp,
@@ -33,6 +33,7 @@ fun FeaturedCarousel(
                 title = comic.title,
                 description = comic.description,
                 onClick = { onComicClick(comic.id) },
+                cover = { ComicCover(url = comic.coverImageUrl, contentDescription = comic.title) },
                 modifier = Modifier.width(cardWidth),
             )
         }
@@ -45,19 +46,17 @@ private fun FeaturedCarouselPreview() {
     ComicBookRentalTheme {
         FeaturedCarousel(
             comics = listOf(
-                ComicEntity(
+                ComicUi(
                     id = 1, title = "Neon Reckoning: Issue #1", coverImageUrl = "",
-                    genre = "Sci-Fi", author = "A. Vega", publisher = "Grid Press",
+                    genre = "Sci-Fi", author = "A. Vega",
                     description = "In a world of metal and madness, one hero rises to reclaim the grid. Experience the saga.",
-                    avgRating = "4.9", rentalPrice = "3.49", releaseDate = "2099-01-01",
-                    isFeatured = true,
+                    rating = "4.9", ratingsCount = 12000, priceLabel = "$3.49",
                 ),
-                ComicEntity(
+                ComicUi(
                     id = 2, title = "Starfall Saga", coverImageUrl = "",
-                    genre = "Space Opera", author = "M. Cole", publisher = "Nova",
+                    genre = "Space Opera", author = "M. Cole",
                     description = "When the last star dims, a smuggler becomes the galaxy's only hope.",
-                    avgRating = "4.7", rentalPrice = "2.99", releaseDate = "2099-02-01",
-                    isFeatured = true,
+                    rating = "4.7", ratingsCount = 9000, priceLabel = "$2.99",
                 ),
             ),
             onComicClick = {},

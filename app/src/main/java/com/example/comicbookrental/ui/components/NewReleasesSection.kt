@@ -13,14 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.comicbookrental.data.entities.ComicEntity
+import com.example.comicbookrental.ui.model.ComicUi
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 
 
 @Composable
 fun NewReleasesSection(
-    comics: List<ComicEntity>,
+    comics: List<ComicUi>,
     onComicClick: (Int) -> Unit,
     onViewAll: () -> Unit,
     modifier: Modifier = Modifier,
@@ -47,8 +47,9 @@ fun NewReleasesSection(
                 NewReleaseCard(
                     title = comic.title,
                     author = comic.author,
-                    rating = comic.avgRating,
+                    rating = comic.rating,
                     onClick = { onComicClick(comic.id) },
+                    cover = { ComicCover(url = comic.coverImageUrl, contentDescription = comic.title) },
                     modifier = Modifier.width(cardWidth),
                 )
             }
@@ -62,15 +63,15 @@ private fun NewReleasesSectionPreview() {
     ComicBookRentalTheme {
         NewReleasesSection(
             comics = listOf(
-                ComicEntity(
+                ComicUi(
                     id = 1, title = "Elemental 5", coverImageUrl = "", genre = "Action",
-                    author = "K. Rogers", publisher = "Bolt", description = "",
-                    avgRating = "4.5", rentalPrice = "2.99", releaseDate = "2099-01-01",
+                    author = "K. Rogers", description = "",
+                    rating = "4.5", ratingsCount = 3000, priceLabel = "$2.99",
                 ),
-                ComicEntity(
+                ComicUi(
                     id = 2, title = "Tree of Aeons", coverImageUrl = "", genre = "Fantasy",
-                    author = "M. Chen", publisher = "Root", description = "",
-                    avgRating = "4.9", rentalPrice = "3.49", releaseDate = "2099-02-01",
+                    author = "M. Chen", description = "",
+                    rating = "4.9", ratingsCount = 6400, priceLabel = "$3.49",
                 ),
             ),
             onComicClick = {},

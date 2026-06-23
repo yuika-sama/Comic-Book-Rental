@@ -5,8 +5,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-// Aliased: route object `HomeRoute` (this package) vs the screen composable of the same name.
+// Aliased: route objects (this package) vs the screen composables of the same name.
 import com.example.comicbookrental.ui.screens.home.HomeRoute as HomeScreenEntry
+import com.example.comicbookrental.ui.screens.detail.ComicDetailRoute as ComicDetailScreenEntry
 
 fun NavGraphBuilder.authGraph(navController: NavHostController){
     navigation<AuthGraph>(startDestination = LoginRoute){
@@ -27,8 +28,12 @@ fun NavGraphBuilder.catalogGraph(navController: NavHostController){
             )
         }
         composable<ComicDetailRoute> {
-            // TODO: Comic detail screen
-            Text("Comic detail")
+            ComicDetailScreenEntry(
+                onBack = { navController.popBackStack() },
+                onComicClick = { comicId ->
+                    navController.navigate(ComicDetailRoute(comicId))
+                },
+            )
         }
     }
 }

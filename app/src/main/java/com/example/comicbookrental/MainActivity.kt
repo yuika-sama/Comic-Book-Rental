@@ -12,6 +12,8 @@ import com.example.comicbookrental.ui.navigation.AppNavHost
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.screens.DesignTestPreview
 import com.example.comicbookrental.ui.screens.ForgotPasswordScreen
+import com.example.comicbookrental.ui.screens.home.HomeRoute
+import com.example.comicbookrental.ui.screens.home.HomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,6 +27,7 @@ class MainActivity : ComponentActivity()
             ComicBookRentalTheme {
 //                AppNavHost()
                 ForgotPasswordScreen()
+//                HomeRoute(onComicClick = {})
             }
         }
     }
