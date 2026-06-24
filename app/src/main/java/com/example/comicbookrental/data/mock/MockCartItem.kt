@@ -1,7 +1,7 @@
 package com.example.comicbookrental.data.mock
 
-import com.example.comicbookrental.data.models.CartItem
-import com.example.comicbookrental.data.models.MILLIS_PER_DAY
+import com.example.comicbookrental.data.entities.CartItem
+import com.example.comicbookrental.data.entities.MILLIS_PER_DAY
 
 object MockCartData {
 

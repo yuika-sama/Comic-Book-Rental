@@ -1,7 +1,7 @@
 package com.example.comicbookrental.data.repositories.cart
 
 import com.example.comicbookrental.data.mock.MockCartData
-import com.example.comicbookrental.data.models.CartItem
+import com.example.comicbookrental.data.entities.CartItem
 
 class CartRepositoryImpl : CartRepository {
 

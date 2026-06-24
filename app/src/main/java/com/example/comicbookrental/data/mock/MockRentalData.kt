@@ -1,7 +1,7 @@
 package com.example.comicbookrental.data.mock
 
-import com.example.comicbookrental.data.models.Rental
-import com.example.comicbookrental.data.models.RentalStatus
+import com.example.comicbookrental.data.entities.Rental
+import com.example.comicbookrental.data.entities.RentalStatus
 
 object MockRentalData {
 
@@ -10,7 +10,7 @@ object MockRentalData {
     val rentals = mutableListOf(
         Rental(
             rentalId = 1,
-            comicId = 101,
+            comicId = 1,
             userId = 1,
             comicTitle = "Solo Leveling",
             comicCoverUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAcXGr6r1HemXimBqcdQ2rIrAltN95YCLjwjQknzwnAA&s=10",
@@ -20,13 +20,13 @@ object MockRentalData {
         ),
         Rental(
             rentalId = 3,
-            comicId = 1012,
+            comicId = 3,
             userId = 1,
             comicTitle = "Chainsaw Man",
             comicCoverUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFxxYZ8_Cbg5YN1uEo1-RfK1Uq16uNY4JJ3-i7bbqxqn4vZl-mpfC4VLg&s=10",
             rentalDate = System.currentTimeMillis() - DAY,
             dueDate = System.currentTimeMillis() + 6 * DAY,
-            status = RentalStatus.ACTIVE
+            status = RentalStatus.EXPIRED
         ),
         Rental(
             rentalId = 5,

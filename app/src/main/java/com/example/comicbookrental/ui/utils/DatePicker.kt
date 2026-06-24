@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.example.comicbookrental.data.models.MILLIS_PER_DAY
+import com.example.comicbookrental.data.entities.MILLIS_PER_DAY
 import com.example.comicbookrental.ui.components.ComicButton
 import com.example.comicbookrental.ui.components.ComicButtonVariant
 import com.example.comicbookrental.ui.components.commonComponents.comicHardShadow

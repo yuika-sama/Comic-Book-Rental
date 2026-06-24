@@ -1,6 +1,6 @@
 package com.example.comicbookrental.data.repositories.rental
 
-import com.example.comicbookrental.data.models.Rental
+import com.example.comicbookrental.data.entities.Rental
 
 interface RentalRepository {
 
@@ -11,4 +11,5 @@ interface RentalRepository {
     fun deleteRental(rentalId: Int)
 
     fun getRentalById(rentalId: Int): Rental?
+
 }

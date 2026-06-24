@@ -1,6 +1,6 @@
 package com.example.comicbookrental.ui.screens.cart
 
-import com.example.comicbookrental.data.models.CartItem
+import com.example.comicbookrental.data.entities.CartItem
 
 data class CartUiState(
     val cartItems: List<CartItem> = emptyList(),

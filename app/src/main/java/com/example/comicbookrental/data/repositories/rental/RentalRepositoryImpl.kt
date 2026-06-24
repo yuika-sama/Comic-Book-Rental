@@ -1,7 +1,7 @@
 package com.example.comicbookrental.data.repositories.rental
 
 import com.example.comicbookrental.data.mock.MockRentalData
-import com.example.comicbookrental.data.models.Rental
+import com.example.comicbookrental.data.entities.Rental
 
 class RentalRepositoryImpl : RentalRepository {
 

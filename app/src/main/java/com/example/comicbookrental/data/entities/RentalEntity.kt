@@ -1,4 +1,4 @@
-package com.example.comicbookrental.data.models
+package com.example.comicbookrental.data.entities
 
 data class Rental(
 

@@ -13,20 +13,22 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.example.comicbookrental.data.models.CartItem
-import com.example.comicbookrental.data.models.rentalDays
-import com.example.comicbookrental.data.models.totalPrice
+import com.example.comicbookrental.data.entities.CartItem
+import com.example.comicbookrental.data.entities.rentalDays
+import com.example.comicbookrental.data.entities.totalPrice
 import com.example.comicbookrental.ui.components.ComicButton
 import com.example.comicbookrental.ui.components.ComicButtonVariant
 import com.example.comicbookrental.ui.components.CartComicCover
 import com.example.comicbookrental.ui.components.commonComponents.comicHardShadow
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.Dimens
+import com.example.comicbookrental.ui.theme.Primary
 import com.example.comicbookrental.ui.theme.extendedColors
 import com.example.comicbookrental.ui.utils.toDisplayDate
 import com.example.comicbookrental.ui.utils.toVnd
@@ -81,19 +83,35 @@ fun CartItemCard(
                 Dimens.Spacing.ListItemSpacing
             )
         ) {
-            Text(
-                text = item.comicTitle.uppercase(),
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontFamily = Anton
-                ),
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
+            Row() {
+                Text(
+                    text = item.comicTitle.uppercase(),
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontFamily = Anton,
+                        color = Primary
+                    ),
+                    modifier = Modifier.weight(2f),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                Text(
+                    text = item.comicAuthor,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.Bottom),
+
+                )
+            }
+
 
             Text(
-                text = item.comicAuthor,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                text = "${item.pricePerDay.toVnd()}/day",
+                style = MaterialTheme.typography.titleSmall.copy(
+                    fontFamily = Anton
+                )
             )
 
             Text(
