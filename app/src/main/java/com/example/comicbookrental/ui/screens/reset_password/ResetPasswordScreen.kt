@@ -233,12 +233,6 @@ fun ResetPasswordScreen(
 
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
-                SecurityAlert(
-                    message = "Updating your password will sign you out of all other active comic sessions on other devices."
-                )
-
-                Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
-
                 BrutalistButton(
                     text = if (state.isLoading) "UPDATING..." else "UPDATE PASSWORD",
                     onClick = { viewModel.resetPassword() },

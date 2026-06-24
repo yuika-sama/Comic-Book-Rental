@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -31,6 +32,10 @@ fun ProfileScreen(
 ) {
     val state by viewModel.uiState.collectAsState()
 
+    LaunchedEffect(Unit) {
+        viewModel.loadProfile()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,7 +44,7 @@ fun ProfileScreen(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ProfileCard(profile = state.userProfile)
+        ProfileCard(profile = state.user)
         Spacer(modifier = Modifier.height(24.dp))
         ProfileMenuSection(
             onProfileDetailClick = onProfileDetailClick,

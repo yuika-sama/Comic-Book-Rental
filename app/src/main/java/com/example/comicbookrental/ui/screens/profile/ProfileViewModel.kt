@@ -30,7 +30,7 @@ class ProfileViewModel @Inject constructor(
                 onSuccess = { profile ->
                     _uiState.update {
                         it.copy(
-                            userProfile = profile,
+                            user = profile,
                             isLoading = false
                         )
                     }

@@ -43,7 +43,7 @@ fun RememberMeCheckBox(
         Spacer(modifier = Modifier.width(8.dp))
 
         Text(
-            text = "REMEMBER ME",
+            text = "REMEMBER ME?",
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurface
         )

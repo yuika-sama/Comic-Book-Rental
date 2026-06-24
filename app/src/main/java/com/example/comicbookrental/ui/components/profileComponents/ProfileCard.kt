@@ -19,9 +19,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.comicbookrental.data.entities.UserProfile
+import com.example.comicbookrental.data.models.User
 
 @Composable
-fun ProfileCard(profile: UserProfile?) {
+fun ProfileCard(profile: User?) {
     SolidShadowBox(
         modifier = Modifier.fillMaxWidth(),
         shadowColor = Color.Blue,
@@ -34,7 +35,7 @@ fun ProfileCard(profile: UserProfile?) {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            AvatarWithBadge()
+            AvatarWithBadge(avatarUrl = profile?.avatarUrl)
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = profile?.heroName ?: "LOADING...",
@@ -63,12 +64,6 @@ fun ProfileCard(profile: UserProfile?) {
                         .width(1.dp), thickness = DividerDefaults.Thickness, color = Color.Black
                 )
                 StatItem(profile?.activeCount?.toString() ?: "0", "ACTIVE")
-                HorizontalDivider(
-                    modifier = Modifier
-                        .height(30.dp)
-                        .width(1.dp), thickness = DividerDefaults.Thickness, color = Color.Black
-                )
-                StatItem(profile?.rating?.toString() ?: "0.0", "RATING")
             }
         }
     }

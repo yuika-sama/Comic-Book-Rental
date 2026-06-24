@@ -1,11 +1,14 @@
 package com.example.comicbookrental.domain.repository
 
 import com.example.comicbookrental.data.entities.UserProfile
+import com.example.comicbookrental.data.models.User
 
 interface ProfileRepository {
-    suspend fun getProfile(): Result<UserProfile>
-    suspend fun updateProfile(realName: String, phone: String, region: String): Result<UserProfile>
+    suspend fun getProfile(): Result<Unit>
+    suspend fun updateProfile(heroName: String, realName: String, phone: String, region: String): Result<User>
     suspend fun changePassword(oldPassword: String, newPassword: String): Result<Unit>
+
+    suspend fun updateAvatar(avatarUrl: String): Result<Unit>
 
     suspend fun logOut()
 }

@@ -1,5 +1,8 @@
 package com.example.comicbookrental.ui.screens.profile_detail
 
+import android.content.Context
+import android.net.Uri
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comicbookrental.domain.repository.ProfileRepository
@@ -11,6 +14,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +30,36 @@ class ProfileDetailViewModel @Inject constructor(
         loadProfile()
     }
 
+    fun uploadLocalImage(context: Context, uriString: String)
+    {
+        viewModelScope.launch {
+            try
+            {
+                val uri = uriString.toUri()
+                val inputStream = context.contentResolver.openInputStream(uri)
+
+                val file = File(
+                    context.filesDir,
+                    "avatar_profile_${System.currentTimeMillis()}.jpg"
+                )
+
+                val outputStream = FileOutputStream(file)
+
+                inputStream?.copyTo(outputStream)
+                inputStream?.close()
+                outputStream.close()
+
+                val localPath = Uri.fromFile(file).toString()
+
+                _uiState.update { it.copy(editAvatarUrl = localPath) }
+            } catch (e: Exception)
+            {
+                e.printStackTrace()
+                _uiState.update { it.copy(editErrorMessage = "Error uploading image") }
+            }
+        }
+    }
+
     fun loadProfile() {
         _uiState.update { it.copy(isLoading = true, errorMessage = null) }
         viewModelScope.launch {
@@ -32,7 +67,7 @@ class ProfileDetailViewModel @Inject constructor(
                 onSuccess = { profile ->
                     _uiState.update {
                         it.copy(
-                            userProfile = profile,
+                            user = profile,
                             isLoading = false,
                             editRealName = profile.realName,
                             editPhone = profile.phone,
@@ -53,10 +88,11 @@ class ProfileDetailViewModel @Inject constructor(
     }
 
     fun startEditing() {
-        val currentProfile = _uiState.value.userProfile ?: return
+        val currentProfile = _uiState.value.user ?: return
         _uiState.update {
             it.copy(
                 isEditing = true,
+                editHeroName = currentProfile.heroName,
                 editRealName = currentProfile.realName,
                 editPhone = currentProfile.phone,
                 editRegion = currentProfile.region,
@@ -72,6 +108,10 @@ class ProfileDetailViewModel @Inject constructor(
                 editErrorMessage = null
             )
         }
+    }
+
+    fun onEditHeroNameChange(newValue: String){
+        _uiState.update { it.copy(editHeroName = newValue, editErrorMessage = null) }
     }
 
     fun onEditRealNameChange(newValue: String) {
@@ -104,6 +144,7 @@ class ProfileDetailViewModel @Inject constructor(
         _uiState.update { it.copy(isLoading = true, editErrorMessage = null) }
         viewModelScope.launch {
             repository.updateProfile(
+                heroName = currentState.editHeroName,
                 realName = currentState.editRealName,
                 phone = currentState.editPhone,
                 region = currentState.editRegion
@@ -111,7 +152,7 @@ class ProfileDetailViewModel @Inject constructor(
                 onSuccess = { profile ->
                     _uiState.update {
                         it.copy(
-                            userProfile = profile,
+                            user = profile,
                             isEditing = false,
                             isLoading = false,
                             isSuccess = true
@@ -127,6 +168,45 @@ class ProfileDetailViewModel @Inject constructor(
                     }
                 }
             )
+        }
+    }
+
+    fun startUpdatingAvatar(){
+        val currentProfile = _uiState.value.user ?: return
+
+        _uiState.update {
+            it.copy(
+                isUpdatingAvatar = true,
+                editAvatarUrl = currentProfile.avatarUrl
+            )
+        }
+    }
+
+    fun cancelUpdatingAvatar(){
+        _uiState.update {
+            it.copy(
+                isUpdatingAvatar = false,
+                editAvatarUrl = ""
+            )
+        }
+    }
+
+    fun onEditAvatarUrlChange(newValue: String){
+        _uiState.update { it.copy(editAvatarUrl = newValue) }
+    }
+
+    fun saveAvatar(){
+        val currentState = _uiState.value
+
+        _uiState.update { it.copy(isUpdatingAvatar = false) }
+
+        viewModelScope.launch {
+            repository.updateAvatar(currentState.editAvatarUrl)
+
+            val updatedUser = currentState.user?.copy(
+                avatarUrl = currentState.editAvatarUrl
+            )
+            _uiState.update { it.copy(user = updatedUser) }
         }
     }
 

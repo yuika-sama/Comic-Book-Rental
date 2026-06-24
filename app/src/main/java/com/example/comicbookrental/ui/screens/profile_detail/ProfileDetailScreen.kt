@@ -40,28 +40,37 @@ import com.example.comicbookrental.ui.components.ComicButtonVariant
 import com.example.comicbookrental.ui.components.ComicTopBar
 import com.example.comicbookrental.ui.components.profileComponents.HeroIdentityCard
 import com.example.comicbookrental.ui.components.authComponents.PasswordStrengthEvaluator
-import com.example.comicbookrental.ui.components.profileComponents.TransmissionHubCard
+import com.example.comicbookrental.ui.components.profileComponents.ProfileInformationCard
+import com.example.comicbookrental.ui.components.profileComponents.UpdateAvatarDialog
+import com.example.comicbookrental.ui.components.profileComponents.UpdateProfileDialog
 
 @Composable
 fun ProfileDetailScreen(
     onBackClick: () -> Unit,
     viewModel: ProfileDetailViewModel = hiltViewModel()
-) {
+)
+{
     val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current
 
     LaunchedEffect(state.isSuccess) {
-        if (state.isSuccess) {
+        if (state.isSuccess)
+        {
             Toast.makeText(context, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
             viewModel.resetSuccessState()
         }
     }
 
     LaunchedEffect(state.changePasswordSuccess) {
-        if (state.changePasswordSuccess) {
+        if (state.changePasswordSuccess)
+        {
             Toast.makeText(context, "Password updated successfully!", Toast.LENGTH_SHORT).show()
             viewModel.resetChangePasswordSuccess()
         }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.loadProfile()
     }
 
     Column(
@@ -82,15 +91,17 @@ fun ProfileDetailScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            val profile = state.userProfile
+            val profile = state.user
             HeroIdentityCard(
+                imageUrl = profile?.avatarUrl ?: null,
                 heroName = profile?.heroName ?: "LOADING...",
                 rank = profile?.rank ?: "HEROIC",
                 email = profile?.email ?: "loading...",
-                isVerified = profile?.isEmailVerified ?: false
+                isVerified = profile?.isEmailVerified ?: false,
+                onAvatarClick = {viewModel.startUpdatingAvatar()}
             )
 
-            TransmissionHubCard(
+            ProfileInformationCard(
                 isEditing = state.isEditing,
                 realName = if (state.isEditing) state.editRealName else (profile?.realName ?: ""),
                 phone = if (state.isEditing) state.editPhone else (profile?.phone ?: ""),
@@ -101,7 +112,8 @@ fun ProfileDetailScreen(
             )
 
             val editError = state.editErrorMessage
-            if (editError != null) {
+            if (editError != null)
+            {
                 Text(
                     text = editError,
                     color = MaterialTheme.colorScheme.error,
@@ -122,7 +134,8 @@ fun ProfileDetailScreen(
         }
     }
 
-    if (state.isChangingPassword) {
+    if (state.isChangingPassword)
+    {
         AlertDialog(
             onDismissRequest = { viewModel.cancelChangingPassword() },
             title = { Text("CHANGE ACCESS KEY", fontWeight = FontWeight.Bold, fontSize = 20.sp) },
@@ -146,8 +159,14 @@ fun ProfileDetailScreen(
                             )
                         }
                     )
-                    if (state.oldPasswordErrorMessage != null) {
-                        Text(state.oldPasswordErrorMessage!!, color = Color.Red, fontSize = 12.sp, modifier = Modifier.padding(horizontal = 4.dp))
+                    if (state.oldPasswordErrorMessage != null)
+                    {
+                        Text(
+                            state.oldPasswordErrorMessage!!,
+                            color = Color.Red,
+                            fontSize = 12.sp,
+                            modifier = Modifier.padding(horizontal = 4.dp)
+                        )
                     }
 
                     BrutalistTextField(
@@ -165,11 +184,20 @@ fun ProfileDetailScreen(
                             )
                         }
                     )
-                    if (state.newPasswordErrorMessage != null) {
-                        Text(state.newPasswordErrorMessage!!, color = Color.Red, fontSize = 12.sp, modifier = Modifier.padding(horizontal = 4.dp))
+                    if (state.newPasswordErrorMessage != null)
+                    {
+                        Text(
+                            state.newPasswordErrorMessage!!,
+                            color = Color.Red,
+                            fontSize = 12.sp,
+                            modifier = Modifier.padding(horizontal = 4.dp)
+                        )
                     }
 
-                    PasswordStrengthEvaluator(strength = state.passwordStrength, label = state.passwordStrengthLabel)
+                    PasswordStrengthEvaluator(
+                        strength = state.passwordStrength,
+                        label = state.passwordStrengthLabel
+                    )
 
                     BrutalistTextField(
                         value = state.confirmPasswordText,
@@ -186,8 +214,14 @@ fun ProfileDetailScreen(
                             )
                         }
                     )
-                    if (state.confirmPasswordErrorMessage != null) {
-                        Text(state.confirmPasswordErrorMessage!!, color = Color.Red, fontSize = 12.sp, modifier = Modifier.padding(horizontal = 4.dp))
+                    if (state.confirmPasswordErrorMessage != null)
+                    {
+                        Text(
+                            state.confirmPasswordErrorMessage!!,
+                            color = Color.Red,
+                            fontSize = 12.sp,
+                            modifier = Modifier.padding(horizontal = 4.dp)
+                        )
                     }
                 }
             },
@@ -206,6 +240,33 @@ fun ProfileDetailScreen(
             },
             containerColor = MaterialTheme.colorScheme.background,
             shape = RoundedCornerShape(8.dp)
+        )
+    }
+
+    if (state.isEditing){
+        UpdateProfileDialog(
+            onCancelEditing = viewModel::cancelEditing,
+            editHeroName = state.editHeroName,
+            onEditHeroName = viewModel::onEditHeroNameChange,
+            editRealName = state.editRealName,
+            onEditRealName = viewModel::onEditRealNameChange,
+            editPhone = state.editPhone,
+            onEditPhone = viewModel::onEditPhoneChange,
+            editRegion = state.editRegion,
+            onEditRegion = viewModel::onEditRegionChange,
+            errorMessage = state.editErrorMessage ?: "",
+            onSaveProfile = { viewModel.saveProfile() }
+        )
+    }
+
+    if (state.isUpdatingAvatar)
+    {
+        UpdateAvatarDialog(
+            onUploadLocalAvatar = viewModel::uploadLocalImage,
+            onUploadUrlAvatar = viewModel::onEditAvatarUrlChange,
+            onCancelUpdateAvatar = viewModel::cancelUpdatingAvatar,
+            editAvatarUrl = state.editAvatarUrl,
+            onSaveAvatar = { viewModel.saveAvatar() }
         )
     }
 }
