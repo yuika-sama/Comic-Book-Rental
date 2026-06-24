@@ -153,16 +153,6 @@ fun HeroIdentityCard(
 
             // Identity Box
             Column () {
-                Row(
-                    modifier = Modifier
-                        .background(InkBlack)
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(Icons.Default.Lock, contentDescription = null, tint = Primary, modifier = Modifier.size(16.dp))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text("SECRET IDENTITY", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 12.sp)
-                }
                 if (isVerified == true){
                     Spacer(modifier = Modifier.height(4.dp))
                     Row(

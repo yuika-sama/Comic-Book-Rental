@@ -30,7 +30,7 @@ class AuthRepositoryImpl @Inject constructor(
                 savedPassword != null && savedPassword == password -> {
                     val currentProfile = storeManager.getUserProfile()
                     val isVerified = if (currentProfile.email == email) currentProfile.isEmailVerified else false
-                    storeManager.saveUserProfile(currentProfile.copy(email = email, isEmailVerified = isVerified))
+                    storeManager.saveUserProfile(currentProfile.copy(email = email.trim(), isEmailVerified = isVerified))
                     if (rememberMe){
                         storeManager.setLoggedIn(true)
                     }
