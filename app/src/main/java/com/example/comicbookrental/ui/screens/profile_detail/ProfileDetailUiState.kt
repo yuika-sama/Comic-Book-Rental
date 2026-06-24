@@ -1,9 +1,9 @@
 package com.example.comicbookrental.ui.screens.profile_detail
 
-import com.example.comicbookrental.data.models.UserProfile
+import com.example.comicbookrental.data.models.User
 
 data class ProfileDetailUiState(
-    val userProfile: UserProfile? = null,
+    val user: User? = null,
     val isLoading: Boolean = false,
     val errorMessage: String? = null,
     val isSuccess: Boolean = false,
@@ -26,5 +26,10 @@ data class ProfileDetailUiState(
     val showOldPassword: Boolean = false,
     val showNewPassword: Boolean = false,
     val showConfirmPassword: Boolean = false,
-    val changePasswordSuccess: Boolean = false
+    val changePasswordSuccess: Boolean = false,
+
+    val editHeroName: String = "",
+    val isUpdatingAvatar: Boolean = false,
+    val editAvatarUrl: String = ""
+
 )

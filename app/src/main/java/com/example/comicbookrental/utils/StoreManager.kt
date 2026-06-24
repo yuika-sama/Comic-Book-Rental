@@ -6,7 +6,7 @@ import com.example.comicbookrental.data.models.CartItem
 import com.example.comicbookrental.data.models.Comic
 import com.example.comicbookrental.data.models.Rental
 import com.example.comicbookrental.data.models.RentalStatus
-import com.example.comicbookrental.data.models.UserProfile
+import com.example.comicbookrental.data.models.User
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
@@ -104,7 +104,7 @@ class StoreManager @Inject constructor(
     fun saveRentals(rentals: List<Rental>) = saveObject("rentals", rentals)
 
     // User Profile manager
-    fun getUserProfile(): UserProfile = getObject("user_profile", UserProfile(
+    fun getUserProfile(): User = getObject("user_profile", User(
         id = "1",
         heroName = "YUIKA SAMA",
         realName = "Nam Thế Giới",
@@ -114,10 +114,9 @@ class StoreManager @Inject constructor(
         region = "Ha Noi",
         rentedCount = 128,
         activeCount = 14,
-        rating = 4.9,
         avatarUrl = ""
     ))
-    fun saveUserProfile(profile: UserProfile) = saveObject("user_profile", profile)
+    fun saveUserProfile(profile: User) = saveObject("user_profile", profile)
 
 
     // Wishlist manager
@@ -166,5 +165,14 @@ class StoreManager @Inject constructor(
     fun logOut(){
         setLoggedIn(false)
 //        prefs.edit().remove("user_profile").apply()
+    }
+
+    fun saveUserAvatar(newAvatarUrl: String)
+    {
+        val currentProfile = getUserProfile()
+
+        val updatedProfile = currentProfile.copy(avatarUrl = newAvatarUrl)
+
+        saveUserProfile(updatedProfile)
     }
 }

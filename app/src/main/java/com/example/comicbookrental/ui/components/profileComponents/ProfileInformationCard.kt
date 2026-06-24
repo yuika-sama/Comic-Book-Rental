@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.example.comicbookrental.ui.components.commonComponents.BrutalistTextField
 
 @Composable
-fun TransmissionHubCard(
+fun ProfileInformationCard(
     isEditing: Boolean = false,
     realName: String = "",
     phone: String = "",
@@ -38,41 +38,14 @@ fun TransmissionHubCard(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Default.LocationOn, contentDescription = null, tint = Color.Blue)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("TRANSMISSION HUB", fontWeight = FontWeight.Black, fontSize = 16.sp)
+                Text("INFORMATION", fontWeight = FontWeight.Black, fontSize = 16.sp)
             }
             Spacer(modifier = Modifier.height(24.dp))
-
-            if (isEditing) {
-                BrutalistTextField(
-                    value = realName,
-                    onValueChange = onRealNameChange,
-                    label = "NAME",
-                    placeholder = "Enter your secret name",
-                    leadingIcon = Icons.Default.Person
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                BrutalistTextField(
-                    value = phone,
-                    onValueChange = onPhoneChange,
-                    label = "COMM CHANNEL (PHONE)",
-                    placeholder = "Enter comm phone",
-                    leadingIcon = Icons.Default.Phone
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                BrutalistTextField(
-                    value = region,
-                    onValueChange = onRegionChange,
-                    label = "SECTOR (REGION)",
-                    placeholder = "Enter sector",
-                    leadingIcon = Icons.Default.LocationOn
-                )
-            } else {
-                ContactField("NAME", realName)
-                Spacer(modifier = Modifier.height(16.dp))
-                ContactField("COMM CHANNEL (PHONE)", phone)
-                Spacer(modifier = Modifier.height(16.dp))
-                ContactField("SECTOR (REGION)", region)
-            }
+            ContactField("NAME", realName)
+            Spacer(modifier = Modifier.height(16.dp))
+            ContactField("COMM CHANNEL (PHONE)", phone)
+            Spacer(modifier = Modifier.height(16.dp))
+            ContactField("SECTOR (REGION)", region)
         }
     }
 }
