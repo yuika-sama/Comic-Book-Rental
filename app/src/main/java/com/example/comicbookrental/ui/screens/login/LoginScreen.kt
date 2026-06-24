@@ -17,6 +17,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -37,6 +39,9 @@ import com.example.comicbookrental.ui.components.authComponents.FacebookLoginBut
 import com.example.comicbookrental.ui.components.authComponents.GoogleLoginButton
 import com.example.comicbookrental.ui.components.commonComponents.BrutalistButton
 import com.example.comicbookrental.ui.components.authComponents.ComicCard
+import com.example.comicbookrental.ui.components.authComponents.LoginSectionDivider
+import com.example.comicbookrental.ui.components.authComponents.LoginTitleSection
+import com.example.comicbookrental.ui.components.authComponents.RememberMeCheckBox
 import com.example.comicbookrental.ui.components.commonComponents.comicHalftoneBackground
 import com.example.comicbookrental.ui.theme.AuthTitleSize
 import com.example.comicbookrental.ui.theme.Dimens
@@ -88,23 +93,8 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = "PANEL RUSH",
-                    style = MaterialTheme.typography.displayLarge.copy(fontSize = AuthTitleSize),
-                    color = MaterialTheme.colorScheme.primary
-                )
 
-                HorizontalDivider(
-                    color = MaterialTheme.extendedColors.ink, thickness = Dimens.Border.Standard
-                )
-
-                Spacer(modifier = Modifier.height(Dimens.Spacing.ListItemSpacing))
-
-                Text(
-                    text = "YOUR NEXT ISSUE AWAITS",
-                    style = MaterialTheme.typography.labelLarge.copy(letterSpacing = 2.sp),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                LoginTitleSection()
 
                 Spacer(modifier = Modifier.height(Dimens.Sizes.ButtonHeight))
 
@@ -192,28 +182,14 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
 
+                RememberMeCheckBox(
+                    value = state.rememberMe,
+                    onToggleCheckBox = viewModel::onRememberMeChange
+                )
+
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    HorizontalDivider(
-                        modifier = Modifier.weight(1f),
-                        thickness = Dimens.Border.Standard,
-                        color = MaterialTheme.extendedColors.ink
-                    )
-                    Text(
-                        text = " OR CONNECT WITH ",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                    HorizontalDivider(
-                        modifier = Modifier.weight(1f),
-                        thickness = Dimens.Border.Standard,
-                        color = MaterialTheme.extendedColors.ink
-                    )
-                }
+                LoginSectionDivider()
 
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 

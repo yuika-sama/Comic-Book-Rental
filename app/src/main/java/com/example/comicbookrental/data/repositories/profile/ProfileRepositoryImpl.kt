@@ -74,4 +74,9 @@ class ProfileRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
+    override suspend fun logOut()
+    {
+        storeManager.logOut()
+    }
 }

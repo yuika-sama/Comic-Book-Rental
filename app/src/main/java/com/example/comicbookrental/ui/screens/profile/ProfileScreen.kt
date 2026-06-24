@@ -50,7 +50,10 @@ fun ProfileScreen(
         Spacer(modifier = Modifier.height(32.dp))
         BrutalistButton(
             text = "LOG OUT",
-            onClick = onLogOut
+            onClick = {
+                viewModel.logOut()
+                onLogOut()
+            }
         )
     }
 }

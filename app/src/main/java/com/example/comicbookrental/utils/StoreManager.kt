@@ -158,4 +158,13 @@ class StoreManager @Inject constructor(
         mapOf("namthegioi65@gmail.com" to "12345678")
     )
     fun saveUsersCredentials(users: Map<String, String>) = saveObject("users_credentials", users)
+
+    // Login
+    fun isLoggedIn(): Boolean = prefs.getBoolean("is_logged_in", false)
+    fun setLoggedIn(loggedIn: Boolean) =  prefs.edit().putBoolean("is_logged_in", loggedIn).apply()
+
+    fun logOut(){
+        setLoggedIn(false)
+//        prefs.edit().remove("user_profile").apply()
+    }
 }

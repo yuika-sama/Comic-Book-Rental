@@ -46,4 +46,10 @@ class ProfileViewModel @Inject constructor(
             )
         }
     }
+
+    fun logOut(){
+        viewModelScope.launch {
+            repository.logOut()
+        }
+    }
 }
