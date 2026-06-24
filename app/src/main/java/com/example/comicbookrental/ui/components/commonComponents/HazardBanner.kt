@@ -1,11 +1,11 @@
-package com.example.comicbookrental.ui.components.detailComponents
-import com.example.comicbookrental.ui.components.commonComponents.hazardStripes
+package com.example.comicbookrental.ui.components.commonComponents
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +19,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
@@ -26,8 +28,8 @@ import com.example.comicbookrental.ui.theme.extendedColors
 @Composable
 fun HazardBanner(
     message: String,
-    onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
+    onDismiss: (() -> Unit)? = null,
 ) {
     val shape = RoundedCornerShape(Dimens.Radius.Default)
     val ink = MaterialTheme.extendedColors.ink
@@ -54,13 +56,28 @@ fun HazardBanner(
             color = ink,
             modifier = Modifier.weight(1f),
         )
-        Icon(
-            imageVector = Icons.Filled.Close,
-            contentDescription = "Dismiss",
-            tint = ink,
+        if (onDismiss != null) {
+            Icon(
+                imageVector = Icons.Filled.Close,
+                contentDescription = "Dismiss",
+                tint = ink,
+                modifier = Modifier
+                    .clickable(onClick = onDismiss)
+                    .size(Dimens.Icon.Medium),
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFFCF9F8, widthDp = 360)
+@Composable
+private fun HazardBannerPreview() {
+    ComicBookRentalTheme {
+        HazardBanner(
+            message = "Couldn't load comics",
             modifier = Modifier
-                .clickable(onClick = onDismiss)
-                .size(Dimens.Icon.Medium),
+                .fillMaxWidth()
+                .padding(Dimens.Spacing.Margin),
         )
     }
 }

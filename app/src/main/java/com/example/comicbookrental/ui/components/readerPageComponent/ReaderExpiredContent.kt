@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.comicbookrental.data.entities.Rental
-import com.example.comicbookrental.ui.components.ComicButton
-import com.example.comicbookrental.ui.components.ComicButtonVariant
+import com.example.comicbookrental.ui.components.commonComponents.ComicButton
+import com.example.comicbookrental.ui.components.commonComponents.ComicButtonVariant
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.Dimens
 

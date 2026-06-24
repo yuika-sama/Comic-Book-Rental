@@ -1,5 +1,7 @@
-package com.example.comicbookrental.ui.components
-
+package com.example.comicbookrental.ui.components.rentalComponents
+import com.example.comicbookrental.ui.components.cartComponents.CartComicCover
+import com.example.comicbookrental.ui.components.commonComponents.ComicButton
+import com.example.comicbookrental.ui.components.commonComponents.ComicButtonVariant
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +22,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.comicbookrental.data.entities.Rental
 import com.example.comicbookrental.data.entities.RentalStatus
-import com.example.comicbookrental.ui.components.cartComponents.CartComicCover
 import com.example.comicbookrental.ui.components.commonComponents.comicHardShadow
 import com.example.comicbookrental.ui.components.rentalComponents.RentalStatusChip
 import com.example.comicbookrental.ui.theme.Anton

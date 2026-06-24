@@ -4,6 +4,7 @@ import com.example.comicbookrental.ui.components.commonComponents.comicHardShado
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -12,12 +13,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import com.example.comicbookrental.ui.components.commonComponents.rememberComicPressState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
@@ -42,15 +46,22 @@ fun NewReleaseCard(
     val shape = RoundedCornerShape(Dimens.Radius.Sm)
     val ink = MaterialTheme.extendedColors.ink
 
+    val interactionSource = remember { MutableInteractionSource() }
+    val press = rememberComicPressState(interactionSource)
+
     // Two separate framed rectangles stacked with a gap: a shadowed cover on top, a flat
     // (shadowless) text panel below.
-    Column(modifier = modifier.clickable(onClick = onClick)) {
+    Column(
+        modifier = modifier
+            .offset(x = press.translation, y = press.translation)
+            .clickable(interactionSource = interactionSource, indication = null, onClick = onClick),
+    ) {
         // 1) Cover art — its own frame with a hard shadow.
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(coverHeight)
-                .comicHardShadow(shape = shape, offset = Dimens.Elevation.Resting, color = ink)
+                .comicHardShadow(shape = shape, offset = press.shadowOffset, color = ink)
                 .clip(shape)
                 .background(MaterialTheme.colorScheme.secondaryContainer)
                 .border(width = Dimens.Border.Standard, color = ink, shape = shape),

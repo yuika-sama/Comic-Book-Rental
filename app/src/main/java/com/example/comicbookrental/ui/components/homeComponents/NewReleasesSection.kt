@@ -1,6 +1,6 @@
 package com.example.comicbookrental.ui.components.homeComponents
-import com.example.comicbookrental.ui.components.cartComponents.CartComicCover
-import com.example.comicbookrental.ui.components.SectionHeader
+import com.example.comicbookrental.ui.components.commonComponents.CartComicCover
+import com.example.comicbookrental.ui.components.commonComponents.SectionHeader
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

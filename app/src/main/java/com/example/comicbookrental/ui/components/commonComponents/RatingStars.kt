@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.commonComponents
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size

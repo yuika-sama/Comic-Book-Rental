@@ -5,6 +5,10 @@ import com.example.comicbookrental.data.entities.Comic
 import com.example.comicbookrental.data.entities.CartItem
 import com.example.comicbookrental.data.entities.MILLIS_PER_DAY
 import com.example.comicbookrental.data.entities.totalPrice
+import com.example.comicbookrental.data.entities.CartItem
+import com.example.comicbookrental.data.entities.MILLIS_PER_DAY
+import com.example.comicbookrental.data.entities.totalPrice
+import com.example.comicbookrental.data.models.Comic
 import com.example.comicbookrental.data.repositories.cart.CartRepository
 import com.example.comicbookrental.data.repositories.cart.CartRepositoryImpl
 import kotlinx.coroutines.flow.MutableStateFlow

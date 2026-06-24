@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.comicbookrental.data.entities.Rental
 import com.example.comicbookrental.data.entities.RentalStatus
-import com.example.comicbookrental.ui.components.RentalCard
+import com.example.comicbookrental.ui.components.rentalComponents.RentalCard
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors

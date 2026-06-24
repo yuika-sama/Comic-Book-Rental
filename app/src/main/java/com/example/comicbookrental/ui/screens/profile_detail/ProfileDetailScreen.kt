@@ -35,9 +35,9 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.comicbookrental.ui.components.profileComponents.ActionButtonsSection
 import com.example.comicbookrental.ui.components.commonComponents.BrutalistButton
 import com.example.comicbookrental.ui.components.commonComponents.BrutalistTextField
-import com.example.comicbookrental.ui.components.ComicButton
-import com.example.comicbookrental.ui.components.ComicButtonVariant
-import com.example.comicbookrental.ui.components.ComicTopBar
+import com.example.comicbookrental.ui.components.commonComponents.ComicButton
+import com.example.comicbookrental.ui.components.commonComponents.ComicButtonVariant
+import com.example.comicbookrental.ui.components.commonComponents.ComicTopBar
 import com.example.comicbookrental.ui.components.profileComponents.HeroIdentityCard
 import com.example.comicbookrental.ui.components.authComponents.PasswordStrengthEvaluator
 import com.example.comicbookrental.ui.components.profileComponents.ProfileInformationCard

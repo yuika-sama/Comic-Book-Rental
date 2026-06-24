@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.commonComponents
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,12 +30,7 @@ import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
-/**
- * Reusable top bar for screens that live OUTSIDE the bottom-tab shell (e.g. Comic Detail).
- * A back button, an optional [title], and a trailing [actions] slot — all on the paper surface.
- *
- * The back/action buttons use the brutalist ink-bordered square look so they pop on the page.
- */
+
 @Composable
 fun ComicTopBar(
     onBack: () -> Unit,
@@ -79,6 +75,7 @@ fun TopBarIconButton(
     contentDescription: String?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    tint: Color = MaterialTheme.extendedColors.ink,
 ) {
     val shape = RoundedCornerShape(Dimens.Radius.Sm)
     val ink = MaterialTheme.extendedColors.ink
@@ -94,7 +91,7 @@ fun TopBarIconButton(
         Icon(
             imageVector = icon,
             contentDescription = contentDescription,
-            tint = ink,
+            tint = tint,
             modifier = Modifier.size(Dimens.Icon.Medium),
         )
     }

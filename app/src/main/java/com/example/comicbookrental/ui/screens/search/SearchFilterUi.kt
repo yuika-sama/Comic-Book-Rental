@@ -27,8 +27,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.example.comicbookrental.ui.components.GenreButton
-import com.example.comicbookrental.ui.components.SectionHeader
+import com.example.comicbookrental.ui.components.commonComponents.GenreButton
+import com.example.comicbookrental.ui.components.commonComponents.SectionHeader
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
