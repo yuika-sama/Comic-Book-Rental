@@ -46,6 +46,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.comicbookrental.ui.screens.cart.CartScreen
 import com.example.comicbookrental.ui.screens.profile.ProfileScreen
 import com.example.comicbookrental.ui.screens.profile_detail.ProfileDetailScreen
+import com.example.comicbookrental.ui.screens.search.SearchRoute as SearchScreenEntry
 import com.example.comicbookrental.ui.components.PanelRushTopBar
 import com.example.comicbookrental.ui.components.PanelRushBottomBar
 import com.example.comicbookrental.ui.theme.InkBlack
@@ -115,6 +116,20 @@ fun AppNavHost(){
                 CartScreen(
                     onCheckoutClick = {
                         // TODO: Checkout logic
+                    }
+                )
+            }
+
+            composable<SearchRoute> {
+                SearchScreenEntry(
+                    onComicClick = { comicId ->
+                        navController.navigate(ComicDetailRoute(comicId.toString()))
+                    },
+                    onMenuClick = {
+                        // Menu click placeholder
+                    },
+                    onNotificationsClick = {
+                        navController.navigate(NotificationsRoute)
                     }
                 )
             }
