@@ -37,9 +37,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
@@ -47,20 +44,17 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.example.comicbookrental.ui.components.AuthTopHeader
-import com.example.comicbookrental.ui.components.BrutalistTextField
-import com.example.comicbookrental.ui.components.FacebookLoginButton
-import com.example.comicbookrental.ui.components.GoogleLoginButton
-import com.example.comicbookrental.ui.components.BrutalistButton
-import com.example.comicbookrental.ui.components.ComicCard
-import com.example.comicbookrental.ui.components.comicHalftoneBackground
-import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
+import com.example.comicbookrental.ui.components.authComponents.AuthTopHeader
+import com.example.comicbookrental.ui.components.commonComponents.BrutalistTextField
+import com.example.comicbookrental.ui.components.authComponents.FacebookLoginButton
+import com.example.comicbookrental.ui.components.authComponents.GoogleLoginButton
+import com.example.comicbookrental.ui.components.commonComponents.BrutalistButton
+import com.example.comicbookrental.ui.components.authComponents.ComicCard
+import com.example.comicbookrental.ui.components.commonComponents.comicHalftoneBackground
 import com.example.comicbookrental.ui.theme.Dimens
-import com.example.comicbookrental.ui.theme.Success
 import com.example.comicbookrental.ui.theme.extendedColors
 
 @Composable

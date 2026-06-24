@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.authComponents
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -19,7 +20,7 @@ import com.example.comicbookrental.ui.theme.extendedColors
 fun AuthIconBox(
     icon: ImageVector
 ){
-    val shape = androidx.compose.foundation.shape.RoundedCornerShape(Dimens.Radius.Sm)
+    val shape = RoundedCornerShape(Dimens.Radius.Sm)
     val ink = MaterialTheme.extendedColors.ink
     val shadowOffset = Dimens.Elevation.Resting
 

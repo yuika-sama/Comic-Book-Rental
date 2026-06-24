@@ -18,10 +18,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.example.comicbookrental.ui.components.AuthTopHeader
-import com.example.comicbookrental.ui.components.LoopText
-import com.example.comicbookrental.ui.components.OtpCard
-import com.example.comicbookrental.ui.components.comicHalftoneBackground
+import com.example.comicbookrental.ui.components.authComponents.AuthTopHeader
+import com.example.comicbookrental.ui.components.commonComponents.LoopText
+import com.example.comicbookrental.ui.components.authComponents.OtpCard
+import com.example.comicbookrental.ui.components.commonComponents.comicHalftoneBackground
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 

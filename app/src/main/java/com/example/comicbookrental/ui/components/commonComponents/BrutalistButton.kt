@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.commonComponents
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Bolt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,20 +27,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.comicbookrental.R
+import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
 @Composable
-fun GoogleLoginButton(
+fun BrutalistButton(
+    text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
-){
+)
+{
     val shape = RoundedCornerShape(Dimens.Radius.Button)
     val ink = MaterialTheme.extendedColors.ink
+    val containerColor = MaterialTheme.colorScheme.primary
+    val contentColor = MaterialTheme.colorScheme.onPrimary
     val restingOffset = Dimens.Elevation.Resting
 
     val interactionSource = remember { MutableInteractionSource() }
@@ -46,16 +50,15 @@ fun GoogleLoginButton(
 
     val shadowOffset by animateDpAsState(
         targetValue = if (pressed) 0.dp else restingOffset,
-        label = "googleButtonShadow",
+        label = "brutalistButtonShadow",
     )
     val pressTranslation by animateDpAsState(
         targetValue = if (pressed) restingOffset else 0.dp,
-        label = "googleButtonTranslation",
+        label = "brutalistButtonTranslation",
     )
 
     Box(
-        modifier = modifier
-            .padding(end = restingOffset, bottom = restingOffset)
+        modifier = modifier.padding(end = restingOffset, bottom = restingOffset),
     ) {
         Row(
             modifier = Modifier
@@ -64,29 +67,29 @@ fun GoogleLoginButton(
                 .offset(x = pressTranslation, y = pressTranslation)
                 .comicHardShadow(shape = shape, offset = shadowOffset, color = ink)
                 .clip(shape)
-                .background(MaterialTheme.colorScheme.surfaceContainerLowest)
+                .background(containerColor)
                 .border(width = Dimens.Border.Standard, color = ink, shape = shape)
                 .clickable(
                     interactionSource = interactionSource,
                     indication = null,
                     onClick = onClick
                 )
-                .padding(Dimens.Spacing.ContentSpacing),
+                .padding(horizontal = Dimens.Spacing.SectionSpacing),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_google_custom),
-                contentDescription = null,
-                tint = Color.Unspecified
+            Text(
+                text = text.uppercase(),
+                style = MaterialTheme.typography.titleMedium.copy(fontFamily = Anton),
+                color = contentColor
             )
 
             Spacer(modifier = Modifier.width(Dimens.Spacing.StackSm))
 
-            Text(
-                text = "GOOGLE",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface
+            Icon(
+                imageVector = Icons.Outlined.Bolt,
+                contentDescription = null,
+                tint = contentColor
             )
         }
     }
