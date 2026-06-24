@@ -1,7 +1,6 @@
 package com.example.comicbookrental.ui.components.homeComponents
-import com.example.comicbookrental.ui.components.cartComponents.CartComicCover
+import com.example.comicbookrental.ui.components.CartComicCover
 import com.example.comicbookrental.ui.components.SectionHeader
-
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.comicbookrental.ui.components.CartComicCover
 import com.example.comicbookrental.ui.model.ComicUi
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens

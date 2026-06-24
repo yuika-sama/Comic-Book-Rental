@@ -1,4 +1,4 @@
-package com.example.comicbookrental.data.entities
+package com.example.comicbookrental.data.models
 
 data class UserProfile(
     val id: String = "1",

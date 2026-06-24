@@ -183,7 +183,7 @@ fun NavGraphBuilder.profileExtensionsGraph(
 fun NavGraphBuilder.adminGraph(
     navController: NavHostController
 ) {
-    navigation<AdminDashboardRoute>(startDestination = AdminManageComicsRoute) {
+    navigation<AdminGraph>(startDestination = AdminManageComicsRoute) {
         composable<AdminDashboardRoute> {
             // TODO: Admin Dashboard UI - Dashboard summary & reports analytics (Section 8.2)
             Box(

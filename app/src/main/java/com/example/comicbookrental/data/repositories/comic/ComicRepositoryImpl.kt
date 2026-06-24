@@ -1,8 +1,8 @@
 package com.example.comicbookrental.data.repositories.comic
 
 import android.content.Context
-import com.example.comicbookrental.data.entities.Comic
-import com.example.comicbookrental.data.entities.Review
+import com.example.comicbookrental.data.models.Comic
+import com.example.comicbookrental.data.models.Review
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.comicbookrental.data.entities.UserProfile
+import com.example.comicbookrental.data.models.UserProfile
 
 @Composable
 fun ProfileCard(profile: UserProfile?) {

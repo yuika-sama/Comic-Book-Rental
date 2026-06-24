@@ -1,7 +1,7 @@
 package com.example.comicbookrental.data.repositories.comic
 
-import com.example.comicbookrental.data.entities.Comic
-import com.example.comicbookrental.data.entities.Review
+import com.example.comicbookrental.data.models.Comic
+import com.example.comicbookrental.data.models.Review
 import kotlinx.coroutines.flow.Flow
 
 interface ComicRepository {

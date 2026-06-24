@@ -20,7 +20,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.comicbookrental.data.entities.Rental
 import com.example.comicbookrental.data.entities.RentalStatus
-import com.example.comicbookrental.ui.components.cartComponents.CartComicCover
 import com.example.comicbookrental.ui.components.commonComponents.comicHardShadow
 import com.example.comicbookrental.ui.components.rentalComponents.RentalStatusChip
 import com.example.comicbookrental.ui.theme.Anton

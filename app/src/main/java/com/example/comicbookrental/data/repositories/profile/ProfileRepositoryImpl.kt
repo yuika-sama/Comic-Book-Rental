@@ -1,7 +1,7 @@
 package com.example.comicbookrental.data.repositories.profile
 
 import com.example.comicbookrental.data.mock.ProfileMockData
-import com.example.comicbookrental.data.entities.UserProfile
+import com.example.comicbookrental.data.models.UserProfile
 import com.example.comicbookrental.domain.repository.ProfileRepository
 import kotlinx.coroutines.delay
 import javax.inject.Inject

@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.comicbookrental.ui.components.cartComponents.CartComicCover
+import com.example.comicbookrental.ui.components.CartComicCover
 import com.example.comicbookrental.ui.components.detailComponents.ComicTitleBlock
 import com.example.comicbookrental.ui.components.ComicTopBar
 import com.example.comicbookrental.ui.components.detailComponents.HazardBanner
@@ -40,7 +40,6 @@ import com.example.comicbookrental.ui.components.commonComponents.halftoneBackgr
 //import com.example.comicbookrental.ui.components.commonComponents.halftoneBackground
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
-import com.example.comicbookrental.ui.components.CartComicCover
 
 
 /**
