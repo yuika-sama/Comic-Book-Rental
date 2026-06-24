@@ -22,18 +22,7 @@ import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
-/**
- * The Comic Detail "hero": a square framed cover with a Hero-Blue back-panel offset to the
- * top-left (a colored take on the hard-offset shadow) and a [HotPickBadge] straddling the
- * bottom-right corner.
- *
- * The component sizes itself to the cover only. The back-panel (top-left) and the badge
- * (bottom-right) deliberately pop OUTSIDE those bounds by [overhang], so give the screen a
- * horizontal margin of at least [overhang] (the screen's `Margin` token) and a little vertical
- * breathing room around it.
- *
- * [cover] is a slot for the artwork; defaults to a flat placeholder until image loading exists.
- */
+
 @Composable
 fun HeroCoverFrame(
     modifier: Modifier = Modifier,

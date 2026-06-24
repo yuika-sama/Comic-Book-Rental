@@ -2,10 +2,7 @@ package com.example.comicbookrental.ui.theme
 
 import androidx.compose.ui.unit.dp
 
-/**
- * Layout tokens for the "Heroic Kinetic" system (DESIGN.md).
- * Built on a 4dp base grid. Always pull dimensions from here — never hardcode dp in screens.
- */
+
 object Dimens {
 
     /** Base grid unit (DESIGN.md spacing.unit = 4px). */

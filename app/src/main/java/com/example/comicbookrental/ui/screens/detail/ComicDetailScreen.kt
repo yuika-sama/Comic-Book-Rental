@@ -75,7 +75,6 @@ fun ComicDetailRoute(
     }
 }
 
-/** A bare screen (top bar + centered [content]) used for the non-Content states. */
 @Composable
 private fun DetailStatus(
     onBack: () -> Unit,
@@ -116,6 +115,7 @@ fun ComicDetailScreen(
     modifier: Modifier = Modifier,
     onBookmark: () -> Unit = {},
     onRent: (RentOptionUi) -> Unit = {},
+    onAddToCart: (RentOptionUi) -> Unit = {},
     onDismissBonusNote: () -> Unit = {},
     onViewAllSimilar: () -> Unit = {},
     onSimilarClick: (SimilarTitleUi) -> Unit = {},
@@ -192,6 +192,7 @@ fun ComicDetailScreen(
                             subtitle = option.subtitle,
                             ctaText = option.ctaText,
                             onRent = { onRent(option) },
+                            onAddToCart = { onAddToCart(option) },
                             highlighted = option.highlighted,
                             modifier = Modifier.fillMaxWidth(),
                         )
