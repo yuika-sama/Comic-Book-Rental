@@ -50,8 +50,13 @@ class LoginViewModel @Inject constructor(
             val result = repository.login(currentState.email, currentState.password)
 
             result.fold(
-                onSuccess = {
-                    _uiState.update { it.copy(isLoading = false, isSuccess = true) }
+                onSuccess = { isVerified ->
+                    if (isVerified){
+                        _uiState.update { it.copy(isLoading = false, isSuccess = true) }
+                    } else {
+                        repository.sendOtp(currentState.email)
+                        _uiState.update { it.copy(isLoading = false, requiresVerification = true) }
+                    }
                 },
                 onFailure = { exception ->
                     _uiState.update {
@@ -119,5 +124,9 @@ class LoginViewModel @Inject constructor(
     fun resetSuccessState()
     {
         _uiState.update { it.copy(isSuccess = false) }
+    }
+
+    fun resetVerificationState(){
+        _uiState.update { it.copy(requiresVerification = false) }
     }
 }

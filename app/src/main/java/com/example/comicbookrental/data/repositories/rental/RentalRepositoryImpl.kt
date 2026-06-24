@@ -1,7 +1,9 @@
 package com.example.comicbookrental.data.repositories.rental
 
+import android.os.storage.StorageManager
 import com.example.comicbookrental.data.mock.MockRentalData
 import com.example.comicbookrental.data.models.Rental
+import javax.inject.Inject
 
 class RentalRepositoryImpl : RentalRepository {
 

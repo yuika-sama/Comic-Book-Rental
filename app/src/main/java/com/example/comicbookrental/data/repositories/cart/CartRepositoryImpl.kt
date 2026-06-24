@@ -2,6 +2,8 @@ package com.example.comicbookrental.data.repositories.cart
 
 import com.example.comicbookrental.data.mock.MockCartData
 import com.example.comicbookrental.data.models.CartItem
+import com.example.comicbookrental.utils.StoreManager
+import javax.inject.Inject
 
 class CartRepositoryImpl : CartRepository {
 

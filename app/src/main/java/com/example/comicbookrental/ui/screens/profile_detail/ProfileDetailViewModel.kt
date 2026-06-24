@@ -3,6 +3,8 @@ package com.example.comicbookrental.ui.screens.profile_detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comicbookrental.domain.repository.ProfileRepository
+import com.example.comicbookrental.ui.utils.isPhoneNumber
+import com.example.comicbookrental.ui.utils.isStrongPassword
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -85,20 +87,26 @@ class ProfileDetailViewModel @Inject constructor(
     }
 
     fun saveProfile() {
-        val state = _uiState.value
-        if (state.isLoading) return
+        val currentState = _uiState.value
 
-        if (state.editRealName.isBlank() || state.editPhone.isBlank() || state.editRegion.isBlank()) {
+        if (currentState.isLoading) return
+
+        if (currentState.editRealName.isBlank() || currentState.editPhone.isBlank() || currentState.editRegion.isBlank()) {
             _uiState.update { it.copy(editErrorMessage = "All fields are required") }
+            return
+        }
+
+        if (!isPhoneNumber(currentState.editPhone)){
+            _uiState.update { it.copy(editErrorMessage = "Invalid phone number format") }
             return
         }
 
         _uiState.update { it.copy(isLoading = true, editErrorMessage = null) }
         viewModelScope.launch {
             repository.updateProfile(
-                realName = state.editRealName,
-                phone = state.editPhone,
-                region = state.editRegion
+                realName = currentState.editRealName,
+                phone = currentState.editPhone,
+                region = currentState.editRegion
             ).fold(
                 onSuccess = { profile ->
                     _uiState.update {
@@ -205,25 +213,30 @@ class ProfileDetailViewModel @Inject constructor(
     }
 
     fun changePassword() {
-        val state = _uiState.value
-        if (state.isLoading) return
+        val currentState = _uiState.value
+        if (currentState.isLoading) return
 
         var hasError = false
-        if (state.oldPasswordText.isEmpty()) {
+        if (currentState.oldPasswordText.isEmpty()) {
             _uiState.update { it.copy(oldPasswordErrorMessage = "Current password is required") }
             hasError = true
         }
-        if (state.newPasswordText.isEmpty()) {
+
+        if (currentState.newPasswordText.isEmpty()) {
             _uiState.update { it.copy(newPasswordErrorMessage = "New password is required") }
             hasError = true
-        } else if (state.newPasswordText.length < 8) {
+        } else if (currentState.newPasswordText.length < 8) {
             _uiState.update { it.copy(newPasswordErrorMessage = "Password must be at least 8 characters") }
             hasError = true
+        } else if (!isStrongPassword(currentState.newPasswordText)){
+            _uiState.update { it.copy(newPasswordErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character") }
+            hasError = true
         }
-        if (state.confirmPasswordText.isEmpty()) {
+
+        if (currentState.confirmPasswordText.isEmpty()) {
             _uiState.update { it.copy(confirmPasswordErrorMessage = "Confirm password is required") }
             hasError = true
-        } else if (state.confirmPasswordText != state.newPasswordText) {
+        } else if (currentState.confirmPasswordText != currentState.newPasswordText) {
             _uiState.update { it.copy(confirmPasswordErrorMessage = "Passwords do not match") }
             hasError = true
         }
@@ -232,7 +245,7 @@ class ProfileDetailViewModel @Inject constructor(
 
         _uiState.update { it.copy(isLoading = true, oldPasswordErrorMessage = null, newPasswordErrorMessage = null, confirmPasswordErrorMessage = null) }
         viewModelScope.launch {
-            repository.changePassword(state.oldPasswordText, state.newPasswordText).fold(
+            repository.changePassword(currentState.oldPasswordText, currentState.newPasswordText).fold(
                 onSuccess = {
                     _uiState.update {
                         it.copy(

@@ -5,13 +5,16 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -31,7 +34,8 @@ import com.example.comicbookrental.ui.theme.InkBlack
 @Composable
 fun PanelRushTopBar(
     onMenuClick: () -> Unit = {},
-    onNotificationsClick: () -> Unit = {}
+    onNotificationsClick: () -> Unit = {},
+    onNavigateToCartClick: () -> Unit = {}
 )
 {
     Column(modifier = Modifier
@@ -63,14 +67,26 @@ fun PanelRushTopBar(
                 letterSpacing = 1.sp
             )
 
-            Icon(
-                imageVector = Icons.Default.Notifications,
-                contentDescription = "Notifications",
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .size(28.dp)
-                    .clickable { onNotificationsClick() }
-            )
+            Row() {
+
+                Icon(
+                    imageVector = Icons.Default.ShoppingCart,
+                    contentDescription = "Cart",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .size(28.dp)
+                        .clickable { onNavigateToCartClick() }
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Icon(
+                    imageVector = Icons.Default.Notifications,
+                    contentDescription = "Notifications",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .size(28.dp)
+                        .clickable { onNotificationsClick() }
+                )
+            }
         }
         HorizontalDivider(color = InkBlack, thickness = 3.dp)
     }

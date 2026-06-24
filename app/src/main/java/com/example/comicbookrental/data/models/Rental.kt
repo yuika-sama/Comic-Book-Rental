@@ -1,5 +1,9 @@
 package com.example.comicbookrental.data.models
 
+import kotlinx.serialization.Serializable
+
+
+@Serializable
 data class Rental(
 
     val rentalId: Int,

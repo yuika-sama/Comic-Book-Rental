@@ -3,6 +3,7 @@ package com.example.comicbookrental.ui.screens.reset_password
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comicbookrental.domain.repository.AuthRepository
+import com.example.comicbookrental.ui.utils.isStrongPassword
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -109,6 +110,9 @@ class ResetPasswordViewModel @Inject constructor(
             isValid = false
         } else if (currentState.newPassword.length < 8) {
             _uiState.update { it.copy(newPasswordErrorMessage = "Password must be at least 8 characters") }
+            isValid = false
+        } else if (!isStrongPassword(currentState.newPassword)) {
+            _uiState.update { it.copy(newPasswordErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character") }
             isValid = false
         }
 
