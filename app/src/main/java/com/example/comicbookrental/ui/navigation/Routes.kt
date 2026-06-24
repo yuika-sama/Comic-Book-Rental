@@ -24,5 +24,21 @@ import kotlinx.serialization.Serializable
 @Serializable object MyRentalsRoute
 @Serializable data class ReaderRoute(val comicId: String)
 
+// Onboarding & Guidance (Section 2.3)
+@Serializable object OnboardingRoute
+
+// Payment Success & Receipts (Section 4.3)
+@Serializable data class PaymentSuccessRoute(val orderId: String, val price: Double, val comicTitle: String)
+
+// Profile Settings & Extensions (Section 8.1 & 9)
+@Serializable object WishlistRoute
+@Serializable object PaymentMethodsRoute
+@Serializable object NotificationsRoute
+
+// Admin & Dashboard (Section 8.2)
+@Serializable object AdminDashboardRoute
+@Serializable object AdminManageUsersRoute
+@Serializable object AdminManageComicsRoute
+
 // Common: Bottom bar
 @Serializable object MainTabsStructure
