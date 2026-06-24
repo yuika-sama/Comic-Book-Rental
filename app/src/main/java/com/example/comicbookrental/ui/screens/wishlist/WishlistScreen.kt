@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.comicbookrental.data.models.Comic
+import com.example.comicbookrental.data.entities.Comic
 import com.example.comicbookrental.ui.components.commonComponents.ComicButton
 import com.example.comicbookrental.ui.components.commonComponents.ComicButtonVariant
 import com.example.comicbookrental.ui.components.commonComponents.ComicToastHost

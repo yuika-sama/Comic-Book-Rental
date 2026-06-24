@@ -24,10 +24,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.comicbookrental.ui.components.ComicButton
-import com.example.comicbookrental.ui.components.ComicButtonVariant
 import com.example.comicbookrental.ui.components.commonComponents.BrutalistButton
 import com.example.comicbookrental.ui.components.commonComponents.BrutalistTextField
+import com.example.comicbookrental.ui.components.commonComponents.ComicButton
+import com.example.comicbookrental.ui.components.commonComponents.ComicButtonVariant
 
 @Composable
 fun UpdateAvatarDialog(

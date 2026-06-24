@@ -13,6 +13,9 @@ import kotlinx.serialization.Serializable
 @Serializable data class ChangePassword(val email: String)
 
 @Serializable object ProfileRoute
+@Serializable object WishlistRoute
+@Serializable object PaymentMethodsRoute
+@Serializable object NotificationsRoute
 @Serializable object ProfileDetailRoute
 
 @Serializable object CartRoute
@@ -27,5 +30,10 @@ import kotlinx.serialization.Serializable
 @Serializable object MyRentalsRoute
 @Serializable data class ReaderRoute(val comicId: String)
 
-// Common: Bottom bar
-@Serializable object MainTabsStructure
+@Serializable object AdminGraph
+@Serializable object AdminDashboardRoute
+@Serializable object AdminManageUsersRoute
+@Serializable object AdminManageComicsRoute
+
+@Serializable data class PaymentSuccessRoute(val orderId: String, val price: Double, val comicTitle: String)
+@Serializable object OnboardingRoute

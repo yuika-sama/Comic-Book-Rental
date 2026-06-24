@@ -1,6 +1,7 @@
 package com.example.comicbookrental.data.repositories.wishlist
 
-import com.example.comicbookrental.data.models.Comic
+import com.example.comicbookrental.data.entities.Comic
+
 
 interface WishlistRepository {
 

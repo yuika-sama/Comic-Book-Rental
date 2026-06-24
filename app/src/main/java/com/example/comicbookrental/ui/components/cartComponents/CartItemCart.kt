@@ -22,8 +22,6 @@ import androidx.compose.ui.unit.dp
 import com.example.comicbookrental.data.entities.CartItem
 import com.example.comicbookrental.data.entities.rentalDays
 import com.example.comicbookrental.data.entities.totalPrice
-import com.example.comicbookrental.ui.components.ComicButton
-import com.example.comicbookrental.ui.components.ComicButtonVariant
 import com.example.comicbookrental.ui.components.commonComponents.ComicButton
 import com.example.comicbookrental.ui.components.commonComponents.ComicButtonVariant
 import com.example.comicbookrental.ui.components.commonComponents.comicHardShadow

@@ -1,7 +1,7 @@
 package com.example.comicbookrental.data.repositories.wishlist
 
+import com.example.comicbookrental.data.entities.Comic
 import com.example.comicbookrental.data.mock.MockWishlistData
-import com.example.comicbookrental.data.models.Comic
 
 class WishlistRepositoryImpl : WishlistRepository {
 

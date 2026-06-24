@@ -51,13 +51,11 @@ import com.example.comicbookrental.ui.components.commonComponents.HazardBanner
 import com.example.comicbookrental.ui.components.searchComponents.ComicSearchField
 import com.example.comicbookrental.ui.components.searchComponents.SearchResultCard
 import com.example.comicbookrental.ui.components.commonComponents.SectionHeader
-import com.example.comicbookrental.ui.components.commonComponents.TopBarIconButton
 import com.example.comicbookrental.ui.components.commonComponents.CartComicCover
 import com.example.comicbookrental.ui.model.ComicUi
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
-import com.example.comicbookrental.ui.components.CartComicCover
 
 /**
  * Stateful entry point — wires [SearchViewModel] to the stateless [SearchScreen]. The nav graph

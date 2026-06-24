@@ -1,6 +1,7 @@
 package com.example.comicbookrental.ui.screens.detail
 
-import com.example.comicbookrental.data.models.Comic
+import com.example.comicbookrental.data.entities.Comic
+
 
 sealed interface ComicDetailUiState {
     data object Loading : ComicDetailUiState
