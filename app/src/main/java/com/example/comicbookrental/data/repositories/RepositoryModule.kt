@@ -2,6 +2,8 @@ package com.example.comicbookrental.data.repositories
 
 import com.example.comicbookrental.data.repositories.comic.ComicRepository
 import com.example.comicbookrental.data.repositories.comic.ComicRepositoryImpl
+import com.example.comicbookrental.data.repositories.profile.ProfileRepositoryImpl
+import com.example.comicbookrental.domain.repository.ProfileRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -15,4 +17,8 @@ abstract class RepositoryModule
 {
     @Binds
     abstract fun bindComicRepository(impl: ComicRepositoryImpl): ComicRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindProfileRepository(impl: ProfileRepositoryImpl): ProfileRepository
 }

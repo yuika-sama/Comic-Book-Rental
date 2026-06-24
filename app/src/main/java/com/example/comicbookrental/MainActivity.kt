@@ -9,6 +9,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.comicbookrental.ui.navigation.CatalogGraph
 import com.example.comicbookrental.ui.navigation.catalogGraph
 import com.example.comicbookrental.ui.screens.search.SearchRoute
+import com.example.comicbookrental.data.mock.AuthMockData
+import com.example.comicbookrental.ui.navigation.AppNavHost
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,6 +32,7 @@ class MainActivity : ComponentActivity()
                 // ) {
                 //     catalogGraph(navController)
                 // }
+                // AppNavHost()
             }
         }
     }

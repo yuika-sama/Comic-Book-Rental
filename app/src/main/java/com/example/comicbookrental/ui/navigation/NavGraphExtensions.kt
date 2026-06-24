@@ -1,5 +1,11 @@
 package com.example.comicbookrental.ui.navigation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -11,8 +17,10 @@ import com.example.comicbookrental.ui.screens.detail.ComicDetailRoute as ComicDe
 import com.example.comicbookrental.ui.screens.login.LoginScreen
 import com.example.comicbookrental.ui.screens.register.RegisterScreen
 import com.example.comicbookrental.ui.screens.forgot_password.ForgotPasswordScreen
+import com.example.comicbookrental.ui.screens.rentals.MyRentalsScreen
 import com.example.comicbookrental.ui.screens.verify_otp.VerifyOtpScreen
 import com.example.comicbookrental.ui.screens.reset_password.ResetPasswordScreen
+import java.io.Reader
 
 fun NavGraphBuilder.authGraph(navController: NavHostController){
     navigation<AuthGraph>(startDestination = LoginRoute){
@@ -40,11 +48,11 @@ fun NavGraphBuilder.authGraph(navController: NavHostController){
         composable<ForgetPassword> {
             ForgotPasswordScreen(
                 onBackToLoginClick = { navController.popBackStack() },
-                onSendOtpClick = { email -> navController.navigate(InputOtp(email)) }
+                onSendOtpClick = { email -> navController.navigate(VerifyOtp(email)) }
             )
         }
-        composable<InputOtp> { backStackEntry ->
-            val route = backStackEntry.toRoute<InputOtp>()
+        composable<VerifyOtp> { backStackEntry ->
+            val route = backStackEntry.toRoute<VerifyOtp>()
             VerifyOtpScreen(
                 email = route.email,
                 onVerifySuccess = { navController.navigate(ChangePassword(route.email)) },
@@ -70,7 +78,9 @@ fun NavGraphBuilder.authGraph(navController: NavHostController){
     }
 }
 
-fun NavGraphBuilder.catalogGraph(navController: NavHostController){
+fun NavGraphBuilder.catalogGraph(
+    navController: NavHostController
+){
     navigation<CatalogGraph>(startDestination = HomeRoute) {
         composable<HomeRoute> {
             HomeScreenEntry(
@@ -90,13 +100,27 @@ fun NavGraphBuilder.catalogGraph(navController: NavHostController){
     }
 }
 
-fun NavGraphBuilder.rentalGraph(navController: NavHostController){
+fun NavGraphBuilder.rentalGraph(
+    navController: NavHostController
+){
     // TODO: Navigation between rental graph
     composable<MyRentalsRoute> {
-
+        MyRentalsScreen(
+            onNavigateToReader = { comicId ->
+                navController.navigate(ReaderRoute(comicId.toString()))
+            }
+        )
     }
 
-    composable<ReaderRoute> {
-
+    composable<ReaderRoute> {backstackEntry ->
+        val route = backstackEntry.toRoute<ReaderRoute>()
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ){
+            Text(
+                text = "Reading comic ${route.comicId}"
+            )
+        }
     }
 }
