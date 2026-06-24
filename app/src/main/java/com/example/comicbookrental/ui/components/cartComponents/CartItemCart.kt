@@ -25,7 +25,7 @@ import com.example.comicbookrental.data.entities.totalPrice
 import com.example.comicbookrental.ui.components.ComicButton
 import com.example.comicbookrental.ui.components.ComicButtonVariant
 import com.example.comicbookrental.ui.components.CartComicCover
-import com.example.comicbookrental.ui.components.comicHardShadow
+import com.example.comicbookrental.ui.components.commonComponents.comicHardShadow
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.Primary

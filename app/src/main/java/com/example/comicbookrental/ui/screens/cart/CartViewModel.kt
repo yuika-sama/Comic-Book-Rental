@@ -39,7 +39,7 @@ class CartViewModel : ViewModel() {
     }
 
     fun addComicToCart(
-        comic: ComicEntity,
+        comic: Comic,
         startDate: Long,
         endDate: Long
     ) {
@@ -50,7 +50,7 @@ class CartViewModel : ViewModel() {
             comicTitle = comic.title,
             comicAuthor = comic.author,
             comicCoverUrl = comic.coverImageUrl,
-            pricePerDay = comic.rentalPrice.toPricePerDay(),
+            pricePerDay = comic.rentalPrice.toLong(),
             startDate = startDate,
             endDate = endDate
         )
@@ -99,10 +99,12 @@ class CartViewModel : ViewModel() {
         return rentalDays <= MAX_RENTAL_DAYS
     }
 
-    private fun String.toPricePerDay(): Long {
-        // "15,000 ₫" → "15000" → 15000L
-        return filter { it.isDigit() }
-            .toLongOrNull()
-            ?: 0L
-    }
+//    private fun String.toPricePerDay(): Long {
+//        // "15,000 ₫" → "15000" → 15000L
+//        return filter { it.isDigit() }
+//            .toLongOrNull()
+//            ?: 0L
+//    }
+
+
 }

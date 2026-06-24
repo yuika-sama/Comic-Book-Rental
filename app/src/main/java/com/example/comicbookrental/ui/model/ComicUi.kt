@@ -1,11 +1,9 @@
 package com.example.comicbookrental.ui.model
 
-import com.example.comicbookrental.data.entities.ComicEntity
+import com.example.comicbookrental.data.models.Comic
+import com.example.comicbookrental.ui.utils.toPriceLabel
 
-/**
- * Model truyện dành riêng cho tầng UI. Chỉ giữ thứ màn hình cần, và format sẵn các
- * chuỗi hiển thị (vd [priceLabel]) để Composable không phải nối chuỗi / xử lý định dạng.
- */
+
 data class ComicUi(
     val id: Int,
     val title: String,
@@ -13,13 +11,12 @@ data class ComicUi(
     val genre: String,
     val author: String,
     val description: String,
-    val rating: String,        // vd "4.9" — chỗ hiển thị tự ghép ★
-    val ratingsCount: Int,     // vd 12000 — card tự rút gọn thành "12K"
-    val priceLabel: String,    // vd "$2.99" — đã format sẵn
+    val rating: String,
+    val ratingsCount: Int,
+    val priceLabel: String,
 )
 
-/** Chuyển bản ghi lưu trữ [ComicEntity] sang model hiển thị [ComicUi]. */
-fun ComicEntity.toUi(): ComicUi = ComicUi(
+fun Comic.toUi(): ComicUi = ComicUi(
     id = id,
     title = title,
     coverImageUrl = coverImageUrl,
@@ -28,5 +25,5 @@ fun ComicEntity.toUi(): ComicUi = ComicUi(
     description = description,
     rating = avgRating,
     ratingsCount = ratingsCount,
-    priceLabel = "$$rentalPrice",
+    priceLabel = rentalPrice.toPriceLabel(),
 )

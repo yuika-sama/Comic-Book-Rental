@@ -24,20 +24,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.comicbookrental.ui.components.CartComicCover
-import com.example.comicbookrental.ui.components.ComicTitleBlock
+import com.example.comicbookrental.ui.components.detailComponents.ComicTitleBlock
 import com.example.comicbookrental.ui.components.ComicTopBar
-import com.example.comicbookrental.ui.components.HazardBanner
-import com.example.comicbookrental.ui.components.HeroCoverFrame
-import com.example.comicbookrental.ui.components.RentOptionCard
-import com.example.comicbookrental.ui.components.ReviewUi
-import com.example.comicbookrental.ui.components.ReviewsSection
+import com.example.comicbookrental.ui.components.detailComponents.HazardBanner
+import com.example.comicbookrental.ui.components.detailComponents.HeroCoverFrame
+import com.example.comicbookrental.ui.components.detailComponents.RentOptionCard
+import com.example.comicbookrental.ui.components.detailComponents.ReviewUi
+import com.example.comicbookrental.ui.components.detailComponents.ReviewsSection
 import com.example.comicbookrental.ui.components.SectionHeader
-import com.example.comicbookrental.ui.components.SimilarTitleUi
-import com.example.comicbookrental.ui.components.SimilarTitlesSection
-import com.example.comicbookrental.ui.components.SynopsisCard
+import com.example.comicbookrental.ui.components.detailComponents.SimilarTitleUi
+import com.example.comicbookrental.ui.components.detailComponents.SimilarTitlesSection
+import com.example.comicbookrental.ui.components.detailComponents.SynopsisCard
 import com.example.comicbookrental.ui.components.TopBarIconButton
-import com.example.comicbookrental.ui.components.halftoneBackground
-//import com.example.comicbookrental.ui.components.halftoneBackground
+import com.example.comicbookrental.ui.components.commonComponents.halftoneBackground
+//import com.example.comicbookrental.ui.components.commonComponents.halftoneBackground
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 
@@ -75,7 +75,6 @@ fun ComicDetailRoute(
     }
 }
 
-/** A bare screen (top bar + centered [content]) used for the non-Content states. */
 @Composable
 private fun DetailStatus(
     onBack: () -> Unit,
@@ -116,6 +115,7 @@ fun ComicDetailScreen(
     modifier: Modifier = Modifier,
     onBookmark: () -> Unit = {},
     onRent: (RentOptionUi) -> Unit = {},
+    onAddToCart: (RentOptionUi) -> Unit = {},
     onDismissBonusNote: () -> Unit = {},
     onViewAllSimilar: () -> Unit = {},
     onSimilarClick: (SimilarTitleUi) -> Unit = {},
@@ -192,6 +192,7 @@ fun ComicDetailScreen(
                             subtitle = option.subtitle,
                             ctaText = option.ctaText,
                             onRent = { onRent(option) },
+                            onAddToCart = { onAddToCart(option) },
                             highlighted = option.highlighted,
                             modifier = Modifier.fillMaxWidth(),
                         )

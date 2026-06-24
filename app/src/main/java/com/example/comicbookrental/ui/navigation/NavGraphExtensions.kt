@@ -1,6 +1,11 @@
 package com.example.comicbookrental.ui.navigation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -12,8 +17,10 @@ import com.example.comicbookrental.ui.screens.detail.ComicDetailRoute as ComicDe
 import com.example.comicbookrental.ui.screens.login.LoginScreen
 import com.example.comicbookrental.ui.screens.register.RegisterScreen
 import com.example.comicbookrental.ui.screens.forgot_password.ForgotPasswordScreen
+import com.example.comicbookrental.ui.screens.rentals.MyRentalsScreen
 import com.example.comicbookrental.ui.screens.verify_otp.VerifyOtpScreen
 import com.example.comicbookrental.ui.screens.reset_password.ResetPasswordScreen
+import java.io.Reader
 
 fun NavGraphBuilder.authGraph(navController: NavHostController){
     navigation<AuthGraph>(startDestination = LoginRoute){
@@ -41,11 +48,11 @@ fun NavGraphBuilder.authGraph(navController: NavHostController){
         composable<ForgetPassword> {
             ForgotPasswordScreen(
                 onBackToLoginClick = { navController.popBackStack() },
-                onSendOtpClick = { email -> navController.navigate(InputOtp(email)) }
+                onSendOtpClick = { email -> navController.navigate(VerifyOtp(email)) }
             )
         }
-        composable<InputOtp> { backStackEntry ->
-            val route = backStackEntry.toRoute<InputOtp>()
+        composable<VerifyOtp> { backStackEntry ->
+            val route = backStackEntry.toRoute<VerifyOtp>()
             VerifyOtpScreen(
                 email = route.email,
                 onVerifySuccess = { navController.navigate(ChangePassword(route.email)) },
@@ -68,10 +75,21 @@ fun NavGraphBuilder.authGraph(navController: NavHostController){
                 }
             )
         }
+        composable<OnboardingRoute> {
+            // TODO: Onboarding UI - Carousels for guidelines & favorite genres picker (Section 2.3)
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = "Onboarding Welcome Screen - Slides & Genres")
+            }
+        }
     }
 }
 
-fun NavGraphBuilder.catalogGraph(navController: NavHostController){
+fun NavGraphBuilder.catalogGraph(
+    navController: NavHostController
+){
     navigation<CatalogGraph>(startDestination = HomeRoute) {
         composable<HomeRoute> {
             HomeScreenEntry(
@@ -88,16 +106,112 @@ fun NavGraphBuilder.catalogGraph(navController: NavHostController){
                 },
             )
         }
+        composable<PaymentSuccessRoute> { backStackEntry ->
+            val route = backStackEntry.toRoute<PaymentSuccessRoute>()
+            // TODO: Payment Success UI - Receipt details, Order ID, validity dates (Section 4.3)
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = "Renting Successful!\nOrder ID: ${route.orderId}\nPrice: $${route.price}\nComic: ${route.comicTitle}")
+            }
+        }
     }
 }
 
-fun NavGraphBuilder.rentalGraph(navController: NavHostController){
-    // TODO: Navigation between rental graph
-    composable<MyRentalsRoute> {
+fun NavGraphBuilder.rentalGraph(
+    navController: NavHostController
+){
+    navigation<RentalGraph>(startDestination = MyRentalsRoute) {
+        composable<MyRentalsRoute> {
+            MyRentalsScreen(
+                onNavigateToReader = { comicId ->
+                    navController.navigate(ReaderRoute(comicId.toString()))
+                }
+            )
+        }
 
+        composable<ReaderRoute> { backstackEntry ->
+            val route = backstackEntry.toRoute<ReaderRoute>()
+            // TODO: Reader UI - Immersive Full-Screen, Bookmarks, and Reading Settings (Section 7)
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ){
+                Text(
+                    text = "Reading comic ${route.comicId}"
+                )
+            }
+        }
+    }
+}
+
+fun NavGraphBuilder.profileExtensionsGraph(
+    navController: NavHostController
+) {
+    composable<WishlistRoute> {
+        // TODO: Wishlist UI - View favorite and saved comics (Section 9)
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = "My Wishlist Screen")
+        }
     }
 
-    composable<ReaderRoute> {
+    composable<PaymentMethodsRoute> {
+        // TODO: Payment Methods UI - Saved cards, Momo, Paypal (Section 8.1)
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = "Linked Payment Methods Screen")
+        }
+    }
 
+    composable<NotificationsRoute> {
+        // TODO: Notification Settings / Center UI - Turn on/off Push or Email alerts (Section 8.1)
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = "Notification Settings")
+        }
+    }
+}
+
+fun NavGraphBuilder.adminGraph(
+    navController: NavHostController
+) {
+    navigation<AdminDashboardRoute>(startDestination = AdminManageComicsRoute) {
+        composable<AdminDashboardRoute> {
+            // TODO: Admin Dashboard UI - Dashboard summary & reports analytics (Section 8.2)
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = "Admin Dashboard Overview")
+            }
+        }
+
+        composable<AdminManageUsersRoute> {
+            // TODO: Admin Manage Users UI - Ban/Unban, check records (Section 8.2)
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = "Admin: Manage Users")
+            }
+        }
+
+        composable<AdminManageComicsRoute> {
+            // TODO: Admin Manage Comics UI - Add new chapters, catalog terms (Section 8.2)
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = "Admin: Manage Comics Catalog")
+            }
+        }
     }
 }

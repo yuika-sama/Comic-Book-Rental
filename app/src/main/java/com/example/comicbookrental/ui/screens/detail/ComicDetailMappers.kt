@@ -1,9 +1,10 @@
 package com.example.comicbookrental.ui.screens.detail
 
-import com.example.comicbookrental.data.entities.ComicEntity
-import com.example.comicbookrental.data.entities.ReviewEntity
-import com.example.comicbookrental.ui.components.ReviewUi
-import com.example.comicbookrental.ui.components.SimilarTitleUi
+import com.example.comicbookrental.data.models.Comic
+import com.example.comicbookrental.data.models.Review
+import com.example.comicbookrental.ui.components.detailComponents.ReviewUi
+import com.example.comicbookrental.ui.components.detailComponents.SimilarTitleUi
+import com.example.comicbookrental.ui.utils.toPriceLabel
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -18,7 +19,7 @@ private const val FULL_ARC_PRICE_MULTIPLIER = 8
 
 private const val BONUS_NOTE = "Digital edition includes bonus art gallery."
 
-fun ReviewEntity.toUi(): ReviewUi = ReviewUi(
+fun Review.toUi(): ReviewUi = ReviewUi(
     userName = userName,
     rating = rating,
     date = Instant.ofEpochMilli(commentDate)
@@ -27,18 +28,16 @@ fun ReviewEntity.toUi(): ReviewUi = ReviewUi(
     comment = comment,
 )
 
-fun ComicEntity.toSimilarUi(): SimilarTitleUi = SimilarTitleUi(
+fun Comic.toSimilarUi(): SimilarTitleUi = SimilarTitleUi(
     id = id.toString(),
     title = title,
-    price = "$$rentalPrice",
+    price = rentalPrice.toPriceLabel(),
     coverUrl = coverImageUrl,
 )
 
-private fun buildRentOptions(rentalPrice: String): List<RentOptionUi> {
-    val singlePrice = "$$rentalPrice"
-    val arcPrice = rentalPrice.toDoubleOrNull()
-        ?.let { "$%.2f".format(it * FULL_ARC_PRICE_MULTIPLIER) }
-        ?: singlePrice
+private fun buildRentOptions(rentalPrice: Double): List<RentOptionUi> {
+    val singlePrice = rentalPrice.toPriceLabel()
+    val arcPrice = (rentalPrice * FULL_ARC_PRICE_MULTIPLIER).toPriceLabel()
     return listOf(
         RentOptionUi(
             id = "single",
@@ -58,9 +57,9 @@ private fun buildRentOptions(rentalPrice: String): List<RentOptionUi> {
     )
 }
 
-fun ComicEntity.toDetailUi(
-    reviews: List<ReviewEntity>,
-    similar: List<ComicEntity>,
+fun Comic.toDetailUi(
+    reviews: List<Review>,
+    similar: List<Comic>,
 ): ComicDetailUi = ComicDetailUi(
     title = title,
     creators = author,
