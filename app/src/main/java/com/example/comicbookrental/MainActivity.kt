@@ -23,16 +23,7 @@ class MainActivity : ComponentActivity()
         enableEdgeToEdge()
         setContent {
             ComicBookRentalTheme {
-                SearchRoute(onComicClick = {})
-
-                // val navController = rememberNavController()
-                // NavHost(
-                //     navController = navController,
-                //     startDestination = CatalogGraph,
-                // ) {
-                //     catalogGraph(navController)
-                // }
-                // AppNavHost()
+                 AppNavHost()
             }
         }
     }

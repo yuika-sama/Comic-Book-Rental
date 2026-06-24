@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.profileComponents
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,7 +25,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -88,10 +91,10 @@ fun HeroIdentityCard(
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Black,
                 letterSpacing = 2.sp,
-                style = androidx.compose.ui.text.TextStyle(
-                    shadow = androidx.compose.ui.graphics.Shadow(
+                style = TextStyle(
+                    shadow = Shadow(
                         color = Color(0xFF6B4C9A),
-                        offset = androidx.compose.ui.geometry.Offset(6f, 6f)
+                        offset = Offset(6f, 6f)
                     )
                 )
             )

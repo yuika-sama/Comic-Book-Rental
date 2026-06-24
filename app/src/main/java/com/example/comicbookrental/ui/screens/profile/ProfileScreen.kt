@@ -16,9 +16,9 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.comicbookrental.ui.components.BrutalistButton
-import com.example.comicbookrental.ui.components.ProfileCard
-import com.example.comicbookrental.ui.components.ProfileMenuSection
+import com.example.comicbookrental.ui.components.commonComponents.BrutalistButton
+import com.example.comicbookrental.ui.components.profileComponents.ProfileCard
+import com.example.comicbookrental.ui.components.profileComponents.ProfileMenuSection
 
 @Composable
 fun ProfileScreen(

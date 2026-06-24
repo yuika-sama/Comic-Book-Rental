@@ -1,31 +1,22 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.authComponents
 
-import android.util.Log
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.example.comicbookrental.ui.theme.Dimens
 import androidx.compose.ui.focus.FocusRequester
+import com.example.comicbookrental.ui.components.commonComponents.BrutalistButton
 import com.example.comicbookrental.ui.theme.extendedColors
 
 @Composable
@@ -67,7 +58,8 @@ fun OtpCard(
 
         Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
-        if (errorMessage != null) {
+        if (errorMessage != null)
+        {
             Text(
                 text = errorMessage,
                 color = MaterialTheme.colorScheme.error,
@@ -106,12 +98,16 @@ fun OtpCard(
             Text(
                 text = "RESEND CODE",
                 style = MaterialTheme.typography.labelLarge,
-                color = if (resendCooldownSeconds > 0 || isLoading) MaterialTheme.colorScheme.primary.copy(alpha = 0.5f) else MaterialTheme.colorScheme.primary,
+                color = if (resendCooldownSeconds > 0 || isLoading) MaterialTheme.colorScheme.primary.copy(
+                    alpha = 0.5f
+                )
+                else MaterialTheme.colorScheme.primary,
                 modifier = Modifier.clickable(enabled = resendCooldownSeconds == 0 && !isLoading) { onResendClick() }
             )
         }
 
-        if (resendCooldownSeconds > 0) {
+        if (resendCooldownSeconds > 0)
+        {
             Spacer(modifier = Modifier.height(Dimens.Spacing.StackSm))
 
             Text(

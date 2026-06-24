@@ -36,8 +36,8 @@ import com.example.comicbookrental.ui.components.detailComponents.SimilarTitleUi
 import com.example.comicbookrental.ui.components.detailComponents.SimilarTitlesSection
 import com.example.comicbookrental.ui.components.detailComponents.SynopsisCard
 import com.example.comicbookrental.ui.components.TopBarIconButton
-import com.example.comicbookrental.ui.components.halftoneBackground
-//import com.example.comicbookrental.ui.components.halftoneBackground
+import com.example.comicbookrental.ui.components.commonComponents.halftoneBackground
+//import com.example.comicbookrental.ui.components.commonComponents.halftoneBackground
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 

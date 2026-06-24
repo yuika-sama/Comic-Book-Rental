@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.profileComponents
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

@@ -32,16 +32,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.example.comicbookrental.ui.components.ActionButtonsSection
-import com.example.comicbookrental.ui.components.BrutalistButton
-import com.example.comicbookrental.ui.components.BrutalistTextField
+import com.example.comicbookrental.ui.components.profileComponents.ActionButtonsSection
+import com.example.comicbookrental.ui.components.commonComponents.BrutalistButton
+import com.example.comicbookrental.ui.components.commonComponents.BrutalistTextField
 import com.example.comicbookrental.ui.components.ComicButton
 import com.example.comicbookrental.ui.components.ComicButtonVariant
 import com.example.comicbookrental.ui.components.ComicTopBar
-import com.example.comicbookrental.ui.components.HeroIdentityCard
-import com.example.comicbookrental.ui.components.PasswordStrengthEvaluator
-import com.example.comicbookrental.ui.components.TransmissionHubCard
-import com.example.comicbookrental.ui.screens.profile_detail.ProfileDetailViewModel
+import com.example.comicbookrental.ui.components.profileComponents.HeroIdentityCard
+import com.example.comicbookrental.ui.components.authComponents.PasswordStrengthEvaluator
+import com.example.comicbookrental.ui.components.profileComponents.TransmissionHubCard
 
 @Composable
 fun ProfileDetailScreen(

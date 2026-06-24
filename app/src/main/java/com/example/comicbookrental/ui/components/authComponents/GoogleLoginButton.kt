@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.authComponents
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
@@ -16,8 +16,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Bolt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,22 +26,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.comicbookrental.ui.theme.Anton
+import com.example.comicbookrental.R
+import com.example.comicbookrental.ui.components.commonComponents.comicHardShadow
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
 @Composable
-fun BrutalistButton(
-    text: String,
+fun GoogleLoginButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
-)
-{
+){
     val shape = RoundedCornerShape(Dimens.Radius.Button)
     val ink = MaterialTheme.extendedColors.ink
-    val containerColor = MaterialTheme.colorScheme.primary
-    val contentColor = MaterialTheme.colorScheme.onPrimary
     val restingOffset = Dimens.Elevation.Resting
 
     val interactionSource = remember { MutableInteractionSource() }
@@ -51,15 +47,16 @@ fun BrutalistButton(
 
     val shadowOffset by animateDpAsState(
         targetValue = if (pressed) 0.dp else restingOffset,
-        label = "brutalistButtonShadow",
+        label = "googleButtonShadow",
     )
     val pressTranslation by animateDpAsState(
         targetValue = if (pressed) restingOffset else 0.dp,
-        label = "brutalistButtonTranslation",
+        label = "googleButtonTranslation",
     )
 
     Box(
-        modifier = modifier.padding(end = restingOffset, bottom = restingOffset),
+        modifier = modifier
+            .padding(end = restingOffset, bottom = restingOffset)
     ) {
         Row(
             modifier = Modifier
@@ -68,29 +65,29 @@ fun BrutalistButton(
                 .offset(x = pressTranslation, y = pressTranslation)
                 .comicHardShadow(shape = shape, offset = shadowOffset, color = ink)
                 .clip(shape)
-                .background(containerColor)
+                .background(MaterialTheme.colorScheme.surfaceContainerLowest)
                 .border(width = Dimens.Border.Standard, color = ink, shape = shape)
                 .clickable(
                     interactionSource = interactionSource,
                     indication = null,
                     onClick = onClick
                 )
-                .padding(horizontal = Dimens.Spacing.SectionSpacing),
+                .padding(Dimens.Spacing.ContentSpacing),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Text(
-                text = text.uppercase(),
-                style = MaterialTheme.typography.titleMedium.copy(fontFamily = Anton),
-                color = contentColor
+            Icon(
+                painter = painterResource(id = R.drawable.ic_google_custom),
+                contentDescription = null,
+                tint = Color.Unspecified
             )
 
             Spacer(modifier = Modifier.width(Dimens.Spacing.StackSm))
 
-            Icon(
-                imageVector = Icons.Outlined.Bolt,
-                contentDescription = null,
-                tint = contentColor
+            Text(
+                text = "GOOGLE",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }
