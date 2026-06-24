@@ -2,7 +2,6 @@ package com.example.comicbookrental.data.repositories.profile
 
 import com.example.comicbookrental.data.entities.User
 import com.example.comicbookrental.data.mock.ProfileMockData
-import com.example.comicbookrental.data.models.User
 import com.example.comicbookrental.domain.repository.ProfileRepository
 import com.example.comicbookrental.utils.StoreManager
 import kotlinx.coroutines.delay
