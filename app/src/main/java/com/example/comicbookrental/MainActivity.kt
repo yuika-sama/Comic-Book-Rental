@@ -26,8 +26,8 @@ class MainActivity : ComponentActivity()
         setContent {
             ComicBookRentalTheme {
 //                AppNavHost()
-                ForgotPasswordScreen()
-//                HomeRoute(onComicClick = {})
+//                ForgotPasswordScreen()
+                HomeRoute(onComicClick = {})
             }
         }
     }

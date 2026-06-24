@@ -13,7 +13,7 @@ data class ComicEntity(
     val publisher: String,
     val description: String,
     val avgRating: String,
-    val rentalPrice: String,
+    val rentalPrice: Double,
     val releaseDate: String,
     val viewCount: Int = 0,
     val ratingsCount: Int = 0,
