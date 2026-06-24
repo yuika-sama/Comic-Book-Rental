@@ -24,7 +24,7 @@ data class SimilarTitleUi(
 
 /**
  * The Comic Detail "Similar Titles" section: a section header with a "View All" action and a
- * horizontally scrolling row of [SimilarTitleCard]s. Reuses [SectionHeader] and [ComicCover].
+ * horizontally scrolling row of [SimilarTitleCard]s. Reuses [SectionHeader] and [CartComicCover].
  */
 @Composable
 fun SimilarTitlesSection(
@@ -53,7 +53,7 @@ fun SimilarTitlesSection(
                     price = item.price,
                     onClick = { onTitleClick(item) },
                     modifier = Modifier.width(Dimens.Sizes.SimilarCardWidth),
-                    cover = { ComicCover(url = item.coverUrl, contentDescription = item.title) },
+                    cover = { CartComicCover(url = item.coverUrl, contentDescription = item.title) },
                 )
             }
         }

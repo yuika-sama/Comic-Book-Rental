@@ -23,34 +23,16 @@ class RentalViewModel : ViewModel() {
         loadRentals()
     }
 
-    private fun loadRentals() {
+    fun loadRentals() {
         _uiState.value = _uiState.value.copy(
             rentalList = repository.getAllRentals()
         )
-    }
-
-    fun insertTestRental() {
-        val now = System.currentTimeMillis()
-        val sevenDays = 7 * 24 * 60 * 60 * 1000L
-
-        repository.insertRental(
-            Rental(
-                rentalId = Random.nextInt(1000, 9999),
-                comicId = 999,
-                userId = 1,
-                comicTitle = "Chainsaw Man",
-                comicCoverUrl = "",
-                rentalDate = now,
-                dueDate = now + sevenDays,
-                status = RentalStatus.ACTIVE
-            )
-        )
-
-        loadRentals()
     }
 
     fun deleteRental(rentalId: Int) {
         repository.deleteRental(rentalId)
         loadRentals()
     }
+
+    fun extendRental(rentalId: Int) {}
 }

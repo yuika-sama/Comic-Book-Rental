@@ -43,7 +43,7 @@ fun TopRatedSection(
                 rating = comic.rating,
                 ratingsCount = comic.ratingsCount,
                 accent = rankAccent(index),
-                cover = { ComicCover(url = comic.coverImageUrl, contentDescription = comic.title) },
+                cover = { CartComicCover(url = comic.coverImageUrl, contentDescription = comic.title) },
                 onClick = { onComicClick(comic.id) },
             )
         }

@@ -101,3 +101,5 @@ val ComicAppTypography = Typography(
         lineHeight = 16.sp,
     ),
 )
+
+val AuthTitleSize = 56.sp

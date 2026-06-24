@@ -33,7 +33,7 @@ fun FeaturedCarousel(
                 title = comic.title,
                 description = comic.description,
                 onClick = { onComicClick(comic.id) },
-                cover = { ComicCover(url = comic.coverImageUrl, contentDescription = comic.title) },
+                cover = { CartComicCover(url = comic.coverImageUrl, contentDescription = comic.title) },
                 modifier = Modifier.width(cardWidth),
             )
         }
