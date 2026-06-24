@@ -18,8 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.example.comicbookrental.data.models.Rental
-import com.example.comicbookrental.data.models.RentalStatus
+import com.example.comicbookrental.data.entities.Rental
+import com.example.comicbookrental.data.entities.RentalStatus
 import com.example.comicbookrental.ui.components.rentalComponents.RentalStatusChip
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.Dimens

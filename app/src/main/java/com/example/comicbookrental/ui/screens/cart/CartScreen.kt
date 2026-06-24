@@ -25,16 +25,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.room.PrimaryKey
-import com.example.comicbookrental.data.models.CartItem
+import com.example.comicbookrental.data.entities.CartItem
 import com.example.comicbookrental.ui.components.ComicButton
-import com.example.comicbookrental.ui.components.ComicButtonVariant
 import com.example.comicbookrental.ui.components.cartComponents.CartItemCard
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.utils.toVnd
-
-import com.example.comicbookrental.ui.theme.Primary
 
 @Preview
 @Composable
@@ -123,7 +119,9 @@ private fun CartContent(
         Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
         LazyColumn(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f)
+                ,
             verticalArrangement = Arrangement.spacedBy(
                 Dimens.Spacing.SectionSpacing
             )

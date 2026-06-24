@@ -8,9 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.comicbookrental.data.models.RentalStatus
+import com.example.comicbookrental.data.entities.RentalStatus
 import com.example.comicbookrental.ui.theme.Anton
-import com.example.comicbookrental.ui.theme.Surface
 
 @Composable
 fun RentalStatusChip(

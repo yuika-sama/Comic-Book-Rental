@@ -1,4 +1,4 @@
-package com.example.comicbookrental.data.models
+package com.example.comicbookrental.data.entities
 
 const val MILLIS_PER_DAY = 24L * 60L * 60L * 1000L
 
