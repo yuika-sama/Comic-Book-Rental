@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -17,7 +18,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.comicbookrental.data.repositories.checkout.CheckoutRepositoryImpl
 import com.example.comicbookrental.ui.screens.cart.CartScreen
+import com.example.comicbookrental.ui.screens.checkout.CheckoutScreen
 import com.example.comicbookrental.ui.screens.profile.ProfileScreen
 import com.example.comicbookrental.ui.screens.profile_detail.ProfileDetailScreen
 import com.example.comicbookrental.ui.screens.search.SearchRoute as SearchScreenEntry
@@ -29,6 +32,7 @@ fun AppNavHost(){
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+    val checkoutRepository = remember { CheckoutRepositoryImpl() }
 
     val tabs = listOf(
         NavigationTab("Home", HomeRoute, Icons.Default.Home),
@@ -85,8 +89,24 @@ fun AppNavHost(){
 
             composable<CartRoute> {
                 CartScreen(
-                    onCheckoutClick = {
-                        // TODO: Checkout logic
+                    onCheckoutClick = { cartItems ->
+                        checkoutRepository.prepareCartCheckout(cartItems)
+                        navController.navigate(CheckoutRoute)
+                    }
+                )
+            }
+
+            composable<CheckoutRoute> {
+                CheckoutScreen(
+                    onBackClick = {
+                        navController.popBackStack()
+                    },
+                    onViewRentalsClick = {
+                        navController.navigate(MyRentalsRoute) {
+                            popUpTo(CheckoutRoute) {
+                                inclusive = true
+                            }
+                        }
                     }
                 )
             }

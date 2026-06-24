@@ -13,6 +13,7 @@ import kotlinx.serialization.Serializable
 @Serializable object ProfileDetailRoute
 
 @Serializable object CartRoute
+@Serializable object CheckoutRoute
 
 @Serializable object SearchRoute
 

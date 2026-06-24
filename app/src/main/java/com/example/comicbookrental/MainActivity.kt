@@ -19,6 +19,7 @@ class MainActivity : ComponentActivity()
             ComicBookRentalTheme {
                 AppNavHost()
             }
+
         }
     }
 }

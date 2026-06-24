@@ -24,4 +24,12 @@ class RentalRepositoryImpl : RentalRepository {
             it.rentalId == rentalId
         }
     }
+
+    override fun getNextRentalId(): Int {
+        val largestId = MockRentalData.rentals.maxOfOrNull {
+            it.rentalId
+        } ?: 0
+
+        return largestId + 1
+    }
 }
