@@ -1,4 +1,5 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.homeComponents
+import com.example.comicbookrental.ui.components.comicHardShadow
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -26,29 +29,24 @@ import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
-/**
- * A compact poster card for the Comic Detail "Similar Titles" row: a hard-shadowed cover frame
- * with the [title] and [price] as plain text underneath (no bordered text panel — that's what
- * sets it apart from [NewReleaseCard]).
- *
- * [cover] is a slot for the artwork (pass a [CartComicCover]); defaults to a flat placeholder.
- */
+
 @Composable
-fun SimilarTitleCard(
+fun NewReleaseCard(
     title: String,
-    price: String,
+    author: String,
+    rating: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
-    coverHeight: Dp = 200.dp,
+    coverHeight: Dp = 160.dp,
     cover: @Composable BoxScope.() -> Unit = { CoverPlaceholder() },
 ) {
     val shape = RoundedCornerShape(Dimens.Radius.Sm)
     val ink = MaterialTheme.extendedColors.ink
 
-    Column(
-        modifier = modifier.clickable(onClick = onClick),
-        verticalArrangement = Arrangement.spacedBy(Dimens.Spacing.StackSm),
-    ) {
+    // Two separate framed rectangles stacked with a gap: a shadowed cover on top, a flat
+    // (shadowless) text panel below.
+    Column(modifier = modifier.clickable(onClick = onClick)) {
+        // 1) Cover art — its own frame with a hard shadow.
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -57,25 +55,46 @@ fun SimilarTitleCard(
                 .clip(shape)
                 .background(MaterialTheme.colorScheme.secondaryContainer)
                 .border(width = Dimens.Border.Standard, color = ink, shape = shape),
-            content = cover,
-        )
+        ) {
+            cover()
+        }
 
-        Text(
-            text = title.uppercase(),
-            style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.onSurface,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
-        Text(
-            text = price,
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
+        Spacer(Modifier.height(Dimens.Spacing.ListItemSpacing))
+
+        // 2) Text panel — its own frame, NO shadow.
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(shape)
+                .background(MaterialTheme.colorScheme.surface)
+                .border(width = Dimens.Border.Standard, color = ink, shape = shape)
+                .padding(Dimens.Spacing.ListItemSpacing),
+            verticalArrangement = Arrangement.spacedBy(2.dp),
+        ) {
+            Text(
+                text = title.uppercase(),
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                text = author,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                text = "★ $rating",
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.extendedColors.rating,
+            )
+        }
     }
 }
 
-/** Flat stand-in for the cover until an image URL is supplied. */
+/** Flat stand-in for the cover until an image-loading library is added. */
 @Composable
 private fun BoxScope.CoverPlaceholder() {
     Box(
@@ -87,14 +106,15 @@ private fun BoxScope.CoverPlaceholder() {
 
 @Preview(showBackground = true, backgroundColor = 0xFFFCF9F8)
 @Composable
-private fun SimilarTitleCardPreview() {
+private fun NewReleaseCardPreview() {
     ComicBookRentalTheme {
-        SimilarTitleCard(
-            title = "Detective X: Ghost Protocol",
-            price = "$1.50",
+        NewReleaseCard(
+            title = "Elemental 5",
+            author = "K. Rogers",
+            rating = "4.5",
             modifier = Modifier
-                .padding(Dimens.Spacing.Margin)
-                .width(Dimens.Sizes.SimilarCardWidth),
+                .padding(Dimens.Spacing.ScreenPadding)
+                .width(150.dp),
         )
     }
 }

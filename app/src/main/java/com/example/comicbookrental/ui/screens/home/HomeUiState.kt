@@ -16,7 +16,6 @@ sealed interface HomeUiState {
 
     data class Content(
         val sections: HomeData,
-        val searchResults: List<ComicUi>? = null,
     ) : HomeUiState
 
     data class Error(val message: String) : HomeUiState

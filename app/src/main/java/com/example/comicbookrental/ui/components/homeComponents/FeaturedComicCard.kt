@@ -1,4 +1,5 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.homeComponents
+import com.example.comicbookrental.ui.components.comicHardShadow
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

@@ -1,4 +1,5 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.detailComponents
+import com.example.comicbookrental.ui.components.comicHardShadow
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -12,32 +13,44 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.comicbookrental.ui.theme.Anton
+import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
 
 @Composable
-fun RankBadge(
-    rank: Int,
+fun HotPickBadge(
+    text: String = "HOT PICK",
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onPrimary,
 ) {
     val shape = RoundedCornerShape(Dimens.Radius.Sm)
+    val ink = MaterialTheme.extendedColors.ink
     Box(
         modifier = modifier
+            .comicHardShadow(shape = shape, offset = Dimens.Elevation.Resting, color = ink)
             .clip(shape)
             .background(containerColor)
-            .border(Dimens.Border.Standard, MaterialTheme.extendedColors.ink, shape)
-            .padding(horizontal = Dimens.Spacing.ListItemSpacing, vertical = 4.dp),
+            .border(Dimens.Border.Standard, ink, shape)
+            .padding(horizontal = Dimens.Spacing.ContentSpacing, vertical = 6.dp),
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = "#$rank",
-            style = MaterialTheme.typography.titleMedium.copy(fontFamily = Anton),
+            text = text.uppercase(),
+            style = MaterialTheme.typography.labelLarge.copy(fontFamily = Anton),
             color = contentColor,
         )
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFFCF9F8)
+@Composable
+private fun HotPickBadgePreview() {
+    ComicBookRentalTheme {
+        HotPickBadge(modifier = Modifier.padding(Dimens.Spacing.StackLg))
     }
 }

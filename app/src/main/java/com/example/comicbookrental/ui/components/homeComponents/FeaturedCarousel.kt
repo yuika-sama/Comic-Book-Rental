@@ -1,4 +1,5 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.homeComponents
+import com.example.comicbookrental.ui.components.CartComicCover
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues

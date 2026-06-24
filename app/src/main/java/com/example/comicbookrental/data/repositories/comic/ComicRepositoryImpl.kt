@@ -1,11 +1,8 @@
 package com.example.comicbookrental.data.repositories.comic
 
 import android.content.Context
-import com.example.comicbookrental.data.dto.ComicDto
-import com.example.comicbookrental.data.dto.toEntity
-import com.example.comicbookrental.data.dto.toReviewEntities
-import com.example.comicbookrental.data.entities.ComicEntity
-import com.example.comicbookrental.data.entities.ReviewEntity
+import com.example.comicbookrental.data.models.Comic
+import com.example.comicbookrental.data.models.Review
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,26 +18,23 @@ class ComicRepositoryImpl @Inject constructor(
 
     private val json = Json { ignoreUnknownKeys = true }
 
-    private val comicsFlow = MutableStateFlow<List<ComicEntity>>(emptyList())
-    private val reviewsFlow = MutableStateFlow<List<ReviewEntity>>(emptyList())
+    private val comicsFlow = MutableStateFlow<List<Comic>>(emptyList())
 
     init {
         loadFromAssets()
     }
 
-    /** Đọc comics.json trong assets, tách thành comics + reviews. */
+    /** Đọc comics.json trong assets (reviews nằm lồng trong từng comic). */
     private fun loadFromAssets() {
         val text = context.assets.open("comics.json")
             .bufferedReader()
             .use { it.readText() }
-        val dtos = json.decodeFromString<List<ComicDto>>(text)
-        comicsFlow.value = dtos.map { it.toEntity() }
-        reviewsFlow.value = dtos.flatMap { it.toReviewEntities() }
+        comicsFlow.value = json.decodeFromString<List<Comic>>(text)
     }
 
-    override fun getAllComics(): Flow<List<ComicEntity>> = comicsFlow
+    override fun getAllComics(): Flow<List<Comic>> = comicsFlow
 
-    override fun searchComics(query: String): Flow<List<ComicEntity>> {
+    override fun searchComics(query: String): Flow<List<Comic>> {
         return comicsFlow.map { list ->
             list.filter {
                 it.title.contains(query, ignoreCase = true) ||
@@ -49,34 +43,36 @@ class ComicRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getComicById(comicId: Int): Flow<ComicEntity?> {
+    override fun getComicById(comicId: Int): Flow<Comic?> {
         return comicsFlow.map { list ->
             list.find { it.id == comicId }
         }
     }
 
-    override fun getReviewsForComic(comicId: Int): Flow<List<ReviewEntity>> {
-        return reviewsFlow.map { list ->
-            list.filter { it.comicId == comicId }
-                .sortedByDescending { it.commentDate }
+    override fun getReviewsForComic(comicId: Int): Flow<List<Review>> {
+        return comicsFlow.map { list ->
+            list.find { it.id == comicId }
+                ?.reviews
+                ?.sortedByDescending { it.commentDate }
+                ?: emptyList()
         }
     }
 
-    override fun getFeaturedComics(): Flow<List<ComicEntity>> {
+    override fun getFeaturedComics(): Flow<List<Comic>> {
         return comicsFlow.map { list ->
             list.filter { it.isFeatured }
                 .sortedByDescending { it.viewCount }
         }
     }
 
-    override fun getNewReleases(limit: Int): Flow<List<ComicEntity>> {
+    override fun getNewReleases(limit: Int): Flow<List<Comic>> {
         return comicsFlow.map { list ->
             list.sortedByDescending { it.releaseDate }
                 .take(limit)
         }
     }
 
-    override fun getTopRated(limit: Int): Flow<List<ComicEntity>> {
+    override fun getTopRated(limit: Int): Flow<List<Comic>> {
         return comicsFlow.map { list ->
             list.sortedByDescending { it.avgRating.toDoubleOrNull() ?: 0.0 }
                 .take(limit)
@@ -91,7 +87,7 @@ class ComicRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun insertComics(comics: List<ComicEntity>) {
+    override suspend fun insertComics(comics: List<Comic>) {
         comicsFlow.value = (comicsFlow.value + comics).distinctBy { it.id }
     }
 

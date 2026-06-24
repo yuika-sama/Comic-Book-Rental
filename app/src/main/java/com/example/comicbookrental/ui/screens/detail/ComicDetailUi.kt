@@ -1,7 +1,7 @@
 package com.example.comicbookrental.ui.screens.detail
 
-import com.example.comicbookrental.ui.components.ReviewUi
-import com.example.comicbookrental.ui.components.SimilarTitleUi
+import com.example.comicbookrental.ui.components.detailComponents.ReviewUi
+import com.example.comicbookrental.ui.components.detailComponents.SimilarTitleUi
 
 data class RentOptionUi(
     val id: String,

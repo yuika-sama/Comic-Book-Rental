@@ -1,4 +1,6 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.detailComponents
+import com.example.comicbookrental.ui.components.CartComicCover
+import com.example.comicbookrental.ui.components.SectionHeader
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 
-/** Stateless UI model for a "Similar Titles" poster (mapped from the catalog in the ViewModel). */
 data class SimilarTitleUi(
     val id: String,
     val title: String,
@@ -22,10 +23,7 @@ data class SimilarTitleUi(
     val coverUrl: String = "",
 )
 
-/**
- * The Comic Detail "Similar Titles" section: a section header with a "View All" action and a
- * horizontally scrolling row of [SimilarTitleCard]s. Reuses [SectionHeader] and [CartComicCover].
- */
+
 @Composable
 fun SimilarTitlesSection(
     titles: List<SimilarTitleUi>,

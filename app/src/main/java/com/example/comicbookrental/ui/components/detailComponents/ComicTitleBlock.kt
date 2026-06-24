@@ -1,4 +1,6 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.detailComponents
+import com.example.comicbookrental.ui.components.RatingStars
+import com.example.comicbookrental.ui.components.GenreCard
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

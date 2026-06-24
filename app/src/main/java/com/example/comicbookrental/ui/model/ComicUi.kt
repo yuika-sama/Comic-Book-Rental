@@ -1,6 +1,6 @@
 package com.example.comicbookrental.ui.model
 
-import com.example.comicbookrental.data.entities.ComicEntity
+import com.example.comicbookrental.data.models.Comic
 import com.example.comicbookrental.ui.utils.toPriceLabel
 
 
@@ -16,7 +16,7 @@ data class ComicUi(
     val priceLabel: String,
 )
 
-fun ComicEntity.toUi(): ComicUi = ComicUi(
+fun Comic.toUi(): ComicUi = ComicUi(
     id = id,
     title = title,
     coverImageUrl = coverImageUrl,
