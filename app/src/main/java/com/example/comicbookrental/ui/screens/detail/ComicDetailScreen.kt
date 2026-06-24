@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.CircularProgressIndicator
@@ -17,13 +18,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.comicbookrental.data.entities.MILLIS_PER_DAY
+import com.example.comicbookrental.ui.screens.cart.CartViewModel
+import com.example.comicbookrental.ui.screens.cart.ComicDateRangePickerDialog
 import com.example.comicbookrental.ui.components.commonComponents.CartComicCover
+import com.example.comicbookrental.ui.components.commonComponents.ComicToastHost
+import com.example.comicbookrental.ui.components.commonComponents.ComicToastType
+import com.example.comicbookrental.ui.components.commonComponents.rememberComicToastState
 import com.example.comicbookrental.ui.components.detailComponents.ComicTitleBlock
 import com.example.comicbookrental.ui.components.commonComponents.ComicTopBar
 import com.example.comicbookrental.ui.components.commonComponents.HazardBanner
@@ -38,28 +49,79 @@ import com.example.comicbookrental.ui.components.detailComponents.SynopsisCard
 import com.example.comicbookrental.ui.components.commonComponents.TopBarIconButton
 import com.example.comicbookrental.ui.components.commonComponents.halftoneBackground
 //import com.example.comicbookrental.ui.components.commonComponents.halftoneBackground
+import com.example.comicbookrental.ui.screens.wishlist.WishlistViewModel
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
+import com.example.comicbookrental.ui.theme.extendedColors
 
 
-/**
- * Detail entry point: collects [ComicDetailViewModel] state and renders the screen, with simple
- * loading / not-found / error fallbacks. [onComicClick] navigates to another comic's detail.
- */
+
 @Composable
 fun ComicDetailRoute(
     onBack: () -> Unit,
     onComicClick: (String) -> Unit,
     viewModel: ComicDetailViewModel = hiltViewModel(),
+    cartViewModel: CartViewModel = viewModel(),
+    wishlistViewModel: WishlistViewModel = viewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val wishlistItems by wishlistViewModel.items.collectAsStateWithLifecycle()
+    val toastState = rememberComicToastState()
 
     when (val state = uiState) {
-        is ComicDetailUiState.Content -> ComicDetailScreen(
-            state = state.detail,
-            onBack = onBack,
-            onSimilarClick = { onComicClick(it.id) },
-        )
+        is ComicDetailUiState.Content -> {
+            var showDatePicker by remember { mutableStateOf(false) }
+            val isFavorite = wishlistItems.any { it.id == state.comic.id }
+
+            Box(modifier = Modifier.fillMaxSize()) {
+                ComicDetailScreen(
+                    state = state.detail,
+                    onBack = onBack,
+                    isFavorite = isFavorite,
+                    onBookmark = {
+                        val nowFavorite = wishlistViewModel.toggle(state.comic)
+                        if (nowFavorite) {
+                            toastState.show(
+                                message = "Added \"${state.comic.title}\" to your wishlist.",
+                                type = ComicToastType.SUCCESS,
+                            )
+                        } else {
+                            toastState.show(
+                                message = "Removed \"${state.comic.title}\" from your wishlist.",
+                                type = ComicToastType.INFO,
+                            )
+                        }
+                    },
+                    onAddToCart = { showDatePicker = true },
+                    onSimilarClick = { onComicClick(it.id) },
+                )
+
+                ComicToastHost(
+                    state = toastState,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(Dimens.Spacing.Margin),
+                )
+            }
+
+            if (showDatePicker) {
+                val now = System.currentTimeMillis()
+                ComicDateRangePickerDialog(
+                    comicTitle = state.comic.title,
+                    initialStartDate = now,
+                    initialEndDate = now + 7 * MILLIS_PER_DAY,
+                    onDismiss = { showDatePicker = false },
+                    onConfirm = { start, end ->
+                        cartViewModel.addComicToCart(state.comic, start, end)
+                        showDatePicker = false
+                        toastState.show(
+                            message = "Added \"${state.comic.title}\" to your cart.",
+                            type = ComicToastType.SUCCESS,
+                        )
+                    },
+                )
+            }
+        }
 
         ComicDetailUiState.Loading -> DetailStatus(onBack = onBack) {
             CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
@@ -113,6 +175,7 @@ fun ComicDetailScreen(
     state: ComicDetailUi,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
+    isFavorite: Boolean = false,
     onBookmark: () -> Unit = {},
     onRent: (RentOptionUi) -> Unit = {},
     onAddToCart: (RentOptionUi) -> Unit = {},
@@ -131,9 +194,14 @@ fun ComicDetailScreen(
             title = state.title,
             actions = {
                 TopBarIconButton(
-                    icon = Icons.Filled.FavoriteBorder,
-                    contentDescription = "Bookmark",
+                    icon = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                    contentDescription = if (isFavorite) "Remove from wishlist" else "Add to wishlist",
                     onClick = onBookmark,
+                    tint = if (isFavorite) {
+                        MaterialTheme.colorScheme.error
+                    } else {
+                        MaterialTheme.extendedColors.ink
+                    },
                 )
             },
         )

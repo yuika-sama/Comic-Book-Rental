@@ -34,7 +34,10 @@ class ComicDetailViewModel @Inject constructor(
             val similar = allComics
                 .filter { it.genre == comic.genre && it.id != comic.id }
                 .take(SIMILAR_LIMIT)
-            ComicDetailUiState.Content(comic.toDetailUi(reviews = reviews, similar = similar))
+            ComicDetailUiState.Content(
+                comic = comic,
+                detail = comic.toDetailUi(reviews = reviews, similar = similar),
+            )
         }
     }
         .catch { e -> emit(ComicDetailUiState.Error(e.message ?: "Couldn't load this comic")) }

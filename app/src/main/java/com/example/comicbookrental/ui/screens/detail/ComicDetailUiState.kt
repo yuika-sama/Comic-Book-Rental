@@ -1,9 +1,11 @@
 package com.example.comicbookrental.ui.screens.detail
 
+import com.example.comicbookrental.data.models.Comic
+
 sealed interface ComicDetailUiState {
     data object Loading : ComicDetailUiState
 
-    data class Content(val detail: ComicDetailUi) : ComicDetailUiState
+    data class Content(val comic: Comic, val detail: ComicDetailUi) : ComicDetailUiState
 
     data object NotFound : ComicDetailUiState
 

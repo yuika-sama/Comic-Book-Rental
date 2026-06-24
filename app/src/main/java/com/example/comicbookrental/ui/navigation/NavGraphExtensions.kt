@@ -13,6 +13,7 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.comicbookrental.ui.screens.home.HomeRoute as HomeScreenEntry
 import com.example.comicbookrental.ui.screens.detail.ComicDetailRoute as ComicDetailScreenEntry
+import com.example.comicbookrental.ui.screens.wishlist.WishlistRoute as WishlistScreenEntry
 
 import com.example.comicbookrental.ui.screens.login.LoginScreen
 import com.example.comicbookrental.ui.screens.register.RegisterScreen
@@ -150,13 +151,11 @@ fun NavGraphBuilder.profileExtensionsGraph(
     navController: NavHostController
 ) {
     composable<WishlistRoute> {
-        // TODO: Wishlist UI - View favorite and saved comics (Section 9)
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(text = "My Wishlist Screen")
-        }
+        WishlistScreenEntry(
+            onBack = { navController.popBackStack() },
+            onComicClick = { comicId -> navController.navigate(ComicDetailRoute(comicId)) },
+            onExplore = { navController.navigate(HomeRoute) },
+        )
     }
 
     composable<PaymentMethodsRoute> {
