@@ -34,7 +34,12 @@ fun NavGraphBuilder.authGraph(navController: NavHostController){
                     }
                 },
                 onNavigateToVerify = { email ->
-                    navController.navigate(VerifyOtp(email))
+                    navController.navigate(
+                        VerifyOtp(
+                            email = email,
+                            isFromLogin = true
+                        )
+                    )
                 }
             )
         }
