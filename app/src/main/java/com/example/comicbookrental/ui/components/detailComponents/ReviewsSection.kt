@@ -1,4 +1,8 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.detailComponents
+import com.example.comicbookrental.ui.components.RatingStars
+import com.example.comicbookrental.ui.components.ComicButtonVariant
+import com.example.comicbookrental.ui.components.ComicButton
+import com.example.comicbookrental.ui.components.SectionHeader
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,6 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,7 +36,12 @@ fun ReviewsSection(
     reviewCount: Int,
     reviews: List<ReviewUi>,
     modifier: Modifier = Modifier,
+    collapsedCount: Int = DEFAULT_COLLAPSED_COUNT,
 ) {
+    var expanded by remember(reviews) { mutableStateOf(false) }
+    val canCollapse = reviews.size > collapsedCount
+    val visibleReviews = if (expanded || !canCollapse) reviews else reviews.take(collapsedCount)
+
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(Dimens.Spacing.StackMd),
@@ -37,7 +50,7 @@ fun ReviewsSection(
 
         RatingSummary(averageRating = averageRating, reviewCount = reviewCount)
 
-        reviews.forEach { review ->
+        visibleReviews.forEach { review ->
             ReviewCard(
                 userName = review.userName,
                 rating = review.rating,
@@ -46,8 +59,23 @@ fun ReviewsSection(
                 modifier = Modifier.fillMaxWidth(),
             )
         }
+
+        if (canCollapse) {
+            ComicButton(
+                text = if (expanded) {
+                    "Show less"
+                } else {
+                    "Show all %,d reviews".format(reviews.size)
+                },
+                onClick = { expanded = !expanded },
+                variant = ComicButtonVariant.Secondary,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
     }
 }
+
+private const val DEFAULT_COLLAPSED_COUNT = 2
 
 /** Big average score next to its star row and total count. */
 @Composable
@@ -93,6 +121,12 @@ private fun ReviewsSectionPreview() {
                     date = "03 Jun 2026",
                     comment = "Great pacing, though the cliffhanger felt a touch rushed. Still " +
                         "can't wait for #43.",
+                ),
+                ReviewUi(
+                    userName = "Theo P.",
+                    rating = 5,
+                    date = "28 May 2026",
+                    comment = "Hidden behind the 'Show all' button — proof the section expands.",
                 ),
             ),
             modifier = Modifier.padding(Dimens.Spacing.Margin),

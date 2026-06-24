@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.comicbookrental.ui.navigation.CatalogGraph
 import com.example.comicbookrental.ui.navigation.catalogGraph
+import com.example.comicbookrental.ui.screens.search.SearchRoute
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,13 +21,15 @@ class MainActivity : ComponentActivity()
         enableEdgeToEdge()
         setContent {
             ComicBookRentalTheme {
-                val navController = rememberNavController()
-                NavHost(
-                    navController = navController,
-                    startDestination = CatalogGraph,
-                ) {
-                    catalogGraph(navController)
-                }
+                SearchRoute(onComicClick = {})
+
+                // val navController = rememberNavController()
+                // NavHost(
+                //     navController = navController,
+                //     startDestination = CatalogGraph,
+                // ) {
+                //     catalogGraph(navController)
+                // }
             }
         }
     }

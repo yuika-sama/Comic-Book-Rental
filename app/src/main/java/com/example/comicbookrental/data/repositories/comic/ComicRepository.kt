@@ -1,22 +1,22 @@
 package com.example.comicbookrental.data.repositories.comic
 
-import com.example.comicbookrental.data.entities.ComicEntity
-import com.example.comicbookrental.data.entities.ReviewEntity
+import com.example.comicbookrental.data.models.Comic
+import com.example.comicbookrental.data.models.Review
 import kotlinx.coroutines.flow.Flow
 
 interface ComicRepository {
-    fun getAllComics(): Flow<List<ComicEntity>>
-    fun searchComics(query: String): Flow<List<ComicEntity>>
-    fun getComicById(comicId: Int): Flow<ComicEntity?>
-    fun getReviewsForComic(comicId: Int): Flow<List<ReviewEntity>>
+    fun getAllComics(): Flow<List<Comic>>
+    fun searchComics(query: String): Flow<List<Comic>>
+    fun getComicById(comicId: Int): Flow<Comic?>
+    fun getReviewsForComic(comicId: Int): Flow<List<Review>>
 
     // Home sections
-    fun getFeaturedComics(): Flow<List<ComicEntity>>
-    fun getNewReleases(limit: Int = 10): Flow<List<ComicEntity>>
-    fun getTopRated(limit: Int = 10): Flow<List<ComicEntity>>
+    fun getFeaturedComics(): Flow<List<Comic>>
+    fun getNewReleases(limit: Int = 10): Flow<List<Comic>>
+    fun getTopRated(limit: Int = 10): Flow<List<Comic>>
     fun getGenres(): Flow<List<String>>
 
-    suspend fun insertComics(comics: List<ComicEntity>)
+    suspend fun insertComics(comics: List<Comic>)
 
     suspend fun seedIfEmpty()
 }

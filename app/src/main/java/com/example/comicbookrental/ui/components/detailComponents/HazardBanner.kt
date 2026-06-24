@@ -1,4 +1,5 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.detailComponents
+import com.example.comicbookrental.ui.components.hazardStripes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,12 +30,7 @@ import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.InkBlack
 import com.example.comicbookrental.ui.theme.extendedColors
 
-/**
- * A dismissible info/hazard banner: a hard-bordered strip with diagonal caution stripes (see
- * [hazardStripes]), a warning icon, the [message], and a close (X) button.
- *
- * Stateless — [onDismiss] is fired by the X; the screen/ViewModel owns the visibility state.
- */
+
 @Composable
 fun HazardBanner(
     message: String,

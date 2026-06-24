@@ -26,6 +26,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
@@ -89,4 +90,12 @@ fun SecurityAlert(
             modifier = Modifier.padding(vertical = Dimens.Spacing.ContentSpacing)
         )
     }
+}
+
+@Composable
+@Preview(showBackground = true, backgroundColor = 0xFFFCF9F8)
+fun SecurityAlertPreview(){
+    SecurityAlert(
+        message = " Super hot manga"
+    )
 }

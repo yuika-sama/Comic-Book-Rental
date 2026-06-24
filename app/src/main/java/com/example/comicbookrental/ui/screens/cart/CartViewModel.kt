@@ -1,7 +1,7 @@
 package com.example.comicbookrental.ui.screens.cart
 
 import androidx.lifecycle.ViewModel
-import com.example.comicbookrental.data.entities.ComicEntity
+import com.example.comicbookrental.data.models.Comic
 import com.example.comicbookrental.data.models.CartItem
 import com.example.comicbookrental.data.models.MILLIS_PER_DAY
 import com.example.comicbookrental.data.models.totalPrice
@@ -39,7 +39,7 @@ class CartViewModel : ViewModel() {
     }
 
     fun addComicToCart(
-        comic: ComicEntity,
+        comic: Comic,
         startDate: Long,
         endDate: Long
     ) {
