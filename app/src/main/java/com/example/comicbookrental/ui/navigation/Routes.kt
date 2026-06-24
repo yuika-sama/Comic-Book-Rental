@@ -36,6 +36,7 @@ import kotlinx.serialization.Serializable
 @Serializable object NotificationsRoute
 
 // Admin & Dashboard (Section 8.2)
+@Serializable object AdminGraph
 @Serializable object AdminDashboardRoute
 @Serializable object AdminManageUsersRoute
 @Serializable object AdminManageComicsRoute
