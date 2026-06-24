@@ -92,6 +92,7 @@ fun ProfileDetailScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             val profile = state.user
+            println(profile?.isEmailVerified)
             HeroIdentityCard(
                 imageUrl = profile?.avatarUrl ?: null,
                 heroName = profile?.heroName ?: "LOADING...",
@@ -245,15 +246,15 @@ fun ProfileDetailScreen(
 
     if (state.isEditing){
         UpdateProfileDialog(
-            onCancelEditing = viewModel::cancelEditing,
+            onCancelEditing = {viewModel.cancelEditing()},
             editHeroName = state.editHeroName,
-            onEditHeroName = viewModel::onEditHeroNameChange,
+            onEditHeroName = {viewModel.onEditHeroNameChange(it)},
             editRealName = state.editRealName,
-            onEditRealName = viewModel::onEditRealNameChange,
+            onEditRealName = {viewModel.onEditRealNameChange(it)},
             editPhone = state.editPhone,
-            onEditPhone = viewModel::onEditPhoneChange,
+            onEditPhone = { viewModel.onEditPhoneChange(it) },
             editRegion = state.editRegion,
-            onEditRegion = viewModel::onEditRegionChange,
+            onEditRegion = { viewModel.onEditRegionChange(it) },
             errorMessage = state.editErrorMessage ?: "",
             onSaveProfile = { viewModel.saveProfile() }
         )
