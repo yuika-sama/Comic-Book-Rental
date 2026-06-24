@@ -68,7 +68,6 @@ fun PanelRushTopBar(
             )
 
             Row() {
-
                 Icon(
                     imageVector = Icons.Default.ShoppingCart,
                     contentDescription = "Cart",

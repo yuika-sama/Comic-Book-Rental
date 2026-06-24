@@ -13,7 +13,8 @@ class AuthRepositoryImpl @Inject constructor(
 {
     override suspend fun login(
         email: String,
-        password: String
+        password: String,
+        rememberMe: Boolean
     ): Result<Boolean>
     {
         delay(AuthMockData.NETWORK_DELAY)
@@ -30,6 +31,9 @@ class AuthRepositoryImpl @Inject constructor(
                     val currentProfile = storeManager.getUserProfile()
                     val isVerified = if (currentProfile.email == email) currentProfile.isEmailVerified else false
                     storeManager.saveUserProfile(currentProfile.copy(email = email, isEmailVerified = isVerified))
+                    if (rememberMe){
+                        storeManager.setLoggedIn(true)
+                    }
                     Result.success(isVerified)
                 }
                 else -> throw AuthMockData.CREDENTIAL_ERROR

@@ -30,6 +30,7 @@ import androidx.navigation.NavDestination.Companion.hasRoute
 import com.example.comicbookrental.ui.navigation.NavigationTab
 import com.example.comicbookrental.ui.theme.InkBlack
 import com.example.comicbookrental.ui.theme.HankenGrotesk
+import com.example.comicbookrental.ui.theme.Primary
 
 @Composable
 fun PanelRushBottomBar(
@@ -57,7 +58,7 @@ fun PanelRushBottomBar(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()
-                        .background(if (isSelected) MaterialTheme.colorScheme.primary else Color.White)
+                        .background(if (isSelected) Primary else Color.White)
                         .drawBehind {
                             if (isSelected)
                             {
