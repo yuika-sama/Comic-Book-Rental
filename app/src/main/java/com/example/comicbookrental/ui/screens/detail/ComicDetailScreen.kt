@@ -60,6 +60,7 @@ import com.example.comicbookrental.ui.theme.extendedColors
 fun ComicDetailRoute(
     onBack: () -> Unit,
     onComicClick: (String) -> Unit,
+    onCartClick: () -> Unit,
     viewModel: ComicDetailViewModel = hiltViewModel(),
     cartViewModel: CartViewModel = viewModel(),
     wishlistViewModel: WishlistViewModel = viewModel(),
@@ -93,6 +94,7 @@ fun ComicDetailRoute(
                         }
                     },
                     onAddToCart = { showDatePicker = true },
+                    onCartClick = onCartClick,
                     onSimilarClick = { onComicClick(it.id) },
                 )
 
@@ -179,6 +181,7 @@ fun ComicDetailScreen(
     onBookmark: () -> Unit = {},
     onRent: (RentOptionUi) -> Unit = {},
     onAddToCart: (RentOptionUi) -> Unit = {},
+    onCartClick: () -> Unit = {},
     onDismissBonusNote: () -> Unit = {},
     onViewAllSimilar: () -> Unit = {},
     onSimilarClick: (SimilarTitleUi) -> Unit = {},
@@ -189,7 +192,14 @@ fun ComicDetailScreen(
             .background(MaterialTheme.colorScheme.background)
             .halftoneBackground(),
     ) {
-        // TopBar is now handled by AppNavHost
+        com.example.comicbookrental.ui.components.commonComponents.SecondaryTopBar(
+            title = "COMIC DETAIL",
+            onBackClick = onBack,
+            onCartClick = onCartClick,
+            showHeartIcon = true,
+            isInterested = isFavorite,
+            onInterestedClick = onBookmark
+        )
 
         LazyColumn(
             modifier = Modifier

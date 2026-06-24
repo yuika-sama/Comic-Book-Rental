@@ -37,8 +37,9 @@ fun SecondaryTopBar(
     title: String,
     onBackClick: () -> Unit,
     onCartClick: () -> Unit = {},
-    onInterestedClick: () -> Unit = {},
-    isInterested: Boolean = false
+    showHeartIcon: Boolean = false,
+    isInterested: Boolean = false,
+    onInterestedClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -79,15 +80,17 @@ fun SecondaryTopBar(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = if (isInterested) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                    contentDescription = "Interested",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier
-                        .size(28.dp)
-                        .clickable { onInterestedClick() }
-                )
-                Spacer(modifier = Modifier.width(16.dp))
+                if (showHeartIcon) {
+                    Icon(
+                        imageVector = if (isInterested) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                        contentDescription = "Interested",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier
+                            .size(28.dp)
+                            .clickable { onInterestedClick() }
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                }
                 Icon(
                     imageVector = Icons.Default.ShoppingCart,
                     contentDescription = "Cart",
@@ -108,6 +111,7 @@ private fun SecondaryTopBarPreview() {
     SecondaryTopBar(
         title = "Comic Detail",
         onBackClick = {},
+        showHeartIcon = true,
         isInterested = true
     )
 }

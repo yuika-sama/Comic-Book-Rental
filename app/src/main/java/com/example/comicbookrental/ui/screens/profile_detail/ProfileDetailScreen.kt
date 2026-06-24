@@ -47,6 +47,7 @@ import com.example.comicbookrental.ui.components.profileComponents.UpdateProfile
 @Composable
 fun ProfileDetailScreen(
     onBackClick: () -> Unit,
+    onCartClick: () -> Unit,
     viewModel: ProfileDetailViewModel = hiltViewModel()
 )
 {
@@ -78,7 +79,12 @@ fun ProfileDetailScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        // TopBar is now handled by AppNavHost
+        com.example.comicbookrental.ui.components.commonComponents.SecondaryTopBar(
+            title = "PROFILE EDIT",
+            onBackClick = onBackClick,
+            onCartClick = onCartClick,
+            showHeartIcon = false
+        )
 
         Column(
             modifier = Modifier
