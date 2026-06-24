@@ -2,7 +2,7 @@ package com.example.comicbookrental.domain.repository
 
 interface AuthRepository
 {
-    suspend fun login(email: String, password: String): Result<Unit>
+    suspend fun login(email: String, password: String, rememberMe: Boolean = false): Result<Boolean>
 
     suspend fun oAuthLogin(): Result<Unit>
 

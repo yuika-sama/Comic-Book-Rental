@@ -4,6 +4,7 @@ import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comicbookrental.domain.repository.AuthRepository
+import com.example.comicbookrental.ui.utils.isStrongPassword
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -129,46 +130,52 @@ class RegisterViewModel @Inject constructor(
 
     private fun validateForm(currentState: RegisterUiState): Boolean
     {
+        var isValid = true
         if (!currentState.isAgreed)
         {
             _uiState.update { it.copy(errorMessage = "You must agree to the terms and conditions") }
-            return false
+            isValid = false
         }
 
         if (currentState.email.isBlank() || currentState.email.isEmpty())
         {
             _uiState.update { it.copy(emailError = "Email is required") }
-            return false
+            isValid = false
         }
         else if (!Patterns.EMAIL_ADDRESS.matcher(currentState.email).matches())
         {
             _uiState.update { it.copy(emailError = "Invalid email format") }
-            return false
+            isValid = false
         }
 
         if (currentState.password.isBlank() || currentState.password.isEmpty())
         {
             _uiState.update { it.copy(passwordError = "Password is required") }
-            return false
+            isValid = false
         }
         else if (currentState.password.length < 8)
         {
             _uiState.update { it.copy(passwordError = "Password must be at least 8 characters") }
-            return false
+            isValid = false
+        }
+        else if (!isStrongPassword(currentState.password))
+        {
+            _uiState.update { it.copy(passwordError = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character") }
+            isValid = false
         }
 
         if (currentState.confirmPassword.isBlank() || currentState.confirmPassword.isEmpty())
         {
             _uiState.update { it.copy(confirmPasswordError = "Confirm password is required") }
-            return false
+            isValid = false
         }
         else if (currentState.confirmPassword != currentState.password)
         {
             _uiState.update { it.copy(confirmPasswordError = "Passwords do not match") }
-            return false
+            isValid = false
         }
 
-        return true
+        return isValid
     }
 
     fun resetErrorMessage()

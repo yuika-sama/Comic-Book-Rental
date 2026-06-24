@@ -2,7 +2,7 @@ package com.example.comicbookrental.ui.screens.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.comicbookrental.data.models.Comic
+import com.example.comicbookrental.data.entities.Comic
 import com.example.comicbookrental.data.repositories.comic.ComicRepository
 import com.example.comicbookrental.ui.model.toUi
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,6 +10,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -49,8 +50,9 @@ class SearchViewModel @Inject constructor(
         _sortOption,
         _filters,
     ) { query, comics, options, sortOption, filters ->
+//        throw RuntimeException("test error")
         val filtered = comics.filter { it.matches(filters) }
-        SearchUiState(
+        SearchUiState.Content(
             query = query,
             suggestions = buildSuggestions(comics, options.genres, query.trim()),
             recentResults = filtered.sortedWith(sortOption.comparator()).map { it.toUi() },
@@ -60,13 +62,15 @@ class SearchViewModel @Inject constructor(
             availableGenres = options.genres,
             availableAuthors = options.authors,
             availableYears = options.years,
-            isLoading = false,
         )
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = SearchUiState(isLoading = true),
-    )
+    }
+        .map<SearchUiState.Content, SearchUiState> { it }   // widen so catch can emit Error
+        .catch { e -> emit(SearchUiState.Error(e.message ?: "Couldn't load comics")) }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = SearchUiState.Loading,
+        )
 
     fun onQueryChange(query: String) {
         _query.value = query

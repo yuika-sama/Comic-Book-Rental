@@ -8,4 +8,6 @@ data class LoginUiState(
     val errorMessage: String = "",
     val isLoading: Boolean = false,
     val isSuccess: Boolean = false,
+    val requiresVerification: Boolean = false,
+    val rememberMe: Boolean = false
 )

@@ -2,14 +2,7 @@ package com.example.comicbookrental.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-/**
- * Raw color tokens from DESIGN.md ("Heroic Kinetic" design system).
- *
- * These mirror the Material 3 color roles 1:1 and are consumed by [LightColors] in Theme.kt.
- * Do NOT call these directly from UI — use `MaterialTheme.colorScheme.*` so the app stays
- * theme-able. For brand colors that have no Material slot, use [ExtendedColors]
- * via `MaterialTheme.extendedColors` instead.
- */
+
 
 // --- Primary (Action Orange) ---
 val Primary = Color(0xFFA93100)

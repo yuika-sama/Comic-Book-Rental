@@ -24,22 +24,25 @@ enum class SuggestionType(val label: String) {
 data class SearchSuggestion(val text: String, val type: SuggestionType)
 
 /**
- * UI state for the Search screen. Flat data class with defaults (same convention as
- * [com.example.comicbookrental.ui.screens.cart.CartUiState]) so the screen can render in a
- * preview and a ViewModel can copy() pieces as they wire up.
- *
- * Autocomplete suggestions (brief §3.2) get added here as a follow-up step.
+ * UI state for the Search screen. Sealed interface with Loading / Content / Error, matching
+ * [com.example.comicbookrental.ui.screens.home.HomeUiState] so all screens stay consistent.
  */
-data class SearchUiState(
-    val query: String = "",
-    val suggestions: List<SearchSuggestion> = emptyList(),
-    val recentResults: List<ComicUi> = emptyList(),
-    val hotResultIds: Set<Int> = emptySet(),
-    val sortOption: SortOption = SortOption.NEWEST,
-    val filters: SearchFilters = SearchFilters(),
-    // Available filter options, derived from the catalog.
-    val availableGenres: List<String> = emptyList(),
-    val availableAuthors: List<String> = emptyList(),
-    val availableYears: List<String> = emptyList(),
-    val isLoading: Boolean = false,
-)
+sealed interface SearchUiState {
+
+    data object Loading : SearchUiState
+
+    data class Content(
+        val query: String = "",
+        val suggestions: List<SearchSuggestion> = emptyList(),
+        val recentResults: List<ComicUi> = emptyList(),
+        val hotResultIds: Set<Int> = emptySet(),
+        val sortOption: SortOption = SortOption.NEWEST,
+        val filters: SearchFilters = SearchFilters(),
+        // Available filter options, derived from the catalog.
+        val availableGenres: List<String> = emptyList(),
+        val availableAuthors: List<String> = emptyList(),
+        val availableYears: List<String> = emptyList(),
+    ) : SearchUiState
+
+    data class Error(val message: String) : SearchUiState
+}

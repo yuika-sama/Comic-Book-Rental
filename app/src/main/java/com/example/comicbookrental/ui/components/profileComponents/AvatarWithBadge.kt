@@ -21,12 +21,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import java.io.File
 
 @Composable
-fun AvatarWithBadge() {
+fun AvatarWithBadge(
+    avatarUrl: String? = ""
+) {
     Box(contentAlignment = Alignment.BottomEnd) {
         Box(
             modifier = Modifier
@@ -35,12 +42,32 @@ fun AvatarWithBadge() {
                 .background(Color.Gray)
                 .border(3.dp, MaterialTheme.colorScheme.primary, CircleShape)
         ) {
-            Icon(
-                imageVector = Icons.Default.Person,
-                contentDescription = "Avatar",
-                modifier = Modifier.fillMaxSize(),
-                tint = Color.White
-            )
+            if (!avatarUrl.isNullOrEmpty()){
+                val context = LocalContext.current
+                val imageModel = if (avatarUrl.startsWith("file://")) {
+                    File(avatarUrl.removePrefix("file://"))
+                } else {
+                    avatarUrl
+                }
+
+                AsyncImage(
+                    model = ImageRequest.Builder(context)
+                        .data(imageModel)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = "Avatar",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                    alignment = Alignment.Center
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Default.Person,
+                    contentDescription = "Avatar",
+                    modifier = Modifier.fillMaxSize(),
+                    tint = Color.White
+                )
+            }
         }
         Surface(
             color = MaterialTheme.colorScheme.primary,

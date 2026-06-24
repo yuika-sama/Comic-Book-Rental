@@ -1,14 +1,21 @@
 package com.example.comicbookrental.ui.screens.profile_detail
 
+import android.content.Context
+import android.net.Uri
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comicbookrental.domain.repository.ProfileRepository
+import com.example.comicbookrental.ui.utils.isPhoneNumber
+import com.example.comicbookrental.ui.utils.isStrongPassword
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,6 +30,36 @@ class ProfileDetailViewModel @Inject constructor(
         loadProfile()
     }
 
+    fun uploadLocalImage(context: Context, uriString: String)
+    {
+        viewModelScope.launch {
+            try
+            {
+                val uri = uriString.toUri()
+                val inputStream = context.contentResolver.openInputStream(uri)
+
+                val file = File(
+                    context.filesDir,
+                    "avatar_profile_${System.currentTimeMillis()}.jpg"
+                )
+
+                val outputStream = FileOutputStream(file)
+
+                inputStream?.copyTo(outputStream)
+                inputStream?.close()
+                outputStream.close()
+
+                val localPath = Uri.fromFile(file).toString()
+
+                _uiState.update { it.copy(editAvatarUrl = localPath) }
+            } catch (e: Exception)
+            {
+                e.printStackTrace()
+                _uiState.update { it.copy(editErrorMessage = "Error uploading image") }
+            }
+        }
+    }
+
     fun loadProfile() {
         _uiState.update { it.copy(isLoading = true, errorMessage = null) }
         viewModelScope.launch {
@@ -30,7 +67,7 @@ class ProfileDetailViewModel @Inject constructor(
                 onSuccess = { profile ->
                     _uiState.update {
                         it.copy(
-                            userProfile = profile,
+                            user = profile,
                             isLoading = false,
                             editRealName = profile.realName,
                             editPhone = profile.phone,
@@ -51,10 +88,11 @@ class ProfileDetailViewModel @Inject constructor(
     }
 
     fun startEditing() {
-        val currentProfile = _uiState.value.userProfile ?: return
+        val currentProfile = _uiState.value.user ?: return
         _uiState.update {
             it.copy(
                 isEditing = true,
+                editHeroName = currentProfile.heroName,
                 editRealName = currentProfile.realName,
                 editPhone = currentProfile.phone,
                 editRegion = currentProfile.region,
@@ -72,6 +110,10 @@ class ProfileDetailViewModel @Inject constructor(
         }
     }
 
+    fun onEditHeroNameChange(newValue: String){
+        _uiState.update { it.copy(editHeroName = newValue, editErrorMessage = null) }
+    }
+
     fun onEditRealNameChange(newValue: String) {
         _uiState.update { it.copy(editRealName = newValue, editErrorMessage = null) }
     }
@@ -85,25 +127,32 @@ class ProfileDetailViewModel @Inject constructor(
     }
 
     fun saveProfile() {
-        val state = _uiState.value
-        if (state.isLoading) return
+        val currentState = _uiState.value
 
-        if (state.editRealName.isBlank() || state.editPhone.isBlank() || state.editRegion.isBlank()) {
+        if (currentState.isLoading) return
+
+        if (currentState.editRealName.isBlank() || currentState.editPhone.isBlank() || currentState.editRegion.isBlank()) {
             _uiState.update { it.copy(editErrorMessage = "All fields are required") }
+            return
+        }
+
+        if (!isPhoneNumber(currentState.editPhone)){
+            _uiState.update { it.copy(editErrorMessage = "Invalid phone number format") }
             return
         }
 
         _uiState.update { it.copy(isLoading = true, editErrorMessage = null) }
         viewModelScope.launch {
             repository.updateProfile(
-                realName = state.editRealName,
-                phone = state.editPhone,
-                region = state.editRegion
+                heroName = currentState.editHeroName,
+                realName = currentState.editRealName,
+                phone = currentState.editPhone,
+                region = currentState.editRegion
             ).fold(
                 onSuccess = { profile ->
                     _uiState.update {
                         it.copy(
-                            userProfile = profile,
+                            user = profile,
                             isEditing = false,
                             isLoading = false,
                             isSuccess = true
@@ -119,6 +168,45 @@ class ProfileDetailViewModel @Inject constructor(
                     }
                 }
             )
+        }
+    }
+
+    fun startUpdatingAvatar(){
+        val currentProfile = _uiState.value.user ?: return
+
+        _uiState.update {
+            it.copy(
+                isUpdatingAvatar = true,
+                editAvatarUrl = currentProfile.avatarUrl
+            )
+        }
+    }
+
+    fun cancelUpdatingAvatar(){
+        _uiState.update {
+            it.copy(
+                isUpdatingAvatar = false,
+                editAvatarUrl = ""
+            )
+        }
+    }
+
+    fun onEditAvatarUrlChange(newValue: String){
+        _uiState.update { it.copy(editAvatarUrl = newValue) }
+    }
+
+    fun saveAvatar(){
+        val currentState = _uiState.value
+
+        _uiState.update { it.copy(isUpdatingAvatar = false) }
+
+        viewModelScope.launch {
+            repository.updateAvatar(currentState.editAvatarUrl)
+
+            val updatedUser = currentState.user?.copy(
+                avatarUrl = currentState.editAvatarUrl
+            )
+            _uiState.update { it.copy(user = updatedUser) }
         }
     }
 
@@ -205,25 +293,30 @@ class ProfileDetailViewModel @Inject constructor(
     }
 
     fun changePassword() {
-        val state = _uiState.value
-        if (state.isLoading) return
+        val currentState = _uiState.value
+        if (currentState.isLoading) return
 
         var hasError = false
-        if (state.oldPasswordText.isEmpty()) {
+        if (currentState.oldPasswordText.isEmpty()) {
             _uiState.update { it.copy(oldPasswordErrorMessage = "Current password is required") }
             hasError = true
         }
-        if (state.newPasswordText.isEmpty()) {
+
+        if (currentState.newPasswordText.isEmpty()) {
             _uiState.update { it.copy(newPasswordErrorMessage = "New password is required") }
             hasError = true
-        } else if (state.newPasswordText.length < 8) {
+        } else if (currentState.newPasswordText.length < 8) {
             _uiState.update { it.copy(newPasswordErrorMessage = "Password must be at least 8 characters") }
             hasError = true
+        } else if (!isStrongPassword(currentState.newPasswordText)){
+            _uiState.update { it.copy(newPasswordErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character") }
+            hasError = true
         }
-        if (state.confirmPasswordText.isEmpty()) {
+
+        if (currentState.confirmPasswordText.isEmpty()) {
             _uiState.update { it.copy(confirmPasswordErrorMessage = "Confirm password is required") }
             hasError = true
-        } else if (state.confirmPasswordText != state.newPasswordText) {
+        } else if (currentState.confirmPasswordText != currentState.newPasswordText) {
             _uiState.update { it.copy(confirmPasswordErrorMessage = "Passwords do not match") }
             hasError = true
         }
@@ -232,7 +325,7 @@ class ProfileDetailViewModel @Inject constructor(
 
         _uiState.update { it.copy(isLoading = true, oldPasswordErrorMessage = null, newPasswordErrorMessage = null, confirmPasswordErrorMessage = null) }
         viewModelScope.launch {
-            repository.changePassword(state.oldPasswordText, state.newPasswordText).fold(
+            repository.changePassword(currentState.oldPasswordText, currentState.newPasswordText).fold(
                 onSuccess = {
                     _uiState.update {
                         it.copy(

@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.commonComponents
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
@@ -32,10 +32,8 @@ import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
 enum class ComicButtonVariant {
-    /** Action Orange fill, white uppercase Anton, hard ink shadow. */
     Primary,
 
-    /** Paper White fill, ink border, NO shadow. */
     Secondary,
 }
 
@@ -67,7 +65,6 @@ fun ComicButton(
     val interactionSource = remember { MutableInteractionSource() }
     val pressed by interactionSource.collectIsPressedAsState()
 
-    // When pressed: shadow collapses to 0 and the button moves into where the shadow was.
     val shadowOffset by animateDpAsState(
         targetValue = if (pressed) 0.dp else restingOffset,
         label = "comicButtonShadow",

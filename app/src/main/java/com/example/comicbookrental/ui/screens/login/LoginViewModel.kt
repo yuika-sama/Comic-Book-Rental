@@ -1,6 +1,7 @@
 package com.example.comicbookrental.ui.screens.login
 
 import android.util.Patterns
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comicbookrental.domain.repository.AuthRepository
@@ -47,11 +48,16 @@ class LoginViewModel @Inject constructor(
         _uiState.update { it.copy(isLoading = true, errorMessage = "") }
 
         viewModelScope.launch {
-            val result = repository.login(currentState.email, currentState.password)
+            val result = repository.login(currentState.email, currentState.password, currentState.rememberMe)
 
             result.fold(
-                onSuccess = {
-                    _uiState.update { it.copy(isLoading = false, isSuccess = true) }
+                onSuccess = { isVerified ->
+                    if (isVerified){
+                        _uiState.update { it.copy(isLoading = false, isSuccess = true) }
+                    } else {
+                        repository.sendOtp(currentState.email)
+                        _uiState.update { it.copy(isLoading = false, requiresVerification = true) }
+                    }
                 },
                 onFailure = { exception ->
                     _uiState.update {
@@ -87,6 +93,10 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun onRememberMeChange(){
+        _uiState.update { it.copy(rememberMe = !it.rememberMe) }
+    }
+
     private fun validateForm(currentState: LoginUiState): Boolean
     {
         var isValid = true
@@ -119,5 +129,9 @@ class LoginViewModel @Inject constructor(
     fun resetSuccessState()
     {
         _uiState.update { it.copy(isSuccess = false) }
+    }
+
+    fun resetVerificationState(){
+        _uiState.update { it.copy(requiresVerification = false) }
     }
 }
