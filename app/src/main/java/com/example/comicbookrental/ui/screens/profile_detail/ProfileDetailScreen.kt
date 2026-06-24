@@ -78,10 +78,7 @@ fun ProfileDetailScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        ComicTopBar(
-            onBack = onBackClick,
-            title = "PROFILE DETAIL"
-        )
+        // TopBar is now handled by AppNavHost
 
         Column(
             modifier = Modifier

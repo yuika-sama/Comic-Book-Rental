@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.example.comicbookrental.data.repositories.comic.ComicRepository
+import com.example.comicbookrental.domain.repository.ComicRepository
 import com.example.comicbookrental.ui.navigation.ComicDetailRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted

@@ -105,7 +105,7 @@ fun WishlistScreen(
             .background(MaterialTheme.colorScheme.background)
             .halftoneBackground(),
     ) {
-        ComicTopBar(onBack = onBack, title = "Wishlist")
+        // TopBar is now handled by AppNavHost
 
         LazyColumn(
             modifier = Modifier

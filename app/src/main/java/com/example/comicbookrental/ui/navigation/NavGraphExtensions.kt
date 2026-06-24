@@ -128,7 +128,6 @@ fun NavGraphBuilder.catalogGraph(
 fun NavGraphBuilder.rentalGraph(
     navController: NavHostController
 ){
-    // TODO: Navigation between rental graph
     composable<MyRentalsRoute> {
         MyRentalsScreen(
             onNavigateToReader = { comicId ->
@@ -137,29 +136,15 @@ fun NavGraphBuilder.rentalGraph(
         )
     }
 
-    composable<ReaderRoute> {backstackEntry ->
+    composable<ReaderRoute> { backstackEntry ->
         val route = backstackEntry.toRoute<ReaderRoute>()
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ){
-            Text(
-                text = "Reading comic ${route.comicId}"
-            )
-        }
-
-        composable<ReaderRoute> { backstackEntry ->
-            val route = backstackEntry.toRoute<ReaderRoute>()
-            // TODO: Reader UI - Immersive Full-Screen, Bookmarks, and Reading Settings (Section 7)
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ){
-                Text(
-                    text = "Reading comic ${route.comicId}"
-                )
+        com.example.comicbookrental.ui.screens.reader_screen.ReaderScreen(
+            rentalId = route.comicId.toIntOrNull() ?: 0,
+            onBackClick = { navController.popBackStack() },
+            onExtendRentalClick = { rental ->
+                // TODO: Extend rental logic
             }
-        }
+        )
     }
 }
 

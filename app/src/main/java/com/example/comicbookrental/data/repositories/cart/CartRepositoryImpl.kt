@@ -2,10 +2,10 @@ package com.example.comicbookrental.data.repositories.cart
 
 import com.example.comicbookrental.data.mock.MockCartData
 import com.example.comicbookrental.data.entities.CartItem
-import com.example.comicbookrental.utils.StoreManager
-import javax.inject.Inject
+import com.example.comicbookrental.domain.repository.CartRepository
 
-class CartRepositoryImpl : CartRepository {
+class CartRepositoryImpl : CartRepository
+{
 
     override fun getAllCartItems(): List<CartItem> {
         return MockCartData.cartItems.toList()

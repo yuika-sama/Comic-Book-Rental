@@ -3,6 +3,7 @@ package com.example.comicbookrental.data.repositories.comic
 import android.content.Context
 import com.example.comicbookrental.data.entities.Comic
 import com.example.comicbookrental.data.entities.Review
+import com.example.comicbookrental.domain.repository.ComicRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +15,8 @@ import javax.inject.Singleton
 @Singleton
 class ComicRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
-) : ComicRepository {
+) : ComicRepository
+{
 
     private val json = Json { ignoreUnknownKeys = true }
 

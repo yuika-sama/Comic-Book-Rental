@@ -31,9 +31,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.comicbookrental.ui.components.commonComponents.PanelRushBottomBar
 import com.example.comicbookrental.ui.components.commonComponents.PanelRushTopBar
+import com.example.comicbookrental.ui.components.commonComponents.SecondaryTopBar
 import com.example.comicbookrental.ui.screens.cart.CartScreen
 import com.example.comicbookrental.ui.screens.profile.ProfileScreen
 import com.example.comicbookrental.ui.screens.profile_detail.ProfileDetailScreen
+import com.example.comicbookrental.ui.screens.search.SearchRoute
 import com.example.comicbookrental.utils.StoreManager
 
 @Composable
@@ -60,9 +62,21 @@ fun AppNavHost(){
         dest.hasRoute<SearchRoute>()
     } == true
 
+    val title = when {
+        currentDestination?.hasRoute<ComicDetailRoute>() == true -> "COMIC DETAIL"
+        currentDestination?.hasRoute<ProfileDetailRoute>() == true -> "PROFILE EDIT"
+        currentDestination?.hasRoute<WishlistRoute>() == true -> "MY WISHLIST"
+        else -> ""
+    }
+
     Scaffold(
         topBar = {
-            // TODO: showTopBar based on current route
+            val showSecondaryTopBar = currentDestination?.hierarchy?.any() {dest ->
+                dest.hasRoute<ComicDetailRoute>() ||
+                dest.hasRoute<ProfileDetailRoute>() ||
+                dest.hasRoute<WishlistRoute>()
+            } == true
+
             if (showBottomBar){
                 Box(
                     modifier = Modifier.statusBarsPadding()
@@ -73,18 +87,23 @@ fun AppNavHost(){
                             if (currentRoute != HomeRoute.toString()){
                                 navController.navigate(HomeRoute)
                             } else {
-                                Log.d(
-                                    "Topbar Icon Click: ",
-                                    "Current is home route"
-                                )
+                                Log.d("Topbar Icon Click: ", "Current is home route")
                             }
                         },
-                        onNotificationsClick = {
-                            // TODO: Navigate to Notification Screen
-                        },
-                        onNavigateToCartClick = {
-                            navController.navigate(CartRoute)
-                        }
+                        onNotificationsClick = { navController.navigate(NotificationsRoute) },
+                        onNavigateToCartClick = { navController.navigate(CartRoute) }
+                    )
+                }
+            } else if (showSecondaryTopBar) {
+                Box(
+                    modifier = Modifier.statusBarsPadding()
+                ){
+                    SecondaryTopBar(
+                        title = title,
+                        onBackClick = { navController.popBackStack() },
+                        onCartClick = { navController.navigate(CartRoute) },
+                        isInterested = false, // NOTE: Không thể lấy trạng thái isInterested từ ViewModel của từng trang khi để ở đây
+                        onInterestedClick = { }
                     )
                 }
             }
@@ -119,6 +138,15 @@ fun AppNavHost(){
             authGraph(navController)
             catalogGraph(navController)
             rentalGraph(navController)
+            profileExtensionsGraph(navController)
+
+            composable<SearchRoute> {
+                SearchRoute(
+                    onComicClick = { comicId ->
+                        navController.navigate(ComicDetailRoute(comicId.toString()))
+                    }
+                )
+            }
 
             composable<CartRoute> {
                 CartScreen(
@@ -142,7 +170,7 @@ fun AppNavHost(){
                         navController.navigate(CartRoute)
                     },
                     onWishlistClick = {
-                        // Wishlist navigation placeholder
+                        navController.navigate(WishlistRoute)
                     },
                     onHistoryClick = {
                         navController.navigate(MyRentalsRoute)

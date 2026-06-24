@@ -1,11 +1,11 @@
 package com.example.comicbookrental.data.repositories.rental
 
-import android.os.storage.StorageManager
 import com.example.comicbookrental.data.mock.MockRentalData
 import com.example.comicbookrental.data.entities.Rental
-import javax.inject.Inject
+import com.example.comicbookrental.domain.repository.RentalRepository
 
-class RentalRepositoryImpl : RentalRepository {
+class RentalRepositoryImpl : RentalRepository
+{
 
     override fun getAllRentals(): List<Rental> {
         return MockRentalData.rentals.toList()

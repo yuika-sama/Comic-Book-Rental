@@ -42,7 +42,8 @@ private enum class RentalTab {
 @Composable
 fun MyRentalsScreen(
     viewModel: RentalViewModel = viewModel(),
-    onNavigateToReader: (Int) -> Unit = {}
+    onNavigateToReader: (Int) -> Unit = {},
+    onBackClick: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -53,7 +54,8 @@ fun MyRentalsScreen(
         },
         onExtendClick = { rental ->
             viewModel.extendRental(rental.rentalId)
-        }
+        },
+        onBackClick = onBackClick
     )
 }
 
@@ -62,6 +64,7 @@ private fun MyRentalsContent(
     rentals: List<Rental>,
     onReadClick: (Rental) -> Unit,
     onExtendClick: (Rental) -> Unit,
+    onBackClick: () -> Unit
 ) {
     var selectedTab by remember {
         mutableStateOf(RentalTab.ACTIVE)
@@ -86,16 +89,11 @@ private fun MyRentalsContent(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(Dimens.Spacing.ScreenPadding)
     ) {
-        Text(
-            text = "MY RENTALS",
-            style = MaterialTheme.typography.headlineMedium.copy(
-                fontFamily = Anton
-            )
-        )
+        // TopBar is now handled by AppNavHost
 
-        Spacer(modifier = Modifier.height(4.dp))
+        Column(modifier = Modifier.padding(Dimens.Spacing.ScreenPadding)) {
+            Spacer(modifier = Modifier.height(4.dp))
 
         Box(
             modifier = Modifier
@@ -145,6 +143,7 @@ private fun MyRentalsContent(
                         onExtendClick = { onExtendClick(rental) }
                     )
                 }
+            }
             }
         }
     }

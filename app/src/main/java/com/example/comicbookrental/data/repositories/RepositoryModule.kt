@@ -1,16 +1,15 @@
 package com.example.comicbookrental.data.repositories
 
-import com.example.comicbookrental.data.repositories.cart.CartRepository
+import com.example.comicbookrental.domain.repository.CartRepository
 import com.example.comicbookrental.data.repositories.cart.CartRepositoryImpl
-import com.example.comicbookrental.data.repositories.comic.ComicRepository
+import com.example.comicbookrental.domain.repository.ComicRepository
 import com.example.comicbookrental.data.repositories.comic.ComicRepositoryImpl
 import com.example.comicbookrental.data.repositories.profile.ProfileRepositoryImpl
-import com.example.comicbookrental.data.repositories.rental.RentalRepository
+import com.example.comicbookrental.domain.repository.RentalRepository
 import com.example.comicbookrental.data.repositories.rental.RentalRepositoryImpl
 import com.example.comicbookrental.domain.repository.ProfileRepository
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton

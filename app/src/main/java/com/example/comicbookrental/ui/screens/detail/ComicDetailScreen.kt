@@ -147,7 +147,7 @@ private fun DetailStatus(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        ComicTopBar(onBack = onBack)
+        // TopBar is now handled by AppNavHost
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -189,22 +189,7 @@ fun ComicDetailScreen(
             .background(MaterialTheme.colorScheme.background)
             .halftoneBackground(),
     ) {
-        ComicTopBar(
-            onBack = onBack,
-            title = state.title,
-            actions = {
-                TopBarIconButton(
-                    icon = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
-                    contentDescription = if (isFavorite) "Remove from wishlist" else "Add to wishlist",
-                    onClick = onBookmark,
-                    tint = if (isFavorite) {
-                        MaterialTheme.colorScheme.error
-                    } else {
-                        MaterialTheme.extendedColors.ink
-                    },
-                )
-            },
-        )
+        // TopBar is now handled by AppNavHost
 
         LazyColumn(
             modifier = Modifier
