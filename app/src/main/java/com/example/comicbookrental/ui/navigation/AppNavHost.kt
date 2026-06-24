@@ -1,14 +1,23 @@
 package com.example.comicbookrental.ui.navigation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.materialIcon
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -20,9 +29,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.comicbookrental.ui.screens.cart.CartScreen
 import com.example.comicbookrental.ui.screens.profile.ProfileScreen
 import com.example.comicbookrental.ui.screens.profile_detail.ProfileDetailScreen
-import com.example.comicbookrental.ui.screens.search.SearchRoute as SearchScreenEntry
-import com.example.comicbookrental.ui.components.commonComponents.PanelRushTopBar
-import com.example.comicbookrental.ui.components.commonComponents.PanelRushBottomBar
 
 @Composable
 fun AppNavHost(){
@@ -46,34 +52,42 @@ fun AppNavHost(){
     } == true
 
     Scaffold(
-        topBar = {
-            if (showBottomBar) {
-                PanelRushTopBar(
-                    onMenuClick = { /* Handle menu click */ },
-                    onNotificationsClick = {
-                        navController.navigate(NotificationsRoute)
-                    }
-                )
-            }
-        },
         bottomBar = {
-            if (showBottomBar) {
-                PanelRushBottomBar(
-                    tabs = tabs,
-                    currentDestination = currentDestination,
-                    onTabClick = { tab ->
-                        navController.navigate(tab.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
+            if(showBottomBar){
+                NavigationBar{
+                    tabs.forEach { tab ->
+                        val isSelected = currentDestination?.hierarchy?.any{
+                            it.hasRoute(tab.route::class)
+                        } == true
+
+                        NavigationBarItem(
+                            selected = isSelected,
+                            onClick = {
+                                navController.navigate(tab.route){
+                                    popUpTo(navController.graph.findStartDestination().id){
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = tab.icon,
+                                    contentDescription = null
+                                )
+                            },
+                            label = {
+                                Text(
+                                    text = tab.label
+                                )
                             }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
+                        )
                     }
-                )
+                }
             }
         }
-    ) { innerPadding ->
+    ){ innerPadding ->
         NavHost(
             navController = navController,
             startDestination = AuthGraph,
@@ -87,20 +101,6 @@ fun AppNavHost(){
                 CartScreen(
                     onCheckoutClick = {
                         // TODO: Checkout logic
-                    }
-                )
-            }
-
-            composable<SearchRoute> {
-                SearchScreenEntry(
-                    onComicClick = { comicId ->
-                        navController.navigate(ComicDetailRoute(comicId.toString()))
-                    },
-                    onMenuClick = {
-                        // Menu click placeholder
-                    },
-                    onNotificationsClick = {
-                        navController.navigate(NotificationsRoute)
                     }
                 )
             }
@@ -119,7 +119,7 @@ fun AppNavHost(){
                         navController.navigate(CartRoute)
                     },
                     onWishlistClick = {
-                        navController.navigate(WishlistRoute)
+                        // Wishlist navigation placeholder
                     },
                     onHistoryClick = {
                         navController.navigate(MyRentalsRoute)
@@ -134,10 +134,6 @@ fun AppNavHost(){
                     }
                 )
             }
-
-            // Profile extensions and admin graphs placeholders (Section 8.1 & 8.2)
-            profileExtensionsGraph(navController)
-            adminGraph(navController)
         }
 
     }

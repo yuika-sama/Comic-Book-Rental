@@ -2,27 +2,36 @@ package com.example.comicbookrental.data.repositories.auth
 
 import com.example.comicbookrental.data.mock.AuthMockData
 import com.example.comicbookrental.domain.repository.AuthRepository
+import com.example.comicbookrental.utils.StoreManager
 import kotlinx.coroutines.delay
+import okhttp3.internal.trimSubstring
 import javax.inject.Inject
 
-class AuthRepositoryImpl @Inject constructor() : AuthRepository
+class AuthRepositoryImpl @Inject constructor(
+    private val storeManager: StoreManager
+) : AuthRepository
 {
     override suspend fun login(
         email: String,
         password: String
-    ): Result<Unit>
+    ): Result<Boolean>
     {
         delay(AuthMockData.NETWORK_DELAY)
 
         return try
         {
+            val credentials = storeManager.getUsersCredentials()
+            val savedPassword = credentials[email.trim()]
+
             when
             {
                 email == AuthMockData.ERROR_EMAIL -> throw AuthMockData.SERVER_ERROR
-                email == AuthMockData.VALID_EMAIL && password == AuthMockData.VALID_PASSWORD -> Result.success(
-                    Unit
-                )
-
+                savedPassword != null && savedPassword == password -> {
+                    val currentProfile = storeManager.getUserProfile()
+                    val isVerified = if (currentProfile.email == email) currentProfile.isEmailVerified else false
+                    storeManager.saveUserProfile(currentProfile.copy(email = email, isEmailVerified = isVerified))
+                    Result.success(isVerified)
+                }
                 else -> throw AuthMockData.CREDENTIAL_ERROR
             }
         } catch (e: Exception)
@@ -53,11 +62,31 @@ class AuthRepositoryImpl @Inject constructor() : AuthRepository
         delay(AuthMockData.NETWORK_DELAY)
         return try
         {
+            val credentials = storeManager.getUsersCredentials()
             when
             {
                 email == AuthMockData.ERROR_EMAIL -> throw AuthMockData.SERVER_ERROR
-                email == AuthMockData.EXISTING_EMAIL -> throw AuthMockData.EMAIL_EXIST_ERROR
-                else -> Result.success(Unit)
+                credentials.containsKey(email.trim()) -> throw AuthMockData.EMAIL_EXIST_ERROR
+                else ->
+                {
+                    val updatedCredentials = credentials.toMutableMap()
+                    updatedCredentials[email.trim()] = password
+                    storeManager.saveUsersCredentials(updatedCredentials)
+
+                    val profile = storeManager.getUserProfile()
+                    storeManager.saveUserProfile(
+                        profile.copy(
+                            email = email,
+                            realName = name,
+                            heroName = name.uppercase(),
+                            phone = "",
+                            region = "",
+                            isEmailVerified = false
+                        )
+                    )
+
+                    Result.success(Unit)
+                }
             }
         } catch (e: Exception)
         {
@@ -70,10 +99,11 @@ class AuthRepositoryImpl @Inject constructor() : AuthRepository
         delay(AuthMockData.NETWORK_DELAY)
         return try
         {
+            val credentials = storeManager.getUsersCredentials()
             when
             {
                 email == AuthMockData.ERROR_EMAIL -> throw AuthMockData.SERVER_ERROR
-                email == AuthMockData.VALID_EMAIL || email == AuthMockData.EXISTING_EMAIL -> Result.success(Unit)
+                credentials.containsKey(email.trim()) -> Result.success(Unit)
                 else -> throw AuthMockData.EMAIL_NOT_FOUND_ERROR
             }
         } catch (e: Exception)
@@ -91,7 +121,16 @@ class AuthRepositoryImpl @Inject constructor() : AuthRepository
             {
                 AuthMockData.ERROR_OTP -> throw AuthMockData.SERVER_ERROR
                 AuthMockData.EXPIRED_OTP -> throw AuthMockData.OTP_EXPIRED_ERROR
-                AuthMockData.VALID_OTP -> Result.success(Unit)
+                AuthMockData.VALID_OTP -> {
+                    val currentProfile = storeManager.getUserProfile()
+                    if (currentProfile.email == email){
+                        storeManager.saveUserProfile(
+                            currentProfile.copy(isEmailVerified = true)
+                        )
+                    }
+
+                    Result.success(Unit)
+                }
                 else -> throw AuthMockData.INVALID_OTP_ERROR
             }
         } catch (e: Exception)
@@ -109,6 +148,10 @@ class AuthRepositoryImpl @Inject constructor() : AuthRepository
             {
                 throw AuthMockData.SERVER_ERROR
             }
+            val credentials = storeManager.getUsersCredentials()
+            val updatedCredentials = credentials.toMutableMap()
+            updatedCredentials[email.trim()] = newPassword
+            storeManager.saveUsersCredentials(updatedCredentials)
             Result.success(Unit)
         } catch (e: Exception)
         {

@@ -86,7 +86,8 @@ fun ProfileDetailScreen(
             HeroIdentityCard(
                 heroName = profile?.heroName ?: "LOADING...",
                 rank = profile?.rank ?: "HEROIC",
-                email = profile?.email ?: "loading..."
+                email = profile?.email ?: "loading...",
+                isVerified = profile?.isEmailVerified ?: false
             )
 
             TransmissionHubCard(

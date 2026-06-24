@@ -44,10 +44,11 @@ import com.example.comicbookrental.ui.theme.extendedColors
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel = hiltViewModel(),
+    onLoginSuccess: () -> Unit = {},
+    onNavigateToVerify: (String) -> Unit = {},
     onRegisterClick: () -> Unit = {},
     onForgotPasswordClick: () -> Unit = {},
-    onLoginSuccess: () -> Unit = {}
+    viewModel: LoginViewModel = hiltViewModel()
 )
 {
     val state by viewModel.uiState.collectAsState()
@@ -57,6 +58,13 @@ fun LoginScreen(
         {
             onLoginSuccess()
             viewModel.resetSuccessState()
+        }
+    }
+
+    LaunchedEffect(state.requiresVerification) {
+        if (state.requiresVerification){
+            onNavigateToVerify(state.email)
+            viewModel.resetVerificationState()
         }
     }
 
