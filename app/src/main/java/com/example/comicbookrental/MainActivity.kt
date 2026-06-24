@@ -19,13 +19,7 @@ class MainActivity : ComponentActivity()
         enableEdgeToEdge()
         setContent {
             ComicBookRentalTheme {
-//                AppNavHost()
-//                ResetPasswordScreen(email = AuthMockData.VALID_EMAIL)
-                ReaderScreen(
-                    rentalId = 3,
-                    onBackClick = {},
-                    onExtendRentalClick = {}
-                )
+                AppNavHost()
             }
         }
     }
