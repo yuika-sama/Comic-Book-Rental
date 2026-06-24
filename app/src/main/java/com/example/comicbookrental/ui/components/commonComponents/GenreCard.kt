@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import com.example.comicbookrental.ui.components.commonComponents.comicHardShadow
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
@@ -47,7 +46,7 @@ fun GenreCard(
     Box(
         modifier = modifier
             .height(height)
-            .comicHardShadow(shape = shape, offset = Dimens.Elevation.Resting, color = frame)
+            .comicHardShadow(shape = shape, color = frame)
             .clip(shape)
             .background(container)
             .border(width = Dimens.Border.Standard, color = frame, shape = shape)
