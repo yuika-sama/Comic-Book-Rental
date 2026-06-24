@@ -20,7 +20,6 @@ import com.example.comicbookrental.ui.screens.forgot_password.ForgotPasswordScre
 import com.example.comicbookrental.ui.screens.rentals.MyRentalsScreen
 import com.example.comicbookrental.ui.screens.verify_otp.VerifyOtpScreen
 import com.example.comicbookrental.ui.screens.reset_password.ResetPasswordScreen
-import java.io.Reader
 
 fun NavGraphBuilder.authGraph(navController: NavHostController){
     navigation<AuthGraph>(startDestination = LoginRoute){
@@ -137,7 +136,7 @@ fun NavGraphBuilder.rentalGraph(
         )
     }
 
-    composable<ReaderRoute> {backstackEntry ->
+    composable<ReaderRoute> { backstackEntry ->
         val route = backstackEntry.toRoute<ReaderRoute>()
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -146,19 +145,6 @@ fun NavGraphBuilder.rentalGraph(
             Text(
                 text = "Reading comic ${route.comicId}"
             )
-        }
-
-        composable<ReaderRoute> { backstackEntry ->
-            val route = backstackEntry.toRoute<ReaderRoute>()
-            // TODO: Reader UI - Immersive Full-Screen, Bookmarks, and Reading Settings (Section 7)
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ){
-                Text(
-                    text = "Reading comic ${route.comicId}"
-                )
-            }
         }
     }
 }

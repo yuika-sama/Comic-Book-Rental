@@ -36,6 +36,7 @@ import com.example.comicbookrental.ui.screens.cart.CartScreen
 import com.example.comicbookrental.ui.screens.checkout.CheckoutScreen
 import com.example.comicbookrental.ui.screens.profile.ProfileScreen
 import com.example.comicbookrental.ui.screens.profile_detail.ProfileDetailScreen
+import com.example.comicbookrental.ui.screens.search.SearchRoute as SearchScreen
 import com.example.comicbookrental.utils.StoreManager
 
 @Composable
@@ -122,6 +123,16 @@ fun AppNavHost(){
             authGraph(navController)
             catalogGraph(navController)
             rentalGraph(navController)
+            profileExtensionsGraph(navController)
+            adminGraph(navController)
+
+            composable<SearchRoute> {
+                SearchScreen(
+                    onComicClick = { comicId ->
+                        navController.navigate(ComicDetailRoute(comicId.toString()))
+                    }
+                )
+            }
 
             composable<CartRoute> {
                 CartScreen(
@@ -161,7 +172,7 @@ fun AppNavHost(){
                         navController.navigate(CartRoute)
                     },
                     onWishlistClick = {
-                        // Wishlist navigation placeholder
+                        navController.navigate(WishlistRoute)
                     },
                     onHistoryClick = {
                         navController.navigate(MyRentalsRoute)

@@ -31,8 +31,8 @@ import com.example.comicbookrental.data.entities.PaymentMethod
 import com.example.comicbookrental.data.entities.rentalDays
 import com.example.comicbookrental.data.entities.totalPrice
 
-import com.example.comicbookrental.ui.components.ComicButton
-import com.example.comicbookrental.ui.components.ComicButtonVariant
+import com.example.comicbookrental.ui.components.commonComponents.ComicButton
+import com.example.comicbookrental.ui.components.commonComponents.ComicButtonVariant
 import com.example.comicbookrental.ui.components.cartComponents.CartComicCover
 import com.example.comicbookrental.ui.components.checkoutComponents.CheckoutEmptyContent
 import com.example.comicbookrental.ui.components.checkoutComponents.CheckoutSuccessContent
