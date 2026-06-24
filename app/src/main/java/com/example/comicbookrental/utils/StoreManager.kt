@@ -2,11 +2,11 @@ package com.example.comicbookrental.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.comicbookrental.data.models.CartItem
-import com.example.comicbookrental.data.models.Comic
-import com.example.comicbookrental.data.models.Rental
-import com.example.comicbookrental.data.models.RentalStatus
-import com.example.comicbookrental.data.models.User
+import com.example.comicbookrental.data.entities.CartItem
+import com.example.comicbookrental.data.entities.Comic
+import com.example.comicbookrental.data.entities.Rental
+import com.example.comicbookrental.data.entities.RentalStatus
+import com.example.comicbookrental.data.entities.User
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
@@ -63,7 +63,7 @@ class StoreManager @Inject constructor(
                     comicCoverUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAcXGr6r1HemXimBqcdQ2rIrAltN95YCLjwjQknzwnAA&s=10",
                     rentalDate = now - day,
                     dueDate = now + 6 * day,
-                    status = com.example.comicbookrental.data.models.RentalStatus.ACTIVE
+                    status = RentalStatus.ACTIVE
                 ),
                 Rental(
                     rentalId = 2,

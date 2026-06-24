@@ -11,7 +11,7 @@ class ProfileRepositoryImpl @Inject constructor(
     private val storeManager: StoreManager
 ) : ProfileRepository {
 
-    override suspend fun getProfile(): Result<Unit> {
+    override suspend fun getProfile(): Result<User> {
         delay(ProfileMockData.NETWORK_DELAY)
         return try {
             Result.success(storeManager.getUserProfile())

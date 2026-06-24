@@ -1,7 +1,7 @@
 package com.example.comicbookrental.ui.screens.profile
 
-import com.example.comicbookrental.data.entities.UserProfile
-import com.example.comicbookrental.data.models.User
+import com.example.comicbookrental.data.entities.User
+
 
 data class ProfileUiState(
     val user: User? = null,
