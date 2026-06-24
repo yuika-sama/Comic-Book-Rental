@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
@@ -46,11 +47,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.comicbookrental.ui.components.authComponents.ComicCard
+import com.example.comicbookrental.ui.components.commonComponents.HazardBanner
 import com.example.comicbookrental.ui.components.searchComponents.ComicSearchField
 import com.example.comicbookrental.ui.components.searchComponents.SearchResultCard
-import com.example.comicbookrental.ui.components.SectionHeader
-import com.example.comicbookrental.ui.components.TopBarIconButton
-import com.example.comicbookrental.ui.components.CartComicCover
+import com.example.comicbookrental.ui.components.commonComponents.SectionHeader
+import com.example.comicbookrental.ui.components.commonComponents.TopBarIconButton
+import com.example.comicbookrental.ui.components.commonComponents.CartComicCover
 import com.example.comicbookrental.ui.model.ComicUi
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
@@ -88,8 +90,7 @@ fun SearchRoute(
 
 /**
  * Dedicated global-search screen (replaces the inline search field that used to live on Home).
- * UI-first: state is hoisted so it can be driven by a ViewModel later. Filters, sort and
- * autocomplete (requirement 3.2) plug in as follow-up steps.
+ * Dispatches on [SearchUiState]: Loading / Error / Content, mirroring Home & Detail.
  */
 @Composable
 fun SearchScreen(
@@ -105,6 +106,58 @@ fun SearchScreen(
     onMenuClick: () -> Unit = {},
     onNotificationsClick: () -> Unit = {},
 ) {
+    when (uiState) {
+        is SearchUiState.Loading -> SearchStatus(modifier) {
+            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+        }
+
+        is SearchUiState.Error -> SearchStatus(modifier) {
+            HazardBanner(message = uiState.message, modifier = Modifier.fillMaxWidth())
+        }
+
+        is SearchUiState.Content -> SearchContent(
+            content = uiState,
+            onQueryChange = onQueryChange,
+            onComicClick = onComicClick,
+            onSuggestionClick = onSuggestionClick,
+            onClearRecent = onClearRecent,
+            onSortChange = onSortChange,
+            onFiltersChange = onFiltersChange,
+            onClearFilters = onClearFilters,
+            modifier = modifier,
+        )
+    }
+}
+
+/** Full-screen centered slot for the Loading / Error states. */
+@Composable
+private fun SearchStatus(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(Dimens.Spacing.StackLg),
+        contentAlignment = Alignment.Center,
+    ) {
+        content()
+    }
+}
+
+@Composable
+private fun SearchContent(
+    content: SearchUiState.Content,
+    onQueryChange: (String) -> Unit,
+    onComicClick: (Int) -> Unit,
+    onSuggestionClick: (SearchSuggestion) -> Unit,
+    onClearRecent: () -> Unit,
+    onSortChange: (SortOption) -> Unit,
+    onFiltersChange: (SearchFilters) -> Unit,
+    onClearFilters: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     var showFilterSheet by remember { mutableStateOf(false) }
 
     Column(
@@ -112,10 +165,6 @@ fun SearchScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        SearchTopBar(
-            onMenuClick = onMenuClick,
-            onNotificationsClick = onNotificationsClick,
-        )
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -125,13 +174,13 @@ fun SearchScreen(
             verticalArrangement = Arrangement.spacedBy(Dimens.Spacing.Gutter),
         ) {
             fullSpanItem {
-                ComicSearchField(value = uiState.query, onValueChange = onQueryChange)
+                ComicSearchField(value = content.query, onValueChange = onQueryChange)
             }
 
-            if (uiState.suggestions.isNotEmpty()) {
+            if (content.suggestions.isNotEmpty()) {
                 fullSpanItem {
                     SearchSuggestions(
-                        suggestions = uiState.suggestions,
+                        suggestions = content.suggestions,
                         onSuggestionClick = onSuggestionClick,
                     )
                 }
@@ -139,7 +188,7 @@ fun SearchScreen(
 
             fullSpanItem {
                 FilterBar(
-                    filters = uiState.filters,
+                    filters = content.filters,
                     onOpenSheet = { showFilterSheet = true },
                     onFiltersChange = onFiltersChange,
                 )
@@ -148,8 +197,8 @@ fun SearchScreen(
             fullSpanItem {
                 SectionHeader(
                     title = "Recent Results",
-                    actionLabel = if (uiState.recentResults.isNotEmpty()) "Clear All" else null,
-                    onActionClick = if (uiState.recentResults.isNotEmpty()) onClearRecent else null,
+                    actionLabel = if (content.recentResults.isNotEmpty()) "Clear All" else null,
+                    onActionClick = if (content.recentResults.isNotEmpty()) onClearRecent else null,
                 )
             }
 
@@ -158,16 +207,16 @@ fun SearchScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End,
                 ) {
-                    SortControl(selected = uiState.sortOption, onSelect = onSortChange)
+                    SortControl(selected = content.sortOption, onSelect = onSortChange)
                 }
             }
 
-            items(items = uiState.recentResults, key = { it.id }) { comic ->
+            items(items = content.recentResults, key = { it.id }) { comic ->
                 SearchResultCard(
                     title = comic.title,
                     genre = comic.genre,
                     rating = comic.rating,
-                    isHot = comic.id in uiState.hotResultIds,
+                    isHot = comic.id in content.hotResultIds,
                     onClick = { onComicClick(comic.id) },
                     cover = { CartComicCover(url = comic.coverImageUrl, contentDescription = comic.title) },
                 )
@@ -177,10 +226,10 @@ fun SearchScreen(
 
     if (showFilterSheet) {
         FilterSheet(
-            filters = uiState.filters,
-            availableGenres = uiState.availableGenres,
-            availableAuthors = uiState.availableAuthors,
-            availableYears = uiState.availableYears,
+            filters = content.filters,
+            availableGenres = content.availableGenres,
+            availableAuthors = content.availableAuthors,
+            availableYears = content.availableYears,
             onFiltersChange = onFiltersChange,
             onClear = onClearFilters,
             onDismiss = { showFilterSheet = false },
@@ -188,41 +237,7 @@ fun SearchScreen(
     }
 }
 
-/** Brand top bar matching the Figma reference: menu, the "Panel Rush" wordmark, and notifications. */
-@Composable
-private fun SearchTopBar(
-    onMenuClick: () -> Unit,
-    onNotificationsClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(Dimens.Sizes.BottomBarHeight)
-            .padding(horizontal = Dimens.Spacing.Margin),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Dimens.Spacing.ContentSpacing),
-    ) {
-        TopBarIconButton(
-            icon = Icons.Filled.Menu,
-            contentDescription = "Menu",
-            onClick = onMenuClick,
-        )
-        Text(
-            text = "Panel Rush".uppercase(),
-            style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.weight(1f),
-        )
-        TopBarIconButton(
-            icon = Icons.Filled.Notifications,
-            contentDescription = "Notifications",
-            onClick = onNotificationsClick,
-        )
-    }
-}
 
-/** Inline autocomplete panel under the search field: title / author / genre matches (brief §3.2). */
 @Composable
 private fun SearchSuggestions(
     suggestions: List<SearchSuggestion>,
@@ -366,7 +381,7 @@ private fun SearchScreenPreview() {
     }
     ComicBookRentalTheme {
         SearchScreen(
-            uiState = SearchUiState(
+            uiState = SearchUiState.Content(
                 query = "ne",
                 suggestions = listOf(
                     SearchSuggestion("Neon Drifter: Vol 1", SuggestionType.TITLE),

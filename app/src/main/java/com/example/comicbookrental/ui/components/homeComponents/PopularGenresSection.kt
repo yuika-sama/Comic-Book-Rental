@@ -1,6 +1,6 @@
 package com.example.comicbookrental.ui.components.homeComponents
-import com.example.comicbookrental.ui.components.GenreCard
-import com.example.comicbookrental.ui.components.SectionHeader
+import com.example.comicbookrental.ui.components.commonComponents.GenreCard
+import com.example.comicbookrental.ui.components.commonComponents.SectionHeader
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

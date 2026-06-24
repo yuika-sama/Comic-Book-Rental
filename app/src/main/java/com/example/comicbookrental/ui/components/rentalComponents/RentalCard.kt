@@ -1,5 +1,7 @@
-package com.example.comicbookrental.ui.components
-
+package com.example.comicbookrental.ui.components.rentalComponents
+import com.example.comicbookrental.ui.components.cartComponents.CartComicCover
+import com.example.comicbookrental.ui.components.commonComponents.ComicButton
+import com.example.comicbookrental.ui.components.commonComponents.ComicButtonVariant
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement

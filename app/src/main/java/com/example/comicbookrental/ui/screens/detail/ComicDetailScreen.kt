@@ -23,19 +23,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.comicbookrental.ui.components.CartComicCover
+import com.example.comicbookrental.ui.components.commonComponents.CartComicCover
 import com.example.comicbookrental.ui.components.detailComponents.ComicTitleBlock
-import com.example.comicbookrental.ui.components.ComicTopBar
-import com.example.comicbookrental.ui.components.detailComponents.HazardBanner
+import com.example.comicbookrental.ui.components.commonComponents.ComicTopBar
+import com.example.comicbookrental.ui.components.commonComponents.HazardBanner
 import com.example.comicbookrental.ui.components.detailComponents.HeroCoverFrame
 import com.example.comicbookrental.ui.components.detailComponents.RentOptionCard
 import com.example.comicbookrental.ui.components.detailComponents.ReviewUi
 import com.example.comicbookrental.ui.components.detailComponents.ReviewsSection
-import com.example.comicbookrental.ui.components.SectionHeader
+import com.example.comicbookrental.ui.components.commonComponents.SectionHeader
 import com.example.comicbookrental.ui.components.detailComponents.SimilarTitleUi
 import com.example.comicbookrental.ui.components.detailComponents.SimilarTitlesSection
 import com.example.comicbookrental.ui.components.detailComponents.SynopsisCard
-import com.example.comicbookrental.ui.components.TopBarIconButton
+import com.example.comicbookrental.ui.components.commonComponents.TopBarIconButton
 import com.example.comicbookrental.ui.components.commonComponents.halftoneBackground
 //import com.example.comicbookrental.ui.components.commonComponents.halftoneBackground
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
@@ -70,7 +70,7 @@ fun ComicDetailRoute(
         }
 
         is ComicDetailUiState.Error -> DetailStatus(onBack = onBack) {
-            StatusMessage(state.message)
+            HazardBanner(message = state.message, modifier = Modifier.fillMaxWidth())
         }
     }
 }
@@ -200,17 +200,17 @@ fun ComicDetailScreen(
                 }
             }
 
-            if (state.bonusNote != null) {
-                item {
-                    HazardBanner(
-                        message = state.bonusNote,
-                        onDismiss = onDismissBonusNote,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = Dimens.Spacing.Margin),
-                    )
-                }
-            }
+//            if (state.bonusNote != null) {
+//                item {
+//                    HazardBanner(
+//                        message = state.bonusNote,
+//                        onDismiss = onDismissBonusNote,
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(horizontal = Dimens.Spacing.Margin),
+//                    )
+//                }
+//            }
 
             item {
                 ReviewsSection(

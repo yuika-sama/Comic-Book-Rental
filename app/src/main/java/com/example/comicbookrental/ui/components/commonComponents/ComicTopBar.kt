@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.commonComponents
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,12 +29,7 @@ import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
-/**
- * Reusable top bar for screens that live OUTSIDE the bottom-tab shell (e.g. Comic Detail).
- * A back button, an optional [title], and a trailing [actions] slot — all on the paper surface.
- *
- * The back/action buttons use the brutalist ink-bordered square look so they pop on the page.
- */
+
 @Composable
 fun ComicTopBar(
     onBack: () -> Unit,

@@ -33,8 +33,8 @@ import com.example.comicbookrental.ui.components.authComponents.AuthIconBox
 import com.example.comicbookrental.ui.components.authComponents.AuthTopHeader
 import com.example.comicbookrental.ui.components.commonComponents.BrutalistButton
 import com.example.comicbookrental.ui.components.commonComponents.BrutalistTextField
-import com.example.comicbookrental.ui.components.ComicButton
-import com.example.comicbookrental.ui.components.ComicButtonVariant
+import com.example.comicbookrental.ui.components.commonComponents.ComicButton
+import com.example.comicbookrental.ui.components.commonComponents.ComicButtonVariant
 import com.example.comicbookrental.ui.components.authComponents.ComicCard
 import com.example.comicbookrental.ui.components.authComponents.PasswordStrengthEvaluator
 import com.example.comicbookrental.ui.components.authComponents.SecurityAlert

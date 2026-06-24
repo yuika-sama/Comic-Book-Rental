@@ -4,6 +4,7 @@ import com.example.comicbookrental.ui.components.commonComponents.comicHardShado
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -11,12 +12,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import com.example.comicbookrental.ui.components.commonComponents.rememberComicPressState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,13 +47,17 @@ fun FeaturedComicCard(
     val shape = RoundedCornerShape(Dimens.Radius.Sm)
     val ink = MaterialTheme.extendedColors.ink
 
+    val interactionSource = remember { MutableInteractionSource() }
+    val press = rememberComicPressState(interactionSource, restingOffset = Dimens.Elevation.Raised)
+
     Column(
         modifier = modifier
-            .comicHardShadow(shape = shape, offset = Dimens.Elevation.Raised, color = shadowColor)
+            .offset(x = press.translation, y = press.translation)
+            .comicHardShadow(shape = shape, offset = press.shadowOffset, color = shadowColor)
             .clip(shape)
             .background(ink)
             .border(width = Dimens.Border.Standard, color = ink, shape = shape)
-            .clickable(onClick = onClick),
+            .clickable(interactionSource = interactionSource, indication = null, onClick = onClick),
     ) {
         Box(
             modifier = Modifier
