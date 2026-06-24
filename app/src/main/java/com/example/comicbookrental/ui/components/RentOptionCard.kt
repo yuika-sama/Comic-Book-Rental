@@ -1,31 +1,39 @@
 package com.example.comicbookrental.ui.components
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddShoppingCart
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
-/**
- * A single rental plan in the Comic Detail "Rent Options" section: a hard-bordered card with the
- * plan [title] + [price] on one line, a small [subtitle] underneath, and a full-width CTA button.
- *
- * [highlighted] flips the card to the Action-Orange "featured plan" style (white CTA on orange);
- * the default is the paper card (ink CTA on cream). The CTA reuses [ComicButton].
- */
+
 @Composable
 fun RentOptionCard(
     title: String,
@@ -33,6 +41,7 @@ fun RentOptionCard(
     subtitle: String,
     ctaText: String,
     onRent: () -> Unit,
+    onAddToCart: () -> Unit,
     modifier: Modifier = Modifier,
     highlighted: Boolean = false,
 ) {
@@ -47,6 +56,9 @@ fun RentOptionCard(
     } else {
         MaterialTheme.colorScheme.onSurfaceVariant
     }
+
+    val actionContainer = if (highlighted) MaterialTheme.colorScheme.surface else ink
+    val actionContent = if (highlighted) ink else MaterialTheme.colorScheme.onPrimary
 
     Column(
         modifier = modifier
@@ -80,13 +92,71 @@ fun RentOptionCard(
                 color = priceColor,
             )
         }
-
-        ComicButton(
-            text = ctaText,
-            onClick = onRent,
+        Row(
             modifier = Modifier.fillMaxWidth(),
-            containerColor = if (highlighted) MaterialTheme.colorScheme.surface else ink,
-            contentColor = if (highlighted) ink else MaterialTheme.colorScheme.onPrimary,
+            horizontalArrangement = Arrangement.spacedBy(Dimens.Spacing.StackSm),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            ComicButton(
+                text = ctaText,
+                onClick = onRent,
+                modifier = Modifier.weight(1f),
+                containerColor = actionContainer,
+                contentColor = actionContent,
+            )
+            CartIconButton(
+                onClick = onAddToCart,
+                containerColor = actionContainer,
+                contentColor = actionContent,
+                ink = ink,
+            )
+        }
+    }
+}
+
+/** Square, brutalist "add to cart" button that mirrors [ComicButton]'s press feel. */
+@Composable
+private fun CartIconButton(
+    onClick: () -> Unit,
+    containerColor: Color,
+    contentColor: Color,
+    ink: Color,
+    modifier: Modifier = Modifier,
+) {
+    val shape = RoundedCornerShape(Dimens.Radius.Button)
+
+    val interactionSource = remember { MutableInteractionSource() }
+    val pressed by interactionSource.collectIsPressedAsState()
+
+    val shadowOffset by animateDpAsState(
+        targetValue = if (pressed) 0.dp else Dimens.Elevation.Resting,
+        label = "cartButtonShadow",
+    )
+    val pressTranslation by animateDpAsState(
+        targetValue = if (pressed) Dimens.Elevation.Resting else 0.dp,
+        label = "cartButtonTranslation",
+    )
+
+    Box(
+        modifier = modifier
+            .size(Dimens.Sizes.ButtonHeight)
+            .offset(x = pressTranslation, y = pressTranslation)
+            .comicHardShadow(shape = shape, offset = shadowOffset, color = ink)
+            .clip(shape)
+            .background(containerColor)
+            .border(width = Dimens.Border.Standard, color = ink, shape = shape)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick,
+            ),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            imageVector = Icons.Default.AddShoppingCart,
+            contentDescription = "Add to cart",
+            tint = contentColor,
+            modifier = Modifier.size(Dimens.Icon.Medium),
         )
     }
 }
@@ -107,6 +177,7 @@ private fun RentOptionCardPreview() {
                 subtitle = "7 Days Access",
                 ctaText = "Rent Now",
                 onRent = {},
+                onAddToCart = {},
             )
             RentOptionCard(
                 title = "Full Arc (S1)",
@@ -114,6 +185,7 @@ private fun RentOptionCardPreview() {
                 subtitle = "Permanent Library",
                 ctaText = "Rent Season",
                 onRent = {},
+                onAddToCart = {},
                 highlighted = true,
             )
         }

@@ -1,19 +1,14 @@
 package com.example.comicbookrental
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
-import com.example.comicbookrental.ui.navigation.AppNavHost
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import com.example.comicbookrental.ui.navigation.CatalogGraph
+import com.example.comicbookrental.ui.navigation.catalogGraph
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
-import com.example.comicbookrental.ui.screens.DesignTestPreview
-import com.example.comicbookrental.ui.screens.forgot_password.ForgotPasswordScreen
-import com.example.comicbookrental.ui.screens.home.HomeRoute
-import com.example.comicbookrental.ui.screens.home.HomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,9 +20,13 @@ class MainActivity : ComponentActivity()
         enableEdgeToEdge()
         setContent {
             ComicBookRentalTheme {
-//                AppNavHost()
-//                ForgotPasswordScreen()
-                HomeRoute(onComicClick = {})
+                val navController = rememberNavController()
+                NavHost(
+                    navController = navController,
+                    startDestination = CatalogGraph,
+                ) {
+                    catalogGraph(navController)
+                }
             }
         }
     }

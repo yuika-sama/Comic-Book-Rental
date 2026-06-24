@@ -17,11 +17,7 @@ import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
-/**
- * The Comic Detail "synopsis" panel: a hard-bordered, hard-shadowed paper card with a small
- * uppercase [label] header and the body [text]. The card itself is a solid surface; the
- * halftone dot texture belongs to the page behind it (see [halftoneBackground]).
- */
+
 @Composable
 fun SynopsisCard(
     text: String,

@@ -6,7 +6,6 @@ import com.example.comicbookrental.data.models.CartItem
 class CartRepositoryImpl : CartRepository {
 
     override fun getAllCartItems(): List<CartItem> {
-        // Không trả list gốc ra ngoài.
         return MockCartData.cartItems.toList()
     }
 
@@ -16,10 +15,8 @@ class CartRepositoryImpl : CartRepository {
         }
 
         if (existingIndex == -1) {
-            // Chưa có comic này trong cart.
             MockCartData.cartItems.add(item)
         } else {
-            // Đã có rồi thì update ngày thuê, không tạo item trùng.
             MockCartData.cartItems[existingIndex] = item
         }
     }

@@ -1,7 +1,7 @@
 package com.example.comicbookrental.ui.model
 
 import com.example.comicbookrental.data.entities.ComicEntity
-import com.example.comicbookrental.ui.util.toPriceLabel
+import com.example.comicbookrental.ui.utils.toPriceLabel
 
 
 data class ComicUi(
