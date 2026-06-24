@@ -11,9 +11,15 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,12 +28,17 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavDestination.Companion.hasRoute
+import com.example.comicbookrental.ui.navigation.CartRoute
+import com.example.comicbookrental.ui.navigation.HomeRoute
 import com.example.comicbookrental.ui.navigation.NavigationTab
+import com.example.comicbookrental.ui.navigation.ProfileRoute
+import com.example.comicbookrental.ui.navigation.SearchRoute
 import com.example.comicbookrental.ui.theme.InkBlack
 import com.example.comicbookrental.ui.theme.HankenGrotesk
 
@@ -36,8 +47,11 @@ fun PanelRushBottomBar(
     tabs: List<NavigationTab<out Any>>,
     currentDestination: NavDestination?,
     onTabClick: (NavigationTab<out Any>) -> Unit
-) {
-    Column(modifier = Modifier.fillMaxWidth().background(Color.White)) {
+)
+{
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .background(Color.White)) {
         HorizontalDivider(color = InkBlack, thickness = 3.dp)
         Row(
             modifier = Modifier
@@ -56,7 +70,8 @@ fun PanelRushBottomBar(
                         .fillMaxHeight()
                         .background(if (isSelected) MaterialTheme.colorScheme.primary else Color.White)
                         .drawBehind {
-                            if (isSelected) {
+                            if (isSelected)
+                            {
                                 // Left border
                                 drawLine(
                                     color = InkBlack,

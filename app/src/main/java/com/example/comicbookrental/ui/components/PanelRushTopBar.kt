@@ -21,17 +21,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.InkBlack
 
+@Preview
 @Composable
 fun PanelRushTopBar(
     onMenuClick: () -> Unit = {},
     onNotificationsClick: () -> Unit = {}
-) {
-    Column(modifier = Modifier.fillMaxWidth().background(Color.White)) {
+)
+{
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .background(Color.White)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
