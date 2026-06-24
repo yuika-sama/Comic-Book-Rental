@@ -2,6 +2,8 @@ package com.example.comicbookrental.data.entities
 
 import kotlinx.serialization.Serializable
 
+import kotlinx.serialization.Serializable
+
 const val MILLIS_PER_DAY = 24L * 60L * 60L * 1000L
 
 @Serializable
