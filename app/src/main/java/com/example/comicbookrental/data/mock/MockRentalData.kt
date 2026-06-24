@@ -26,7 +26,7 @@ object MockRentalData {
             comicCoverUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFxxYZ8_Cbg5YN1uEo1-RfK1Uq16uNY4JJ3-i7bbqxqn4vZl-mpfC4VLg&s=10",
             rentalDate = System.currentTimeMillis() - DAY,
             dueDate = System.currentTimeMillis() + 6 * DAY,
-            status = RentalStatus.EXPIRED
+            status = RentalStatus.ACTIVE
         ),
         Rental(
             rentalId = 5,

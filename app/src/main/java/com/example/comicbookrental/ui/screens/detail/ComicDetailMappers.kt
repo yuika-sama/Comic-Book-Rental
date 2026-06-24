@@ -1,7 +1,7 @@
 package com.example.comicbookrental.ui.screens.detail
 
-import com.example.comicbookrental.data.models.Comic
-import com.example.comicbookrental.data.models.Review
+import com.example.comicbookrental.data.entities.Comic
+import com.example.comicbookrental.data.entities.Review
 import com.example.comicbookrental.ui.components.detailComponents.ReviewUi
 import com.example.comicbookrental.ui.components.detailComponents.SimilarTitleUi
 import com.example.comicbookrental.ui.utils.toPriceLabel

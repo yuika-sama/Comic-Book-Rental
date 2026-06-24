@@ -1,7 +1,7 @@
 package com.example.comicbookrental.ui.screens.cart
 
 import androidx.lifecycle.ViewModel
-import com.example.comicbookrental.data.entities.ComicEntity
+import com.example.comicbookrental.data.entities.Comic
 import com.example.comicbookrental.data.entities.CartItem
 import com.example.comicbookrental.data.entities.MILLIS_PER_DAY
 import com.example.comicbookrental.data.entities.totalPrice

@@ -50,7 +50,7 @@ import com.example.comicbookrental.ui.theme.Primary
 
 @Composable
 fun ReaderScreen(
-    rentalId: Int  ,
+    rentalId: Int,
     onBackClick: () -> Unit,
     onExtendRentalClick: (Rental) -> Unit,
     viewModel: ReaderViewModel = viewModel()
@@ -116,7 +116,7 @@ private fun ReaderContent(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        Spacer( modifier = Modifier.size(20.dp))
+        Spacer(modifier = Modifier.size(20.dp))
 
         Row(
             modifier = Modifier
@@ -156,7 +156,7 @@ private fun ReaderContent(
             onModeChange = onReadingModeChange
         )
 
-        Spacer( modifier = Modifier.size(20.dp))
+        Spacer(modifier = Modifier.size(20.dp))
 
         Box(
             modifier = Modifier
@@ -195,29 +195,10 @@ private fun ReaderContent(
 @Composable
 private fun ReaderContentPreview() {
     ComicBookRentalTheme {
-        ReaderContent(
-            rental = Rental(
-                rentalId = 1,
-                comicId = 1,
-                userId = 1,
-                comicTitle = "Solo Leveling",
-                comicCoverUrl = "",
-                rentalDate = System.currentTimeMillis(),
-                dueDate = System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000L,
-                status = RentalStatus.ACTIVE
-            ),
-            pages = listOf(
-                ReaderPageEntity(
-                    pageNumber = 1,
-                    imageUrl = ""
-                ),
-                ReaderPageEntity(
-                    pageNumber = 2,
-                    imageUrl = ""
-                )
-            ),
-            readingMode = ReadingMode.HORIZONTAL,
-            onReadingModeChange = {},
-        )
+        ReaderScreen(
+            rentalId = 3,
+            onBackClick = {},
+            onExtendRentalClick = {},
+            )
     }
 }

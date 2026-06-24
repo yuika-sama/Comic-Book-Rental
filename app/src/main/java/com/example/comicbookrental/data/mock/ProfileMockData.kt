@@ -1,6 +1,6 @@
 package com.example.comicbookrental.data.mock
 
-import com.example.comicbookrental.data.models.UserProfile
+import com.example.comicbookrental.data.entities.UserProfile
 
 object ProfileMockData {
     const val NETWORK_DELAY = 1000L

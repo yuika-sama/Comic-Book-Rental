@@ -1,6 +1,6 @@
 package com.example.comicbookrental.ui.model
 
-import com.example.comicbookrental.data.models.Comic
+import com.example.comicbookrental.data.entities.Comic
 import com.example.comicbookrental.ui.utils.toPriceLabel
 
 

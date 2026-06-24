@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.components
+package com.example.comicbookrental.ui.components.cartComponents
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

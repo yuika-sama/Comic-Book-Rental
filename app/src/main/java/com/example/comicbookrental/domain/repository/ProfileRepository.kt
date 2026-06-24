@@ -1,6 +1,6 @@
 package com.example.comicbookrental.domain.repository
 
-import com.example.comicbookrental.data.models.UserProfile
+import com.example.comicbookrental.data.entities.UserProfile
 
 interface ProfileRepository {
     suspend fun getProfile(): Result<UserProfile>

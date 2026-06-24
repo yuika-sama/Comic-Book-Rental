@@ -1,5 +1,5 @@
 package com.example.comicbookrental.ui.components.homeComponents
-import com.example.comicbookrental.ui.components.CartComicCover
+import com.example.comicbookrental.ui.components.cartComponents.CartComicCover
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.comicbookrental.ui.components.CartComicCover
 import com.example.comicbookrental.ui.model.ComicUi
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
