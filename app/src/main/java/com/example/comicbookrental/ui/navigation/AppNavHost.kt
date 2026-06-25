@@ -45,7 +45,8 @@ import com.example.comicbookrental.ui.screens.onboarding.OnboardingScreen
 import com.example.comicbookrental.utils.StoreManager
 
 @Composable
-fun AppNavHost() {
+fun AppNavHost()
+{
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -59,7 +60,8 @@ fun AppNavHost() {
 
     LaunchedEffect(currentDestination) {
         val currentRoute = currentDestination?.route
-        if (currentRoute != null && previousDestinationRoute != null && currentRoute != previousDestinationRoute) {
+        if (currentRoute != null && previousDestinationRoute != null && currentRoute != previousDestinationRoute)
+        {
             showGlobalLoading = true
             kotlinx.coroutines.delay(1500)
             showGlobalLoading = false
@@ -68,11 +70,16 @@ fun AppNavHost() {
     }
 
     val startGraph = remember {
-        if (!storeManager.isOnboardingCompleted()) {
+        if (!storeManager.isOnboardingCompleted())
+        {
             OnboardingRoute
-        } else if (storeManager.isLoggedIn()) {
+        }
+        else if (storeManager.isLoggedIn())
+        {
             if (storeManager.getUserProfile().role.isAdmin) AdminGraph else CatalogGraph
-        } else {
+        }
+        else
+        {
             AuthGraph
         }
     }
@@ -91,7 +98,8 @@ fun AppNavHost() {
                 dest.hasRoute<SearchRoute>()
     } == true
 
-    val title = when {
+    val title = when
+    {
         currentDestination?.hasRoute<ComicDetailRoute>() == true -> "COMIC DETAIL"
         currentDestination?.hasRoute<ProfileDetailRoute>() == true -> "PROFILE EDIT"
         currentDestination?.hasRoute<WishlistRoute>() == true -> "MY WISHLIST"
@@ -113,14 +121,18 @@ fun AppNavHost() {
         Box(modifier = Modifier.fillMaxSize()) {
             Scaffold(
                 topBar = {
-                    if (showBottomBar) {
+                    if (showBottomBar)
+                    {
                         Box(modifier = Modifier.statusBarsPadding()) {
                             PanelRushTopBar(
                                 onMenuClick = {
                                     val currentRoute = currentDestination?.route
-                                    if (currentRoute != HomeRoute.toString()) {
+                                    if (currentRoute != HomeRoute.toString())
+                                    {
                                         navController.navigate(HomeRoute)
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         Log.d("Topbar", "Current is home route")
                                     }
                                 },
@@ -128,7 +140,9 @@ fun AppNavHost() {
                                 onNavigateToCartClick = { navController.navigate(CartRoute) }
                             )
                         }
-                    } else if (isShowSecondaryTopBar) {
+                    }
+                    else if (isShowSecondaryTopBar)
+                    {
                         Box(modifier = Modifier.statusBarsPadding()) {
                             SecondaryTopBar(
                                 title = title,
@@ -143,7 +157,8 @@ fun AppNavHost() {
                     }
                 },
                 bottomBar = {
-                    if (showBottomBar) {
+                    if (showBottomBar)
+                    {
                         Box(modifier = Modifier.navigationBarsPadding()) {
                             PanelRushBottomBar(
                                 tabs = tabs,
@@ -167,6 +182,17 @@ fun AppNavHost() {
                     startDestination = startGraph,
                     modifier = Modifier.padding(innerPadding)
                 ) {
+                    composable<OnboardingRoute> {
+                        OnboardingScreen(
+                            onComplete = {
+                                storeManager.setOnboardingCompleted(true)
+                                navController.navigate(if (storeManager.isLoggedIn()) CatalogGraph else AuthGraph) {
+                                    popUpTo(OnboardingRoute) { inclusive = true }
+                                }
+                            }
+                        )
+                    }
+
                     authGraph(navController)
                     catalogGraph(navController)
                     rentalGraph(
@@ -217,12 +243,20 @@ fun AppNavHost() {
                                     popUpTo(0) { inclusive = true }
                                 }
                             },
-                            onProfileDetailClick = { navController.navigate(ProfileDetailRoute) },
+                            onProfileDetailClick = {
+                                navController.navigate(
+                                    ProfileDetailRoute
+                                )
+                            },
                             onCartClick = { navController.navigate(CartRoute) },
                             onWishlistClick = { navController.navigate(WishlistRoute) },
                             onHistoryClick = { navController.navigate(MyRentalsRoute) },
                             onSettingsClick = { navController.navigate(SettingsRoute) },
-                            onNotificationsClick = { navController.navigate(NotificationsRoute) }
+                            onNotificationsClick = {
+                                navController.navigate(
+                                    NotificationsRoute
+                                )
+                            }
                         )
                     }
 
@@ -234,7 +268,8 @@ fun AppNavHost() {
                     }
                 }
             }
-            if (showGlobalLoading) {
+            if (showGlobalLoading)
+            {
                 LoadingScreen()
             }
         }
