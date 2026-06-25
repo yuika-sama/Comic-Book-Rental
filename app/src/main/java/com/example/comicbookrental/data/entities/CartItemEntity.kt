@@ -25,7 +25,7 @@ fun Comic.toCartItem(startDate: Long, endDate: Long): CartItem {
         comicTitle = title,
         comicAuthor = author,
         comicCoverUrl = coverImageUrl,
-        pricePerDay = rentalPrice.toLong(),
+        pricePerDay = rentalPrice,
         startDate = startDate,
         endDate = endDate,
     )
