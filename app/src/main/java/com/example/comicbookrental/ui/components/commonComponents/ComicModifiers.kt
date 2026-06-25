@@ -48,11 +48,7 @@ fun Modifier.halftoneBackground(
     }
 }
 
-/**
- * Diagonal "caution-tape" stripes drawn behind the content — used for warning / info banners.
- * Layer it AFTER a `.clip(shape)` (so the stripes respect rounded corners) and a solid
- * `.background(...)`, with the `.border(...)` after it.
- */
+
 fun Modifier.hazardStripes(
     stripeColor: Color = InkBlack,
     stripeWidth: Dp = 10.dp,
@@ -62,7 +58,6 @@ fun Modifier.hazardStripes(
     val tinted = stripeColor.copy(alpha = alpha)
     val thickness = stripeWidth.toPx()
     val period = thickness + gap.toPx()
-    // 45° lines sweeping across; offset the start by height so the whole face is covered.
     var x = 0f
     while (x <= size.width + size.height)
     {
@@ -86,7 +81,6 @@ fun Modifier.comicHalftoneBackground(
     val cols = (size.width / spacingPx).toInt()
     val rows = (size.height / spacingPx).toInt()
 
-    // Align pattern by centering the grid
     val startX = (size.width - cols * spacingPx) / 2
     val startY = (size.height - rows * spacingPx) / 2
 

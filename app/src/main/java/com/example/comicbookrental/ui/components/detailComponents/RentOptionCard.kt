@@ -115,7 +115,6 @@ fun RentOptionCard(
     }
 }
 
-/** Square, brutalist "add to cart" button that mirrors [ComicButton]'s press feel. */
 @Composable
 private fun CartIconButton(
     onClick: () -> Unit,

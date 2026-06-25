@@ -22,7 +22,6 @@ class WishlistViewModel : ViewModel() {
         _items.value = repository.getAll()
     }
 
-    /** Toggles [comic] in the wishlist and returns the new favorite state (true = now favorited). */
     fun toggle(comic: Comic): Boolean {
         val nowFavorite = repository.toggle(comic)
         refresh()

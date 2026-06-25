@@ -10,7 +10,6 @@ interface ComicRepository {
     fun getComicById(comicId: Int): Flow<Comic?>
     fun getReviewsForComic(comicId: Int): Flow<List<Review>>
 
-    // Home sections
     fun getFeaturedComics(): Flow<List<Comic>>
     fun getNewReleases(limit: Int = 10): Flow<List<Comic>>
     fun getTopRated(limit: Int = 10): Flow<List<Comic>>

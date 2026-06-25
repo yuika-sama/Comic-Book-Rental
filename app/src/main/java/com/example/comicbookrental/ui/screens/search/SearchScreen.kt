@@ -38,11 +38,7 @@ import com.example.comicbookrental.ui.model.ComicUi
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 
-/**
- * Stateful entry point — wires [SearchViewModel] to the stateless [SearchScreen]. The nav graph
- * (built separately) just composes this. `onMenuClick`/`onNotificationsClick` are left for the
- * shell to fill in.
- */
+
 @Composable
 fun SearchRoute(
     onComicClick: (Int) -> Unit,
@@ -68,10 +64,7 @@ fun SearchRoute(
     )
 }
 
-/**
- * Dedicated global-search screen (replaces the inline search field that used to live on Home).
- * Dispatches on [SearchUiState]: Loading / Error / Content, mirroring Home & Detail.
- */
+
 @Composable
 fun SearchScreen(
     uiState: SearchUiState,
@@ -109,7 +102,6 @@ fun SearchScreen(
     }
 }
 
-/** Full-screen centered slot for the Loading / Error states. */
 @Composable
 private fun SearchStatus(
     modifier: Modifier = Modifier,
@@ -218,7 +210,6 @@ private fun SearchContent(
 }
 
 
-/** Helper: a grid item that spans the full row width (for headers and the search field). */
 private inline fun androidx.compose.foundation.lazy.grid.LazyGridScope.fullSpanItem(
     crossinline content: @Composable () -> Unit,
 ) = item(span = { GridItemSpan(maxLineSpan) }) { content() }

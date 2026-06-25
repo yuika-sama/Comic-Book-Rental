@@ -111,7 +111,6 @@ private fun FeaturedBadge(modifier: Modifier = Modifier) {
     )
 }
 
-/** Flat stand-in for the cover until an image-loading library is added. */
 @Composable
 private fun BoxScope.CoverPlaceholder() {
     Box(

@@ -53,7 +53,6 @@ fun TopRatedSection(
     }
 }
 
-/** #1 = Action Orange, #2 = Hero Blue, #3 = Tertiary, then cycle. */
 @Composable
 private fun rankAccent(index: Int): Color = when (index % 3) {
     0 -> MaterialTheme.colorScheme.primary

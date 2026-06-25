@@ -44,11 +44,7 @@ import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
-/**
- * Wishlist ("Interested") entry point — collects [WishlistViewModel] and renders the list of
- * favorited comics. Removing a title shows a toast. Reuses [ComicTopBar], [HotPickBadge],
- * [WishlistCard] and [ComicToastHost].
- */
+
 @Composable
 fun WishlistRoute(
     onBack: () -> Unit,

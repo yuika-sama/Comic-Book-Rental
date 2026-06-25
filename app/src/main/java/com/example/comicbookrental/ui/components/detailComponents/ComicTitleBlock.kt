@@ -22,12 +22,7 @@ import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
-/**
- * The Comic Detail metadata header that sits under the hero cover: a row of genre tags, the
- * issue title, the creator credit, the publisher, and a star-rating row.
- *
- * Reuses [GenreCard] (in its compact form) for the tags and [RatingStars] for the rating.
- */
+
 @Composable
 fun ComicTitleBlock(
     title: String,

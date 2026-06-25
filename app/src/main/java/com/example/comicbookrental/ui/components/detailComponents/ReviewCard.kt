@@ -84,7 +84,6 @@ fun ReviewCard(
     }
 }
 
-/** Circular avatar showing the first letter of [name] — ink-bordered, Hero-Blue fill. */
 @Composable
 private fun InitialAvatar(name: String) {
     Box(

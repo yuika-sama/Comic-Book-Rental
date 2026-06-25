@@ -49,14 +49,12 @@ fun NewReleaseCard(
     val interactionSource = remember { MutableInteractionSource() }
     val press = rememberComicPressState(interactionSource)
 
-    // Two separate framed rectangles stacked with a gap: a shadowed cover on top, a flat
-    // (shadowless) text panel below.
+
     Column(
         modifier = modifier
             .offset(x = press.translation, y = press.translation)
             .clickable(interactionSource = interactionSource, indication = null, onClick = onClick),
     ) {
-        // 1) Cover art — its own frame with a hard shadow.
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -71,7 +69,6 @@ fun NewReleaseCard(
 
         Spacer(Modifier.height(Dimens.Spacing.ListItemSpacing))
 
-        // 2) Text panel — its own frame, NO shadow.
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -104,7 +101,6 @@ fun NewReleaseCard(
     }
 }
 
-/** Flat stand-in for the cover until an image-loading library is added. */
 @Composable
 private fun BoxScope.CoverPlaceholder() {
     Box(

@@ -68,7 +68,6 @@ fun ComicTopBar(
     }
 }
 
-/** Square, ink-bordered icon button used by [ComicTopBar] and its action slot. */
 @Composable
 fun TopBarIconButton(
     icon: ImageVector,

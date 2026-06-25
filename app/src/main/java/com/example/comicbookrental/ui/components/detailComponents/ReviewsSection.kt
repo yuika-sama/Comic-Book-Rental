@@ -77,7 +77,6 @@ fun ReviewsSection(
 
 private const val DEFAULT_COLLAPSED_COUNT = 2
 
-/** Big average score next to its star row and total count. */
 @Composable
 private fun RatingSummary(averageRating: Float, reviewCount: Int) {
     Row(

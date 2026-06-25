@@ -2,10 +2,7 @@ package com.example.comicbookrental.ui.screens.search
 
 import com.example.comicbookrental.ui.model.ComicUi
 
-/**
- * Ways the results grid can be ordered (brief §3.2 "sort options"). [label] is the user-facing
- * text shown in the sort menu.
- */
+
 enum class SortOption(val label: String) {
     ALPHABETICAL("A–Z"),
     NEWEST("Newest"),
@@ -20,13 +17,9 @@ enum class SuggestionType(val label: String) {
     GENRE("Genre"),
 }
 
-/** A single autocomplete suggestion shown under the search field (brief §3.2). */
 data class SearchSuggestion(val text: String, val type: SuggestionType)
 
-/**
- * UI state for the Search screen. Sealed interface with Loading / Content / Error, matching
- * [com.example.comicbookrental.ui.screens.home.HomeUiState] so all screens stay consistent.
- */
+
 sealed interface SearchUiState {
 
     data object Loading : SearchUiState
