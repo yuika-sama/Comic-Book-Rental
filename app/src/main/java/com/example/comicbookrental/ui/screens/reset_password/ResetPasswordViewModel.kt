@@ -3,7 +3,7 @@ package com.example.comicbookrental.ui.screens.reset_password
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comicbookrental.domain.repository.AuthRepository
-import com.example.comicbookrental.ui.utils.isStrongPassword
+import com.example.comicbookrental.utils.isStrongPassword
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

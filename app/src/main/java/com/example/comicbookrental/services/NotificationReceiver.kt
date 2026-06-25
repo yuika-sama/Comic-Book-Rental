@@ -7,11 +7,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.example.comicbookrental.MainActivity
 import com.example.comicbookrental.R
 import com.example.comicbookrental.data.entities.AppNotification
 import com.example.comicbookrental.data.entities.AppNotificationType
+import com.example.comicbookrental.ui.components.commonComponents.rememberComicToastState
 import com.example.comicbookrental.utils.StoreManager
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
@@ -35,6 +37,8 @@ class NotificationReceiver : BroadcastReceiver()
         storeManager.saveAppNotifications(currentList)
 
         showSystemNotification(context, notification)
+
+        Toast.makeText(context, "New Notification: ${notification.title}", Toast.LENGTH_LONG).show()
     }
 
     private fun generateRandomNotification(): AppNotification
@@ -45,23 +49,23 @@ class NotificationReceiver : BroadcastReceiver()
         val (title, message) = when (type)
         {
             AppNotificationType.RENTAL_REMINDER -> Pair(
-                "Rental Expiring Soon",
-                "Your rental for \"Solo Leveling\" expires in 2 days. Don't forget to read it!"
+                "Tick Tock, Nerd!",
+                "\"Solo Leveling\" ghosting you in 2 days. Read it before it's gone!"
             )
 
             AppNotificationType.NEW_RELEASE -> Pair(
-                "New Chapter Released",
-                "A new chapter of \"One Piece\" is now available to read!"
+                "Oda Dropped a Banger",
+                "New \"One Piece\" chapter is out! Read now, dodge spoilers later."
             )
 
             AppNotificationType.PROMO -> Pair(
-                "Weekend Sale!",
-                "Get 50% off all seasonal rentals this weekend only."
+                "RIP Your Wallet",
+                "50% off weekend rentals. Capitalism wins again. Treat yourself!"
             )
 
             AppNotificationType.RECOMMENDATION -> Pair(
-                "Recommended for You",
-                "Based on your reading history, we think you'll love \"Jujutsu Kaisen\"."
+                "We Stalked Your Tastes",
+                "Algorithm says you're weird enough to love \"Jujutsu Kaisen\". Try it."
             )
         }
 

@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "One Piece",
-    "coverImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYDucqYPM5hYa7AljcNKa96CVgUCr6dPAq9Q&s",
+    "coverImageUrl": "https://wibu.com.vn/wp-content/uploads/2024/09/one-piece.jpg",
     "genres": ["Adventure", "Fantasy"],
     "author": "Eiichiro Oda",
     "publisher": "Shueisha",
@@ -25,7 +25,7 @@
   {
     "id": 2,
     "title": "Berserk",
-    "coverImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR11iXdzad-tOFSBfTYLRh0oXm-0y-5-A0qdA&s",
+    "coverImageUrl": "https://i.pinimg.com/originals/24/f1/f5/24f1f54f147a70157d56180b5192f6df.jpg",
     "genres": ["Horror", "Action"],
     "author": "Kentaro Miura",
     "publisher": "Hakusensha",
@@ -140,7 +140,7 @@
   {
     "id": 8,
     "title": "Demon Slayer",
-    "coverImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBE8l7xhZNqzNgJqEFfm0aVE6X5I6E2CTUew&s",
+    "coverImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnVKkc3870RcckC1nJBCpcIPvf_ZzmVGvkLPslmdlJnZBtPc8ajV7_nJg&s=10",
     "genres": ["Action"],
     "author": "Koyoharu Gotouge",
     "publisher": "Shueisha",

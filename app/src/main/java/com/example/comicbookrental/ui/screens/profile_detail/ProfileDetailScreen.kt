@@ -78,13 +78,6 @@ fun ProfileDetailScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        com.example.comicbookrental.ui.components.commonComponents.SecondaryTopBar(
-            title = "PROFILE EDIT",
-            onBackClick = onBackClick,
-            onCartClick = onCartClick,
-            isShowHeart = false
-        )
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()

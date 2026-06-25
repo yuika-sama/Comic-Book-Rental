@@ -6,8 +6,8 @@ import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comicbookrental.domain.repository.ProfileRepository
-import com.example.comicbookrental.ui.utils.isPhoneNumber
-import com.example.comicbookrental.ui.utils.isStrongPassword
+import com.example.comicbookrental.utils.isPhoneNumber
+import com.example.comicbookrental.utils.isStrongPassword
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -35,7 +35,7 @@ object NotificationScheduler
             set(Calendar.MILLISECOND, 0)
         }
 
-        val intervalMillis = 5 * 60 * 1000L
+        val intervalMillis = 1 * 60 * 1000L
 
         alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,

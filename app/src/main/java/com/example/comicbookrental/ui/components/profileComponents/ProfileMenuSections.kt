@@ -42,8 +42,8 @@ fun ProfileMenuSection(
 
         ProfileMenuItem(Icons.Default.Person, "PROFILE DETAIL", onClick = onProfileDetailClick)
         ProfileMenuItem(Icons.Default.ShoppingCart, "MY CART", badge = if (cartBadgeCount > 0) cartBadgeCount else null, onClick = onCartClick)
-        ProfileMenuItem(Icons.Default.FavoriteBorder, "INTERESTED (WISHLIST)", onClick = onWishlistClick)
-        ProfileMenuItem(Icons.AutoMirrored.Filled.List, "RENTED HISTORY", onClick = onHistoryClick)
+        ProfileMenuItem(Icons.Default.FavoriteBorder, "WISHLIST", onClick = onWishlistClick)
+//        ProfileMenuItem(Icons.AutoMirrored.Filled.List, "RENTED HISTORY", onClick = onHistoryClick)
         ProfileMenuItem(Icons.Default.Notifications, "NOTIFICATIONS", onClick = onNotificationsClick)
         ProfileMenuItem(Icons.Default.Settings, "SETTINGS", onClick = onSettingsClick)
     }
