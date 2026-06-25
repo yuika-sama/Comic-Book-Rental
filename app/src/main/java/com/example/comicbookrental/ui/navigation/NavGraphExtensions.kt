@@ -142,9 +142,7 @@ fun NavGraphBuilder.catalogGraph(
                 },
             )
         }
-        composable<NotificationsRoute> {
-            NotificationScreen()
-        }
+
     }
 }
 

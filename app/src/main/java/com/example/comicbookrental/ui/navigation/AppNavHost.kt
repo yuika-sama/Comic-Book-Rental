@@ -116,10 +116,10 @@ fun AppNavHost(){
             } else if (isShowSecondaryTopBar) {
                 Box(modifier = Modifier.statusBarsPadding()) {
                     SecondaryTopBar(
-                        title = "SETTINGS",
+                        title = title,
                         onBackClick = { navController.popBackStack() },
                         onCartClick = { navController.navigate(CartRoute) },
-                        isShowCart = false
+                        isShowCart = currentDestination?.hasRoute<SettingsRoute>() != true && currentDestination?.hasRoute<NotificationsRoute>() != true
                     )
                 }
             }
