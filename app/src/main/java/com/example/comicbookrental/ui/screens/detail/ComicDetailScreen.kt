@@ -51,6 +51,10 @@ import com.example.comicbookrental.ui.components.commonComponents.halftoneBackgr
 import com.example.comicbookrental.ui.screens.wishlist.WishlistViewModel
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
+import com.example.comicbookrental.ui.components.commonComponents.LocalTopBarState
+import com.example.comicbookrental.ui.components.commonComponents.TopBarState
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.rememberUpdatedState
 
 
 
@@ -195,20 +199,26 @@ fun ComicDetailScreen(
     onViewAllSimilar: () -> Unit = {},
     onSimilarClick: (SimilarTitleUi) -> Unit = {},
 ) {
+    val localTopBarState = LocalTopBarState.current
+    val currentOnBookmark by rememberUpdatedState(onBookmark)
+
+    DisposableEffect(isFavorite) {
+        localTopBarState.value = TopBarState(
+            isShowHeart = true,
+            isInterested = isFavorite,
+            onInterestedClick = { currentOnBookmark() }
+        )
+        onDispose {
+            localTopBarState.value = TopBarState()
+        }
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .halftoneBackground(),
     ) {
-        SecondaryTopBar(
-            title = "COMIC DETAIL",
-            onBackClick = onBack,
-            onCartClick = onCartClick,
-            isShowHeart = true,
-            isInterested = isFavorite,
-            onInterestedClick = onBookmark
-        )
 
         LazyColumn(
             modifier = Modifier

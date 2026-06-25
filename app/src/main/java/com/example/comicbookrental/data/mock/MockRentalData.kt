@@ -33,7 +33,7 @@ object MockRentalData {
             comicId = 1312,
             userId = 1,
             comicTitle = "Bocchi the Rock",
-            comicCoverUrl = "",
+            comicCoverUrl = "https://pbs.twimg.com/media/Fh72_hYXkAMTZZ3.jpg",
             rentalDate = System.currentTimeMillis() - DAY,
             dueDate = System.currentTimeMillis() + 6 * DAY,
             status = RentalStatus.ACTIVE

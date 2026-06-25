@@ -60,7 +60,6 @@ fun WishlistRoute(
     val comics by wishlistViewModel.items.collectAsStateWithLifecycle()
     val toastState = rememberComicToastState()
 
-    // Re-read in case titles were (un)favorited from the Detail screen.
     LaunchedEffect(Unit) { wishlistViewModel.refresh() }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -106,12 +105,6 @@ fun WishlistScreen(
             .background(MaterialTheme.colorScheme.background)
             .halftoneBackground(),
     ) {
-        com.example.comicbookrental.ui.components.commonComponents.SecondaryTopBar(
-            title = "MY WISHLIST",
-            onBackClick = onBack,
-            onCartClick = onCartClick,
-            isShowHeart = false
-        )
 
         LazyColumn(
             modifier = Modifier
