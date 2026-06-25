@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.comicbookrental.data.entities.CartItem
@@ -52,8 +54,14 @@ import com.example.comicbookrental.ui.utils.toVnd
             imageUrl = item.comicCoverUrl,
             title = item.comicTitle,
             modifier = Modifier
-                .height(105.dp)
-                .weight(0.28f)
+                .width(90.dp)
+                .height(135.dp)
+                .clip(RoundedCornerShape(Dimens.Radius.Button))
+                .border(
+                    width = 1.dp,
+                    color = Color.Black,
+                    shape = RoundedCornerShape(Dimens.Radius.Button)
+                )
         )
 
         Column(
@@ -89,7 +97,7 @@ import com.example.comicbookrental.ui.utils.toVnd
             )
 
             Text(
-                text = item.totalPrice().toVnd(),
+                text = "$ ${item.totalPrice()}",
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontFamily = Anton
                 )

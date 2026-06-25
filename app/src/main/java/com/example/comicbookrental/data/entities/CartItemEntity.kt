@@ -11,7 +11,7 @@ data class CartItem(
     val comicAuthor: String,
     val comicCoverUrl: String,
 
-    val pricePerDay: Long,
+    val pricePerDay: Double,
 
     val startDate: Long,
     val endDate: Long
@@ -25,7 +25,7 @@ fun Comic.toCartItem(startDate: Long, endDate: Long): CartItem {
         comicTitle = title,
         comicAuthor = author,
         comicCoverUrl = coverImageUrl,
-        pricePerDay = rentalPrice.toLong(),
+        pricePerDay = rentalPrice,
         startDate = startDate,
         endDate = endDate,
     )
@@ -36,6 +36,6 @@ fun CartItem.rentalDays(): Long {
         .coerceAtLeast(1L)
 }
 
-fun CartItem.totalPrice(): Long {
+fun CartItem.totalPrice(): Double {
     return rentalDays() * pricePerDay
 }

@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -32,11 +33,12 @@ import com.example.comicbookrental.ui.components.cartComponents.CartItemCard
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.utils.toVnd
-
+import com.example.comicbookrental.ui.components.commonComponents.PanelRushTopBarBack
 
 @Composable
 fun CartScreen(
     viewModel: CartViewModel = viewModel(),
+    onBackClick: () -> Unit = {},
     onCheckoutClick: (List<CartItem>) -> Unit
 ) {
 
@@ -58,7 +60,8 @@ fun CartScreen(
         onEditDatesClick = { item ->
             editingItem = item
         },
-        onCheckoutClick = onCheckoutClick
+        onCheckoutClick = onCheckoutClick,
+        onBackClick = onBackClick,
     )
 
     editingItem?.let { item ->
@@ -85,13 +88,16 @@ fun CartScreen(
 @Composable
 private fun CartContent(
     cartItems: List<CartItem>,
-    totalPrice: Long,
+    totalPrice: Double,
     onRemoveItem: (Int) -> Unit,
     onEditDatesClick: (CartItem) -> Unit,
-    onCheckoutClick: (List<CartItem>) -> Unit
+    onCheckoutClick: (List<CartItem>) -> Unit,
+    onBackClick: () -> Unit,
 ) {
     if (cartItems.isEmpty()) {
-        CartEmptyState()
+        CartEmptyState(
+            onBackClick = onBackClick
+        )
         return
     }
 
@@ -99,99 +105,121 @@ private fun CartContent(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(Dimens.Spacing.ScreenPadding)
     ) {
-        Text(
-            text = "YOUR CART",
-            style = MaterialTheme.typography.headlineMedium.copy(
-                fontFamily = Anton
-            )
-
+        PanelRushTopBarBack(
+            onMenuClick = onBackClick,
+            onNotificationsClick = {}
         )
 
-        Spacer(modifier = Modifier.height(4.dp))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(0.2f)
-                .height(4.dp)
-                .background(MaterialTheme.colorScheme.primary)
-        )
-
-        Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
-
-        LazyColumn(
-            modifier = Modifier
-                .weight(1f)
-                ,
-            verticalArrangement = Arrangement.spacedBy(
-                Dimens.Spacing.SectionSpacing
-            )
-        ) {
-            items(
-                items = cartItems,
-                key = { it.comicId }
-            ) { item ->
-                CartItemCard(
-                    item = item,
-                    onEditDatesClick = {
-                        onEditDatesClick(item)
-                    },
-                    onRemoveClick = {
-                        onRemoveItem(item.comicId)
-                    }
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(Dimens.Spacing.StackMd))
-
-        Text(
-            text = "TOTAL: ${totalPrice.toVnd()}",
-            style = MaterialTheme.typography.titleLarge.copy(
-                fontFamily = Anton
-            )
-        )
-
-        Spacer(modifier = Modifier.height(Dimens.Spacing.StackMd))
-
-        ComicButton(
-            text = "Proceed To Checkout",
-            onClick = {
-                onCheckoutClick(cartItems)
-            },
-            modifier = Modifier.fillMaxWidth(),
-            variant = ComicButtonVariant.Primary
-        )
-    }
-}
-
-@Composable
-private fun CartEmptyState() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(Dimens.Spacing.ScreenPadding)
         ) {
             Text(
-                text = "YOUR CART IS EMPTY",
+                text = "YOUR CART",
+                style = MaterialTheme.typography.headlineMedium.copy(
+                    fontFamily = Anton
+                )
+            )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(0.2f)
+                    .height(4.dp)
+                    .background(MaterialTheme.colorScheme.primary)
+            )
+
+            Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
+
+            LazyColumn(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(
+                    Dimens.Spacing.SectionSpacing
+                )
+            ) {
+                items(
+                    items = cartItems,
+                    key = { it.comicId }
+                ) { item ->
+                    CartItemCard(
+                        item = item,
+                        onEditDatesClick = {
+                            onEditDatesClick(item)
+                        },
+                        onRemoveClick = {
+                            onRemoveItem(item.comicId)
+                        }
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(Dimens.Spacing.StackMd))
+
+            Text(
+                text = "TOTAL: $totalPrice $",
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontFamily = Anton
                 )
             )
 
-            Spacer(
-                modifier = Modifier.height(
-                    Dimens.Spacing.StackMd
-                )
-            )
+            Spacer(modifier = Modifier.height(Dimens.Spacing.StackMd))
 
-            Text(
-                text = "Add comics from the detail screen to rent them.",
-                style = MaterialTheme.typography.bodyMedium
+            ComicButton(
+                text = "Proceed To Checkout",
+                onClick = {
+                    onCheckoutClick(cartItems)
+                },
+                modifier = Modifier.fillMaxWidth(),
+                variant = ComicButtonVariant.Primary
             )
         }
     }
 }
+
+    @Composable
+    fun CartEmptyState(
+        onBackClick: () -> Unit
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+        ) {
+            PanelRushTopBarBack(
+                onMenuClick = onBackClick,
+                onNotificationsClick = {}
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(Dimens.Spacing.ScreenPadding),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "YOUR CART IS EMPTY",
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            fontFamily = Anton
+                        )
+                    )
+
+                    Spacer(
+                        modifier = Modifier.height(
+                            Dimens.Spacing.StackMd
+                        )
+                    )
+
+                    Text(
+                        text = "Add comics from the detail screen to rent them.",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        }
+    }

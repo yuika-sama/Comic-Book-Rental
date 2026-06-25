@@ -33,12 +33,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.comicbookrental.ui.components.commonComponents.BrutalistButton
 import com.example.comicbookrental.ui.components.commonComponents.ComicButton
 import com.example.comicbookrental.ui.components.commonComponents.ComicButtonVariant
@@ -48,8 +51,14 @@ import com.example.comicbookrental.ui.theme.InkBlack
 import com.example.comicbookrental.ui.theme.Primary
 
 @Composable
-fun ManageLegacyPage(onNext: () -> Unit)
+fun ManageLegacyPage(onNext: () -> Unit, onSkip: () -> Unit = {})
 {
+    val imageList = listOf(
+        "https://media.tenor.com/_DD3pMmJAbYAAAAe/aki-csm.png",
+        "https://media.tenor.com/p4vHR4zM_u0AAAAe/anime-tsundere.png",
+        "https://i.scdn.co/image/ab67616d00001e02dbea8c7661303ef4636cbc54"
+    )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -72,10 +81,10 @@ fun ManageLegacyPage(onNext: () -> Unit)
                 modifier = Modifier.size(24.dp)
             )
             Text(
-                text = "PANEL RUSH",
+                text = "SKIP",
                 fontFamily = Anton,
-                fontSize = 20.sp,
-                color = Primary
+                fontSize = 14.sp,
+                modifier = Modifier.clickable { onSkip() }
             )
             Box(
                 modifier = Modifier
@@ -83,18 +92,12 @@ fun ManageLegacyPage(onNext: () -> Unit)
                     .padding(horizontal = 8.dp, vertical = 4.dp)
             ) {
                 Text(
-                    "STEP 03/03",
+                    "STEP 3 OF 4",
                     color = Color.White,
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
-            Icon(
-                imageVector = Icons.Outlined.Notifications,
-                contentDescription = "Notifications",
-                tint = InkBlack,
-                modifier = Modifier.size(24.dp)
-            )
         }
 
         HorizontalDivider(thickness = 3.dp, color = InkBlack)
@@ -169,10 +172,13 @@ fun ManageLegacyPage(onNext: () -> Unit)
                             .padding(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Box(
+                        AsyncImage(
+                            model = imageList[0],
+                            contentDescription = null,
                             modifier = Modifier
                                 .size(60.dp)
-                                .background(Color.DarkGray)
+                                .background(InkBlack)
+                                .border(2.dp, Color.Cyan)
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
@@ -220,10 +226,13 @@ fun ManageLegacyPage(onNext: () -> Unit)
                             .padding(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Box(
+                        AsyncImage(
+                            model = imageList[2],
+                            contentDescription = null,
                             modifier = Modifier
                                 .size(60.dp)
-                                .background(Color.LightGray)
+                                .background(InkBlack)
+                                .border(2.dp, Color.Cyan)
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
@@ -355,45 +364,6 @@ fun ManageLegacyPage(onNext: () -> Unit)
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .comicHardShadow(
-                        shape = RoundedCornerShape(0.dp),
-                        offset = 8.dp,
-                        color = InkBlack
-                    )
-                    .background(Color(0xFFFFE0D0))
-                    .border(3.dp, InkBlack)
-                    .padding(16.dp)
-            ) {
-                Column {
-                    Text("SYSTEM ALERT", fontFamily = Anton, fontSize = 18.sp)
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        "You have 2 items reaching their final chapter soon. Avoid legacy penalties by completing your missions.",
-                        fontSize = 12.sp
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            Icons.Default.Warning,
-                            contentDescription = null,
-                            tint = Primary,
-                            modifier = Modifier.size(16.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            "RETURN WINDOW CLOSES IN 48H",
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
             // Profile Card
             Box(
                 modifier = Modifier
@@ -408,13 +378,21 @@ fun ManageLegacyPage(onNext: () -> Unit)
                     .padding(16.dp)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
+                    AsyncImage(
+                        model = imageList[1],
+                        contentDescription = null,
                         modifier = Modifier
                             .size(60.dp)
-//                            .shape(RoundedCornerShape(50))
-                            .background(Color.Black)
-                            .border(2.dp, Color.Cyan, RoundedCornerShape(50))
+                            .background(InkBlack)
+                            .border(2.dp, Color.Cyan)
                     )
+//                    Box(
+//                        modifier = Modifier
+//                            .size(60.dp)
+////                            .shape(RoundedCornerShape(50))
+//                            .background(Color.Black)
+//                            .border(2.dp, Color.Cyan, RoundedCornerShape(50))
+//                    )
                     Spacer(modifier = Modifier.width(16.dp))
                     Column {
                         Text("AGENT_X7", fontFamily = Anton, fontSize = 18.sp)
@@ -448,11 +426,43 @@ fun ManageLegacyPage(onNext: () -> Unit)
                 Spacer(modifier = Modifier.height(16.dp))
 
                 BrutalistButton(
-                    text = "GET STARTED",
+                    text = "NEXT CHAPTER →",
                     onClick = onNext,
                     modifier = Modifier.fillMaxWidth(),
 //                    trailingIcon = Icon(imageVector = Icons.Default.Bolt, contentDescription = null, tint = Color.White)
                 )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Page Indicator
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(8.dp)
+                            .border(2.dp, InkBlack)
+                    )
+                    Box(
+                        modifier = Modifier
+                            .size(8.dp)
+                            .border(2.dp, InkBlack)
+                    )
+                    Box(
+                        modifier = Modifier
+                            .width(24.dp)
+                            .height(6.dp)
+                            .background(Primary)
+                            .border(1.dp, InkBlack)
+                    )
+                    Box(
+                        modifier = Modifier
+                            .size(8.dp)
+                            .border(2.dp, InkBlack)
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(

@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -38,8 +36,8 @@ import com.example.comicbookrental.ui.components.commonComponents.ComicToastHost
 import com.example.comicbookrental.ui.components.commonComponents.ComicToastType
 import com.example.comicbookrental.ui.components.commonComponents.rememberComicToastState
 import com.example.comicbookrental.ui.components.detailComponents.ComicTitleBlock
-import com.example.comicbookrental.ui.components.commonComponents.ComicTopBar
 import com.example.comicbookrental.ui.components.commonComponents.HazardBanner
+import com.example.comicbookrental.ui.components.commonComponents.SecondaryTopBar
 import com.example.comicbookrental.ui.components.detailComponents.HeroCoverFrame
 import com.example.comicbookrental.ui.components.detailComponents.RentOptionCard
 import com.example.comicbookrental.ui.components.detailComponents.ReviewUi
@@ -48,15 +46,15 @@ import com.example.comicbookrental.ui.components.commonComponents.SectionHeader
 import com.example.comicbookrental.ui.components.detailComponents.SimilarTitleUi
 import com.example.comicbookrental.ui.components.detailComponents.SimilarTitlesSection
 import com.example.comicbookrental.ui.components.detailComponents.SynopsisCard
-import com.example.comicbookrental.ui.components.commonComponents.TopBarIconButton
 import com.example.comicbookrental.ui.components.commonComponents.halftoneBackground
 //import com.example.comicbookrental.ui.components.commonComponents.halftoneBackground
 import com.example.comicbookrental.ui.screens.wishlist.WishlistViewModel
 import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
-import com.example.comicbookrental.ui.theme.extendedColors
 
 
+/** Whether the date-range dialog was opened to add the comic to the cart or to rent it right away. */
+private enum class DetailPickerMode { ADD_TO_CART, RENT_NOW }
 
 /** Whether the date-range dialog was opened to add the comic to the cart or to rent it right away. */
 private enum class DetailPickerMode { ADD_TO_CART, RENT_NOW }
@@ -206,11 +204,11 @@ fun ComicDetailScreen(
             .background(MaterialTheme.colorScheme.background)
             .halftoneBackground(),
     ) {
-        com.example.comicbookrental.ui.components.commonComponents.SecondaryTopBar(
+        SecondaryTopBar(
             title = "COMIC DETAIL",
             onBackClick = onBack,
             onCartClick = onCartClick,
-            showHeartIcon = true,
+            isShowHeart = true,
             isInterested = isFavorite,
             onInterestedClick = onBookmark
         )

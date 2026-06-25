@@ -37,7 +37,7 @@ import com.example.comicbookrental.ui.utils.toVnd
  fun CheckoutSuccessContent(
     receiptId: String,
     items: List<CartItem>,
-    totalPrice: Long,
+    totalPrice: Double,
     onViewRentalsClick: () -> Unit
 ) {
     Box(
@@ -74,7 +74,7 @@ import com.example.comicbookrental.ui.utils.toVnd
             )
 
             Text(
-                text = "TOTAL PAID: ${totalPrice.toVnd()}",
+                text = "TOTAL PAID: $ $totalPrice ",
                 style = MaterialTheme.typography.titleMedium
             )
 
