@@ -1,7 +1,6 @@
 package com.example.comicbookrental.ui.screens.admin.manage_comics
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -13,17 +12,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.comicbookrental.ui.components.adminComponents.AdminComicCard
+import com.example.comicbookrental.ui.components.adminComponents.AdminEmptyState
+import com.example.comicbookrental.ui.components.adminComponents.AdminErrorState
+import com.example.comicbookrental.ui.components.adminComponents.AdminLoadingState
 import com.example.comicbookrental.ui.components.adminComponents.ComicFormDialog
 import com.example.comicbookrental.ui.components.adminComponents.DeleteComicDialog
 import com.example.comicbookrental.ui.components.commonComponents.BrutalistButton
@@ -62,16 +59,21 @@ fun ManageComicsScreen(
         Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
         when (uiState) {
-            is ManageComicsUiState.Loading -> LoadingState()
+            is ManageComicsUiState.Loading -> AdminLoadingState()
 
-            is ManageComicsUiState.Error -> ErrorState(
+            is ManageComicsUiState.Error -> AdminErrorState(
                 message = (uiState as ManageComicsUiState.Error).message
             )
 
             is ManageComicsUiState.Content -> {
                 val comics = (uiState as ManageComicsUiState.Content).comics
                 if (comics.isEmpty()) {
-                    EmptyState(isSearching = editor.searchQuery.isNotBlank())
+                    AdminEmptyState(
+                        message = if (editor.searchQuery.isNotBlank())
+                            "No comics match your search."
+                        else
+                            "No comics yet. Tap \"Add comic\" to get started."
+                    )
                 } else {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
@@ -105,40 +107,6 @@ fun ManageComicsScreen(
             comicTitle = comic.title,
             onConfirm = viewModel::onDeleteConfirm,
             onDismiss = viewModel::onDeleteDismiss
-        )
-    }
-}
-
-@Composable
-private fun LoadingState() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
-    }
-}
-
-@Composable
-private fun ErrorState(message: String) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(
-            text = message,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.error,
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-@Composable
-private fun EmptyState(isSearching: Boolean) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(
-            text = if (isSearching)
-                "No comics match your search."
-            else
-                "No comics yet. Tap \"Add comic\" to get started.",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center
         )
     }
 }

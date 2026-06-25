@@ -13,17 +13,16 @@ import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.Payments
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.comicbookrental.ui.components.adminComponents.AdminErrorState
+import com.example.comicbookrental.ui.components.adminComponents.AdminLoadingState
 import com.example.comicbookrental.ui.components.adminComponents.DashboardStatCard
 import com.example.comicbookrental.ui.components.adminComponents.HotComicRow
 import com.example.comicbookrental.ui.theme.Anton
@@ -40,9 +39,9 @@ fun AdminDashboardScreen(
 
     Box(modifier = modifier.fillMaxSize()) {
         when (uiState) {
-            is AdminDashboardUiState.Loading -> LoadingState()
+            is AdminDashboardUiState.Loading -> AdminLoadingState()
 
-            is AdminDashboardUiState.Error -> ErrorState(
+            is AdminDashboardUiState.Error -> AdminErrorState(
                 message = (uiState as AdminDashboardUiState.Error).message
             )
 
@@ -121,24 +120,5 @@ private fun DashboardContent(stats: DashboardStats) {
                 HotComicRow(rank = index + 1, comic = comic)
             }
         }
-    }
-}
-
-@Composable
-private fun LoadingState() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
-    }
-}
-
-@Composable
-private fun ErrorState(message: String) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(
-            text = message,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.error,
-            textAlign = TextAlign.Center
-        )
     }
 }

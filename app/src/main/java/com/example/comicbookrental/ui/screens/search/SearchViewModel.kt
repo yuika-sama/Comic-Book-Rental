@@ -12,9 +12,11 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,18 +24,19 @@ class SearchViewModel @Inject constructor(
     private val comicRepository: ComicRepository,
 ) : ViewModel() {
 
-    private val _query = MutableStateFlow("")
-    private val _sortOption = MutableStateFlow(SortOption.NEWEST)
-    private val _filters = MutableStateFlow(SearchFilters())
+    private val input = MutableStateFlow(SearchInput())
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val resultsFlow = _query.flatMapLatest { query ->
-        if (query.isBlank()) {
-            comicRepository.getAllComics()
-        } else {
-            comicRepository.searchComics(query.trim())
+    private val resultsFlow = input
+        .map { it.query }
+        .distinctUntilChanged()
+        .flatMapLatest { query ->
+            if (query.isBlank()) {
+                comicRepository.getAllComics()
+            } else {
+                comicRepository.searchComics(query.trim())
+            }
         }
-    }
 
     private val optionsFlow = comicRepository.getAllComics().map { all ->
         FilterOptions(
@@ -44,21 +47,18 @@ class SearchViewModel @Inject constructor(
     }
 
     val uiState: StateFlow<SearchUiState> = combine(
-        _query,
+        input,
         resultsFlow,
         optionsFlow,
-        _sortOption,
-        _filters,
-    ) { query, comics, options, sortOption, filters ->
-//        throw RuntimeException("test error")
-        val filtered = comics.filter { it.matches(filters) }
+    ) { current, comics, options ->
+        val filtered = comics.filter { it.matches(current.filters) }
         SearchUiState.Content(
-            query = query,
-            suggestions = buildSuggestions(comics, options.genres, query.trim()),
-            recentResults = filtered.sortedWith(sortOption.comparator()).map { it.toUi() },
+            query = current.query,
+            suggestions = buildSuggestions(comics, options.genres, current.query.trim()),
+            recentResults = filtered.sortedWith(current.sortOption.comparator()).map { it.toUi() },
             hotResultIds = filtered.filter { it.isFeatured }.map { it.id }.toSet(),
-            sortOption = sortOption,
-            filters = filters,
+            sortOption = current.sortOption,
+            filters = current.filters,
             availableGenres = options.genres,
             availableAuthors = options.authors,
             availableYears = options.years,
@@ -73,35 +73,46 @@ class SearchViewModel @Inject constructor(
         )
 
     fun onQueryChange(query: String) {
-        _query.value = query
+        input.update { it.copy(query = query) }
     }
 
     fun onClearRecent() {
-        _query.value = ""
+        input.update { it.copy(query = "") }
     }
 
     fun onSortChange(option: SortOption) {
-        _sortOption.value = option
+        input.update { it.copy(sortOption = option) }
     }
 
     fun onFiltersChange(filters: SearchFilters) {
-        _filters.value = filters
+        input.update { it.copy(filters = filters) }
     }
 
     fun onClearFilters() {
-        _filters.value = SearchFilters()
+        input.update { it.copy(filters = SearchFilters()) }
     }
 
     fun onSuggestionClick(suggestion: SearchSuggestion) {
         when (suggestion.type) {
-            SuggestionType.TITLE, SuggestionType.AUTHOR -> _query.value = suggestion.text
-            SuggestionType.GENRE -> {
-                _filters.value = _filters.value.copy(genres = _filters.value.genres + suggestion.text)
-                _query.value = ""
-            }
+            SuggestionType.TITLE, SuggestionType.AUTHOR ->
+                input.update { it.copy(query = suggestion.text) }
+
+            SuggestionType.GENRE ->
+                input.update {
+                    it.copy(
+                        filters = it.filters.copy(genres = it.filters.genres + suggestion.text),
+                        query = "",
+                    )
+                }
         }
     }
 }
+
+private data class SearchInput(
+    val query: String = "",
+    val sortOption: SortOption = SortOption.NEWEST,
+    val filters: SearchFilters = SearchFilters(),
+)
 
 private const val SUGGESTION_LIMIT = 8
 
