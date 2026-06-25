@@ -1,4 +1,4 @@
-package com.example.comicbookrental.utils
+package com.example.comicbookrental.services
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -13,7 +13,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
-class StoreManager @Inject constructor(
+class StorageManager @Inject constructor(
     @ApplicationContext private val context: Context
 )
 {

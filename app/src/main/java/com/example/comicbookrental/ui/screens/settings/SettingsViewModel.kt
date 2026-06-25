@@ -1,7 +1,7 @@
 package com.example.comicbookrental.ui.screens.settings
 
 import androidx.lifecycle.ViewModel
-import com.example.comicbookrental.utils.StoreManager
+import com.example.comicbookrental.services.StorageManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val storeManager: StoreManager
+    private val storageManager: StorageManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
@@ -20,13 +20,13 @@ class SettingsViewModel @Inject constructor(
     init {
         _uiState.update {
             it.copy(
-                appNotificationsEnabled = storeManager.getNotificationsEnabled()
+                appNotificationsEnabled = storageManager.getNotificationsEnabled()
             )
         }
     }
 
     fun toggleAppNotifications(enabled: Boolean) {
-        storeManager.setNotificationsEnabled(enabled)
+        storageManager.setNotificationsEnabled(enabled)
         _uiState.update { it.copy(appNotificationsEnabled = enabled) }
     }
 

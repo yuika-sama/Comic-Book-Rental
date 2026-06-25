@@ -3,7 +3,7 @@ package com.example.comicbookrental.data.repositories.admin
 import com.example.comicbookrental.data.entities.Comic
 import com.example.comicbookrental.domain.repository.AdminComicRepository
 import com.example.comicbookrental.domain.repository.ComicRepository
-import com.example.comicbookrental.utils.StoreManager
+import com.example.comicbookrental.services.StorageManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -12,11 +12,11 @@ import javax.inject.Singleton
 
 @Singleton
 class AdminComicRepositoryImpl @Inject constructor(
-    private val storeManager: StoreManager,
+    private val storageManager: StorageManager,
     private val comicRepository: ComicRepository,
 ) : AdminComicRepository
 {
-    private val comicsFlow = MutableStateFlow(storeManager.getAdminComics())
+    private val comicsFlow = MutableStateFlow(storageManager.getAdminComics())
 
     override fun getComics(): Flow<List<Comic>> = comicsFlow
 
@@ -43,6 +43,6 @@ class AdminComicRepositoryImpl @Inject constructor(
 
     private fun persist(comics: List<Comic>) {
         comicsFlow.value = comics
-        storeManager.saveAdminComics(comics)
+        storageManager.saveAdminComics(comics)
     }
 }

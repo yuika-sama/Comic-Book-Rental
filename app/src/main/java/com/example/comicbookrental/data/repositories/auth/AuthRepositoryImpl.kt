@@ -3,13 +3,12 @@ package com.example.comicbookrental.data.repositories.auth
 import com.example.comicbookrental.data.entities.UserRole
 import com.example.comicbookrental.data.mock.AuthMockData
 import com.example.comicbookrental.domain.repository.AuthRepository
-import com.example.comicbookrental.utils.StoreManager
+import com.example.comicbookrental.services.StorageManager
 import kotlinx.coroutines.delay
-import okhttp3.internal.trimSubstring
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val storeManager: StoreManager
+    private val storageManager: StorageManager
 ) : AuthRepository
 {
     override suspend fun login(
@@ -22,7 +21,7 @@ class AuthRepositoryImpl @Inject constructor(
 
         return try
         {
-            val credentials = storeManager.getUsersCredentials()
+            val credentials = storageManager.getUsersCredentials()
             val savedPassword = credentials[email.trim()]
             val isAdmin = email.trim() in AuthMockData.ADMIN_EMAILS
 
@@ -30,14 +29,14 @@ class AuthRepositoryImpl @Inject constructor(
             {
                 email == AuthMockData.ERROR_EMAIL -> throw AuthMockData.SERVER_ERROR
                 savedPassword != null && savedPassword == password -> {
-                    if (!isAdmin && email.trim() in storeManager.getBannedUserEmails()) {
+                    if (!isAdmin && email.trim() in storageManager.getBannedUserEmails()) {
                         throw AuthMockData.BANNED_ERROR
                     }
-                    val currentProfile = storeManager.getUserProfile()
+                    val currentProfile = storageManager.getUserProfile()
                     val isVerified = isAdmin ||
                         (if (currentProfile.email == email) currentProfile.isEmailVerified else false)
                     val role = if (isAdmin) UserRole.ADMIN else UserRole.USER
-                    storeManager.saveUserProfile(
+                    storageManager.saveUserProfile(
                         currentProfile.copy(
                             email = email.trim(),
                             isEmailVerified = isVerified,
@@ -45,7 +44,7 @@ class AuthRepositoryImpl @Inject constructor(
                         )
                     )
                     if (rememberMe){
-                        storeManager.setLoggedIn(true)
+                        storageManager.setLoggedIn(true)
                     }
                     Result.success(isVerified)
                 }
@@ -57,7 +56,7 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getCurrentRole(): UserRole = storeManager.getUserProfile().role
+    override fun getCurrentRole(): UserRole = storageManager.getUserProfile().role
 
     override suspend fun oAuthLogin(): Result<Unit>
     {
@@ -81,7 +80,7 @@ class AuthRepositoryImpl @Inject constructor(
         delay(AuthMockData.NETWORK_DELAY)
         return try
         {
-            val credentials = storeManager.getUsersCredentials()
+            val credentials = storageManager.getUsersCredentials()
             when
             {
                 email == AuthMockData.ERROR_EMAIL -> throw AuthMockData.SERVER_ERROR
@@ -90,10 +89,10 @@ class AuthRepositoryImpl @Inject constructor(
                 {
                     val updatedCredentials = credentials.toMutableMap()
                     updatedCredentials[email.trim()] = password
-                    storeManager.saveUsersCredentials(updatedCredentials)
+                    storageManager.saveUsersCredentials(updatedCredentials)
 
-                    val profile = storeManager.getUserProfile()
-                    storeManager.saveUserProfile(
+                    val profile = storageManager.getUserProfile()
+                    storageManager.saveUserProfile(
                         profile.copy(
                             email = email,
                             realName = name,
@@ -118,7 +117,7 @@ class AuthRepositoryImpl @Inject constructor(
         delay(AuthMockData.NETWORK_DELAY)
         return try
         {
-            val credentials = storeManager.getUsersCredentials()
+            val credentials = storageManager.getUsersCredentials()
             when
             {
                 email == AuthMockData.ERROR_EMAIL -> throw AuthMockData.SERVER_ERROR
@@ -141,9 +140,9 @@ class AuthRepositoryImpl @Inject constructor(
                 AuthMockData.ERROR_OTP -> throw AuthMockData.SERVER_ERROR
                 AuthMockData.EXPIRED_OTP -> throw AuthMockData.OTP_EXPIRED_ERROR
                 AuthMockData.VALID_OTP -> {
-                    val currentProfile = storeManager.getUserProfile()
+                    val currentProfile = storageManager.getUserProfile()
                     if (currentProfile.email == email){
-                        storeManager.saveUserProfile(
+                        storageManager.saveUserProfile(
                             currentProfile.copy(isEmailVerified = true)
                         )
                     }
@@ -167,10 +166,10 @@ class AuthRepositoryImpl @Inject constructor(
             {
                 throw AuthMockData.SERVER_ERROR
             }
-            val credentials = storeManager.getUsersCredentials()
+            val credentials = storageManager.getUsersCredentials()
             val updatedCredentials = credentials.toMutableMap()
             updatedCredentials[email.trim()] = newPassword
-            storeManager.saveUsersCredentials(updatedCredentials)
+            storageManager.saveUsersCredentials(updatedCredentials)
             Result.success(Unit)
         } catch (e: Exception)
         {

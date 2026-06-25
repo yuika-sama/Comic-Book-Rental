@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -27,12 +26,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.comicbookrental.data.entities.CartItem
 import com.example.comicbookrental.ui.components.commonComponents.ComicButton
-import com.example.comicbookrental.ui.components.commonComponents.ComicButton
 import com.example.comicbookrental.ui.components.commonComponents.ComicButtonVariant
 import com.example.comicbookrental.ui.components.cartComponents.CartItemCard
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.Dimens
-import com.example.comicbookrental.ui.utils.toVnd
 import com.example.comicbookrental.ui.components.commonComponents.PanelRushTopBarBack
 
 @Composable

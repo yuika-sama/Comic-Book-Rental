@@ -29,7 +29,7 @@ import com.example.comicbookrental.ui.components.commonComponents.CartComicCover
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
-import com.example.comicbookrental.ui.utils.toPriceLabel
+import com.example.comicbookrental.utils.toPriceLabel
 
 @Composable
 fun HotComicRow(

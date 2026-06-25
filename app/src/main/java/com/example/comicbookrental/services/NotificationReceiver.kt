@@ -10,11 +10,8 @@ import android.os.Build
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.example.comicbookrental.MainActivity
-import com.example.comicbookrental.R
 import com.example.comicbookrental.data.entities.AppNotification
 import com.example.comicbookrental.data.entities.AppNotificationType
-import com.example.comicbookrental.ui.components.commonComponents.rememberComicToastState
-import com.example.comicbookrental.utils.StoreManager
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
 import javax.inject.Inject
@@ -24,17 +21,17 @@ class NotificationReceiver : BroadcastReceiver()
 {
 
     @Inject
-    lateinit var storeManager: StoreManager
+    lateinit var storageManager: StorageManager
 
     override fun onReceive(context: Context, intent: Intent)
     {
-        if (!storeManager.getNotificationsEnabled()) return
+        if (!storageManager.getNotificationsEnabled()) return
 
         val notification = generateRandomNotification()
 
-        val currentList = storeManager.getAppNotifications().toMutableList()
+        val currentList = storageManager.getAppNotifications().toMutableList()
         currentList.add(0, notification) // Add to top
-        storeManager.saveAppNotifications(currentList)
+        storageManager.saveAppNotifications(currentList)
 
         showSystemNotification(context, notification)
 

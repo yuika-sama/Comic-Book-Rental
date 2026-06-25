@@ -11,7 +11,6 @@ import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -42,7 +41,7 @@ import com.example.comicbookrental.ui.screens.profile.ProfileScreen
 import com.example.comicbookrental.ui.screens.profile_detail.ProfileDetailScreen
 import com.example.comicbookrental.ui.screens.search.SearchRoute
 import com.example.comicbookrental.ui.screens.onboarding.OnboardingScreen
-import com.example.comicbookrental.utils.StoreManager
+import com.example.comicbookrental.services.StorageManager
 import kotlinx.coroutines.delay
 
 @Composable
@@ -53,7 +52,7 @@ fun AppNavHost()
     val currentDestination = navBackStackEntry?.destination
     val checkoutRepository = remember { CheckoutRepositoryImpl() }
     val context = LocalContext.current
-    val storeManager = remember { StoreManager(context) }
+    val storageManager = remember { StorageManager(context) }
 
     var showGlobalLoading by remember { mutableStateOf(false) }
     var previousDestinationRoute by remember { mutableStateOf<String?>(null) }
@@ -71,13 +70,13 @@ fun AppNavHost()
     }
 
     val startGraph = remember {
-        if (!storeManager.isOnboardingCompleted())
+        if (!storageManager.isOnboardingCompleted())
         {
             OnboardingRoute
         }
-        else if (storeManager.isLoggedIn())
+        else if (storageManager.isLoggedIn())
         {
-            if (storeManager.getUserProfile().role.isAdmin) AdminGraph else CatalogGraph
+            if (storageManager.getUserProfile().role.isAdmin) AdminGraph else CatalogGraph
         }
         else
         {
@@ -185,8 +184,8 @@ fun AppNavHost()
                     composable<OnboardingRoute> {
                         OnboardingScreen(
                             onComplete = {
-                                storeManager.setOnboardingCompleted(true)
-                                navController.navigate(if (storeManager.isLoggedIn()) CatalogGraph else AuthGraph) {
+                                storageManager.setOnboardingCompleted(true)
+                                navController.navigate(if (storageManager.isLoggedIn()) CatalogGraph else AuthGraph) {
                                     popUpTo(OnboardingRoute) { inclusive = true }
                                 }
                             }
@@ -201,7 +200,7 @@ fun AppNavHost()
                     )
                     profileExtensionsGraph(navController)
                     adminGraph(navController) {
-                        storeManager.logOut()
+                        storageManager.logOut()
                         navController.navigate(AuthGraph) {
                             popUpTo(0) { inclusive = true }
                         }

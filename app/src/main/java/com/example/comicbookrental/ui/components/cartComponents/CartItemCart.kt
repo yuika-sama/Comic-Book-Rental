@@ -29,8 +29,7 @@ import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.Primary
 import com.example.comicbookrental.ui.theme.extendedColors
-import com.example.comicbookrental.ui.utils.toDisplayDate
-import com.example.comicbookrental.ui.utils.toVnd
+import com.example.comicbookrental.utils.toDisplayDate
 
 @Composable
 fun CartItemCard(

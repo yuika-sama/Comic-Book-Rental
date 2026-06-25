@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.utils
+package com.example.comicbookrental.utils
 
 import java.util.Locale
 

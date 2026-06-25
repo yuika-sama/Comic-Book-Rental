@@ -4,7 +4,7 @@ import com.example.comicbookrental.data.entities.Comic
 import com.example.comicbookrental.data.entities.Review
 import com.example.comicbookrental.ui.components.detailComponents.ReviewUi
 import com.example.comicbookrental.ui.components.detailComponents.SimilarTitleUi
-import com.example.comicbookrental.ui.utils.toPriceLabel
+import com.example.comicbookrental.utils.toPriceLabel
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter

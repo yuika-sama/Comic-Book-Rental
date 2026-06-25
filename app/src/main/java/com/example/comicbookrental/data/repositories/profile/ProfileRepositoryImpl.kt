@@ -3,18 +3,18 @@ package com.example.comicbookrental.data.repositories.profile
 import com.example.comicbookrental.data.entities.User
 import com.example.comicbookrental.data.mock.ProfileMockData
 import com.example.comicbookrental.domain.repository.ProfileRepository
-import com.example.comicbookrental.utils.StoreManager
+import com.example.comicbookrental.services.StorageManager
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class ProfileRepositoryImpl @Inject constructor(
-    private val storeManager: StoreManager
+    private val storageManager: StorageManager
 ) : ProfileRepository {
 
     override suspend fun getProfile(): Result<User> {
         delay(ProfileMockData.NETWORK_DELAY)
         return try {
-            Result.success(storeManager.getUserProfile())
+            Result.success(storageManager.getUserProfile())
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -27,7 +27,7 @@ class ProfileRepositoryImpl @Inject constructor(
             if (avatarUrl.isNullOrBlank()){
                 throw IllegalArgumentException("Avatar URL cannot be empty")
             }
-            Result.success(storeManager.saveUserAvatar(avatarUrl))
+            Result.success(storageManager.saveUserAvatar(avatarUrl))
         } catch (e: Exception){
             Result.failure(e)
         }
@@ -54,7 +54,7 @@ class ProfileRepositoryImpl @Inject constructor(
                 throw IllegalArgumentException("Region/Sector cannot be empty")
             }
 
-            val currentProfile = storeManager.getUserProfile()
+            val currentProfile = storageManager.getUserProfile()
             val updatedProfile = currentProfile.copy(
                 heroName = heroName,
                 realName = realName,
@@ -62,7 +62,7 @@ class ProfileRepositoryImpl @Inject constructor(
                 region = region
             )
 
-            storeManager.saveUserProfile(updatedProfile)
+            storageManager.saveUserProfile(updatedProfile)
 
             Result.success(updatedProfile)
         } catch (e: Exception) {
@@ -73,8 +73,8 @@ class ProfileRepositoryImpl @Inject constructor(
     override suspend fun changePassword(oldPassword: String, newPassword: String): Result<Unit> {
         delay(ProfileMockData.NETWORK_DELAY)
         return try {
-            val profile = storeManager.getUserProfile()
-            val credentials = storeManager.getUsersCredentials()
+            val profile = storageManager.getUserProfile()
+            val credentials = storageManager.getUsersCredentials()
             val currentSavedPassword = credentials[profile.email] ?: "12345678"
 
             if (oldPassword != "12345678") {
@@ -85,7 +85,7 @@ class ProfileRepositoryImpl @Inject constructor(
             }
             val updatedCredentials = credentials.toMutableMap()
             updatedCredentials[profile.email] = newPassword
-            storeManager.saveUsersCredentials(updatedCredentials)
+            storageManager.saveUsersCredentials(updatedCredentials)
 
             Result.success(Unit)
         } catch (e: Exception) {
@@ -95,6 +95,6 @@ class ProfileRepositoryImpl @Inject constructor(
 
     override suspend fun logOut()
     {
-        storeManager.logOut()
+        storageManager.logOut()
     }
 }
