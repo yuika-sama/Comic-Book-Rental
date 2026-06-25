@@ -137,6 +137,9 @@ fun AppNavHost(){
 
             composable<CartRoute> {
                 CartScreen(
+                    onBackClick = {
+                        navController.popBackStack()
+                    },
                     onCheckoutClick = { cartItems ->
                         checkoutRepository.prepareCartCheckout(cartItems)
                         navController.navigate(CheckoutRoute)

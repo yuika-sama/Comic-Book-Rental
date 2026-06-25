@@ -37,7 +37,7 @@ class StoreManager @Inject constructor(
                     comicTitle = "Solo Leveling",
                     comicAuthor = "Chugong",
                     comicCoverUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAcXGr6r1HemXimBqcdQ2rIrAltN95YCLjwjQknzwnAA&s=10",
-                    pricePerDay = 15000L,
+                    pricePerDay = 2.99,
                     startDate = now,
                     endDate = now + 7 * 24 * 60 * 60 * 1000L
                 ),
@@ -46,7 +46,7 @@ class StoreManager @Inject constructor(
                     comicTitle = "One Piece",
                     comicAuthor = "Eiichiro Oda",
                     comicCoverUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-g1PV_IrIiWZMhewfUosHJhLFjBx79XbJ0KSFQOxy-A&s",
-                    pricePerDay = 12000L,
+                    pricePerDay = 1.99,
                     startDate = now + 24 * 60 * 60 * 1000L,
                     endDate = now + 10 * 24 * 60 * 60 * 1000L
                 )

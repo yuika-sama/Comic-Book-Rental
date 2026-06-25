@@ -7,7 +7,7 @@ import com.example.comicbookrental.data.entities.PaymentMethod
 
 data class CheckoutUiState(
     val checkoutItems: List<CartItem> = emptyList(),
-    val totalPrice: Long = 0L,
+    val totalPrice: Double = 0.0,
 
     val source: CheckoutSource? = null,
     val paymentMethod: PaymentMethod = PaymentMethod.CREDIT_CARD,

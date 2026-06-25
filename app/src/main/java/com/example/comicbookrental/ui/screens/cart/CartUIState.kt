@@ -4,5 +4,7 @@ import com.example.comicbookrental.data.entities.CartItem
 
 data class CartUiState(
     val cartItems: List<CartItem> = emptyList(),
-    val totalPrice: Long = 0L
+    val totalPrice: Double = 0.0,
+    val isLoading: Boolean = false,
+    val errorMessage: String? = null
 )
