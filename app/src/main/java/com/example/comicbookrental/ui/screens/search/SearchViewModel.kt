@@ -33,7 +33,7 @@ class SearchViewModel @Inject constructor(
         } else {
             comicRepository.searchComics(query.trim())
         }
-    }
+    }.catch { emit(emptyList()) }
 
     private val optionsFlow = comicRepository.getAllComics().map { all ->
         FilterOptions(
@@ -41,7 +41,7 @@ class SearchViewModel @Inject constructor(
             authors = all.map { it.author }.distinct().sorted(),
             years = all.map { it.releaseDate.take(4) }.distinct().sortedDescending(),
         )
-    }
+    }.catch { emit(FilterOptions(emptyList(), emptyList(), emptyList())) }
 
     val uiState: StateFlow<SearchUiState> = combine(
         _query,
@@ -51,11 +51,22 @@ class SearchViewModel @Inject constructor(
         _filters,
     ) { query, comics, options, sortOption, filters ->
 //        throw RuntimeException("test error")
-        val filtered = comics.filter { it.matches(filters) }
+        val filtered = try {
+            comics.filter { it.matches(filters) }
+        } catch (e: Exception) {
+            comics // Graceful degradation: fallback to unfiltered list
+        }
+        
+        val sortedResults = try {
+            filtered.sortedWith(sortOption.comparator()).map { it.toUi() }
+        } catch (e: Exception) {
+            filtered.map { it.toUi() } // Graceful degradation: fallback to unsorted
+        }
+        
         SearchUiState.Content(
             query = query,
-            suggestions = buildSuggestions(comics, options.genres, query.trim()),
-            recentResults = filtered.sortedWith(sortOption.comparator()).map { it.toUi() },
+            suggestions = try { buildSuggestions(comics, options.genres, query.trim()) } catch (e: Exception) { emptyList() },
+            recentResults = sortedResults,
             hotResultIds = filtered.filter { it.isFeatured }.map { it.id }.toSet(),
             sortOption = sortOption,
             filters = filters,
