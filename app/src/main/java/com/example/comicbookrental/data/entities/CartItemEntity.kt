@@ -14,7 +14,10 @@ data class CartItem(
     val pricePerDay: Double,
 
     val startDate: Long,
-    val endDate: Long
+    val endDate: Long,
+
+    val extensionRentalId: Int? = null
+
 )
 
 fun CartItem.rentalDays(): Long {

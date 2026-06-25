@@ -124,7 +124,10 @@ fun AppNavHost(){
         ) {
             authGraph(navController)
             catalogGraph(navController)
-            rentalGraph(navController)
+            rentalGraph(
+                navController = navController,
+                checkoutRepository = checkoutRepository
+            )
             profileExtensionsGraph(navController)
 
             composable<SearchRoute> {

@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,12 +26,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.comicbookrental.data.entities.CartItem
 import com.example.comicbookrental.data.entities.Rental
 import com.example.comicbookrental.data.entities.RentalStatus
+import com.example.comicbookrental.ui.components.rentalComponents.ExtendRentalDialog
 import com.example.comicbookrental.ui.components.rentalComponents.RentalCard
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.Dimens
@@ -47,20 +46,46 @@ private enum class RentalTab {
 fun MyRentalsScreen(
     viewModel: RentalViewModel = viewModel(),
     onNavigateToReader: (Int) -> Unit = {},
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
+    onExtensionCheckout: (CartItem) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
+
+    var extendingRental by remember {
+        mutableStateOf<Rental?>(null)
+    }
 
     MyRentalsContent(
         rentals = uiState.rentalList,
         onReadClick = { rental ->
             onNavigateToReader(rental.rentalId)
         },
-        onExtendClick = { rental ->
-            viewModel.extendRental(rental.rentalId)
+        onExtendClick = { selectedRental ->
+            extendingRental = selectedRental
         },
         onBackClick = onBackClick
     )
+
+    extendingRental?.let { rental ->
+        ExtendRentalDialog(
+            rentalTitle = rental.comicTitle,
+            onDismiss = {
+                extendingRental = null
+            },
+            onConfirm = { extraDays ->
+                val extensionItem = viewModel.createExtensionCheckoutItem(
+                    rental = rental,
+                    extraDays = extraDays
+                )
+
+                extendingRental = null
+                onExtensionCheckout(extensionItem)
+            }
+        )
+    }
+
+
 }
 
 @Composable
@@ -74,14 +99,17 @@ private fun MyRentalsContent(
         mutableStateOf(RentalTab.ACTIVE)
     }
 
+
     val now = System.currentTimeMillis()
 
-    val activeRentals = rentals.filter {
-        it.status == RentalStatus.ACTIVE && it.dueDate > now
+    val activeRentals = rentals.filter { rental ->
+        rental.status == RentalStatus.ACTIVE &&
+                rental.dueDate > now
     }
 
-    val historyRentals = rentals.filter {
-        it.status == RentalStatus.EXPIRED || it.dueDate <= now
+    val historyRentals = rentals.filter { rental ->
+        rental.status == RentalStatus.EXPIRED ||
+                rental.dueDate <= now
     }
 
     val displayedRentals = when (selectedTab) {
@@ -113,13 +141,19 @@ private fun MyRentalsContent(
             )
         }
 
+        Spacer(
+            modifier = Modifier.height(
+                Dimens.Spacing.SectionSpacing
+            )
+        )
+
         if (displayedRentals.isEmpty()) {
             RentalEmptyState(
-                isHistory = selectedTab == RentalTab.HISTORY,
-
-                )
+                isHistory = selectedTab == RentalTab.HISTORY
+            )
         } else {
             LazyColumn(
+                modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(
                     Dimens.Spacing.SectionSpacing
                 )
@@ -130,15 +164,15 @@ private fun MyRentalsContent(
                 ) { rental ->
                     RentalCard(
                         rental = rental,
-                        onReadClick = { onReadClick(rental) },
-                        onExtendClick = { onExtendClick(rental) }
+                        onReadClick = onReadClick,
+                        onExtendClick = onExtendClick
                     )
                 }
-            }
             }
         }
     }
 
+}
 
 @Composable
 private fun RentalTabs(
@@ -159,7 +193,9 @@ private fun RentalTabs(
         RentalTabButton(
             text = "ACTIVE",
             selected = selectedTab == RentalTab.ACTIVE,
-            onClick = { onTabSelected(RentalTab.ACTIVE) },
+            onClick = {
+                onTabSelected(RentalTab.ACTIVE)
+            },
             modifier = Modifier.weight(1f)
         )
 
@@ -173,7 +209,9 @@ private fun RentalTabs(
         RentalTabButton(
             text = "HISTORY",
             selected = selectedTab == RentalTab.HISTORY,
-            onClick = { onTabSelected(RentalTab.HISTORY) },
+            onClick = {
+                onTabSelected(RentalTab.HISTORY)
+            },
             modifier = Modifier.weight(1f)
         )
     }
@@ -190,8 +228,11 @@ private fun RentalTabButton(
         modifier = modifier
             .fillMaxHeight()
             .background(
-                if (selected) MaterialTheme.colorScheme.primary
-                else MaterialTheme.colorScheme.surface
+                if (selected) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.surface
+                }
             )
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
@@ -222,13 +263,19 @@ private fun RentalEmptyState(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = if (isHistory) "NO HISTORY" else "NO ACTIVE RENTALS",
+                text = if (isHistory) {
+                    "NO HISTORY"
+                } else {
+                    "NO ACTIVE RENTALS"
+                },
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontFamily = Anton
                 )
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(
+                modifier = Modifier.height(8.dp)
+            )
 
             Text(
                 text = if (isHistory) {
@@ -241,4 +288,3 @@ private fun RentalEmptyState(
         }
     }
 }
-

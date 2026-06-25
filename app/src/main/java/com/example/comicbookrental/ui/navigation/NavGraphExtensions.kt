@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
+import com.example.comicbookrental.domain.repository.CheckoutRepository
 import com.example.comicbookrental.ui.screens.home.HomeRoute as HomeScreenEntry
 import com.example.comicbookrental.ui.screens.detail.ComicDetailRoute as ComicDetailScreenEntry
 import com.example.comicbookrental.ui.screens.wishlist.WishlistRoute as WishlistScreenEntry
@@ -135,13 +136,23 @@ fun NavGraphBuilder.catalogGraph(
 }
 
 fun NavGraphBuilder.rentalGraph(
-    navController: NavHostController
+    navController: NavHostController,
+    checkoutRepository: CheckoutRepository
 )
 {
     composable<MyRentalsRoute> {
         MyRentalsScreen(
-            onNavigateToReader = { comicId ->
-                navController.navigate(ReaderRoute(comicId.toString()))
+            onNavigateToReader = { rentalId ->
+                navController.navigate(
+                    ReaderRoute(rentalId.toString())
+                )
+            },
+            onExtensionCheckout = { extensionItem ->
+                checkoutRepository.prepareExtensionCheckout(
+                    extensionItem
+                )
+
+                navController.navigate(CheckoutRoute)
             }
         )
     }

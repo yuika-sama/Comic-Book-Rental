@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -181,7 +183,7 @@ private fun CheckoutContent(
         Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
         Text(
-            text = "TOTAL: $totalPrice",
+            text = "TOTAL: $ $totalPrice",
             style = MaterialTheme.typography.titleLarge.copy(
                 fontFamily = Anton
             )
@@ -236,8 +238,14 @@ private fun CheckoutItemSummary(
             imageUrl = item.comicCoverUrl,
             title = item.comicTitle,
             modifier = Modifier
-                .height(105.dp)
-                .weight(0.28f)
+                .width(90.dp)
+                .height(135.dp)
+                .clip(RoundedCornerShape(Dimens.Radius.Button))
+                .border(
+                    width = 1.dp,
+                    color = Color.Black,
+                    shape = RoundedCornerShape(Dimens.Radius.Button)
+                )
         )
 
         Column(
@@ -254,9 +262,8 @@ private fun CheckoutItemSummary(
             )
 
             Text(
-                text = item.comicAuthor,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                text = "#Issue - ${item.comicId}",
+                style = MaterialTheme.typography.bodySmall
             )
 
             Text(
@@ -273,7 +280,7 @@ private fun CheckoutItemSummary(
             )
 
             Text(
-                text = "${item.totalPrice()}",
+                text = "$ ${item.totalPrice()}",
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontFamily = Anton
                 )

@@ -3,6 +3,7 @@ package com.example.comicbookrental.data.repositories.checkout
 import com.example.comicbookrental.data.entities.CartItem
 import com.example.comicbookrental.data.entities.CheckoutSource
 import com.example.comicbookrental.data.mock.MockCheckoutData
+import com.example.comicbookrental.domain.repository.CheckoutRepository
 
 class CheckoutRepositoryImpl : CheckoutRepository {
 
@@ -31,5 +32,11 @@ class CheckoutRepositoryImpl : CheckoutRepository {
     override fun clearCheckout() {
         MockCheckoutData.source = null
         MockCheckoutData.checkoutItems.clear()
+    }
+
+    override fun prepareExtensionCheckout(item: CartItem) {
+        MockCheckoutData.source = CheckoutSource.EXTENSION
+        MockCheckoutData.checkoutItems.clear()
+        MockCheckoutData.checkoutItems.add(item)
     }
 }

@@ -2,7 +2,8 @@ package com.example.comicbookrental.data.entities
 
 enum class CheckoutSource {
     DIRECT,
-    CART
+    CART,
+    EXTENSION
 }
 
 enum class PaymentMethod {

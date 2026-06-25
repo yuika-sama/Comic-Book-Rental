@@ -34,4 +34,14 @@ class RentalRepositoryImpl : RentalRepository
 
         return largestId + 1
     }
+
+    override fun updateRental(rental: Rental) {
+        val index = MockRentalData.rentals.indexOfFirst {
+            it.rentalId == rental.rentalId
+        }
+
+        if (index != -1) {
+            MockRentalData.rentals[index] = rental
+        }
+    }
 }

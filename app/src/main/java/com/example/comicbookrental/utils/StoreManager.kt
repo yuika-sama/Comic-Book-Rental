@@ -67,6 +67,7 @@ class StoreManager @Inject constructor(
                     comicCoverUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAcXGr6r1HemXimBqcdQ2rIrAltN95YCLjwjQknzwnAA&s=10",
                     rentalDate = now - day,
                     dueDate = now + 6 * day,
+                    pricePerDay = 1.99,
                     status = RentalStatus.ACTIVE
                 ),
                 Rental(
@@ -77,6 +78,7 @@ class StoreManager @Inject constructor(
                     comicCoverUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-g1PV_IrIiWZMhewfUosHJhLFjBx79XbJ0KSFQOxy-A&s",
                     rentalDate = now - 10 * day,
                     dueDate = now - day,
+                    pricePerDay = 1.99,
                     status = RentalStatus.EXPIRED
                 )
             )
