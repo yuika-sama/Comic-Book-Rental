@@ -2,9 +2,17 @@ package com.example.comicbookrental.ui.navigation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
+import com.example.comicbookrental.ui.screens.admin.AdminScaffold
+import com.example.comicbookrental.ui.screens.admin.dashboard.AdminDashboardScreen
+import com.example.comicbookrental.ui.screens.admin.manage_comics.ManageComicsScreen
+import com.example.comicbookrental.ui.screens.admin.manage_users.ManageUsersScreen
+import com.example.comicbookrental.ui.screens.admin.profile.AdminProfileScreen
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.example.comicbookrental.data.repositories.checkout.CheckoutRepositoryImpl
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -21,6 +29,7 @@ import com.example.comicbookrental.ui.screens.notifications.NotificationScreen
 import com.example.comicbookrental.ui.screens.rentals.MyRentalsScreen
 import com.example.comicbookrental.ui.screens.verify_otp.VerifyOtpScreen
 import com.example.comicbookrental.ui.screens.reset_password.ResetPasswordScreen
+import com.example.comicbookrental.ui.screens.settings.SettingsScreen
 
 fun NavGraphBuilder.authGraph(navController: NavHostController)
 {
@@ -29,9 +38,15 @@ fun NavGraphBuilder.authGraph(navController: NavHostController)
             LoginScreen(
                 onRegisterClick = { navController.navigate(RegisterRoute) },
                 onForgotPasswordClick = { navController.navigate(ForgetPassword) },
-                onLoginSuccess = {
-                    navController.navigate(CatalogGraph) {
-                        popUpTo(AuthGraph) { inclusive = true }
+                onLoginSuccess = { isAdmin ->
+                    if (isAdmin) {
+                        navController.navigate(AdminGraph) {
+                            popUpTo(AuthGraph) { inclusive = true }
+                        }
+                    } else {
+                        navController.navigate(CatalogGraph) {
+                            popUpTo(AuthGraph) { inclusive = true }
+                        }
                     }
                 },
                 onNavigateToVerify = { email ->
@@ -71,10 +86,10 @@ fun NavGraphBuilder.authGraph(navController: NavHostController)
             val route = backStackEntry.toRoute<VerifyOtp>()
             VerifyOtpScreen(
                 email = route.email,
-                onVerifySuccess = {
+                onVerifySuccess = { isAdmin ->
                     if (route.isFromLogin)
                     {
-                        navController.navigate(CatalogGraph) {
+                        navController.navigate(if (isAdmin) AdminGraph else CatalogGraph) {
                             popUpTo(AuthGraph) {
                                 inclusive = true
                             }
@@ -120,17 +135,20 @@ fun NavGraphBuilder.catalogGraph(
             )
         }
         composable<ComicDetailRoute> {
+            val checkoutRepository = remember { CheckoutRepositoryImpl() }
             ComicDetailScreenEntry(
                 onBack = { navController.popBackStack() },
                 onComicClick = { comicId ->
                     navController.navigate(ComicDetailRoute(comicId))
                 },
-                onCartClick = { navController.navigate(CartRoute) }
+                onCartClick = { navController.navigate(CartRoute) },
+                onRentNow = { item ->
+                    checkoutRepository.prepareDirectCheckout(item)
+                    navController.navigate(CheckoutRoute)
+                },
             )
         }
-        composable<NotificationsRoute> {
-            NotificationScreen()
-        }
+
     }
 }
 
@@ -182,43 +200,44 @@ fun NavGraphBuilder.profileExtensionsGraph(
     }
 
     composable<NotificationsRoute> {
-        // TODO: Notification Settings / Center UI - Turn on/off Push or Email alerts (Section 8.1)
         NotificationScreen()
+    }
+
+    composable<SettingsRoute> {
+        SettingsScreen()
     }
 }
 
 fun NavGraphBuilder.adminGraph(
-    navController: NavHostController
+    navController: NavHostController,
+    onLogout: () -> Unit
 )
 {
-    navigation<AdminGraph>(startDestination = AdminManageComicsRoute) {
+    navigation<AdminGraph>(startDestination = AdminDashboardRoute) {
         composable<AdminDashboardRoute> {
-            // TODO: Admin Dashboard UI - Dashboard summary & reports analytics (Section 8.2)
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Admin Dashboard Overview")
+            AdminScaffold(navController = navController) { innerPadding ->
+                AdminDashboardScreen(modifier = Modifier.padding(innerPadding))
             }
         }
 
         composable<AdminManageUsersRoute> {
-            // TODO: Admin Manage Users UI - Ban/Unban, check records (Section 8.2)
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Admin: Manage Users")
+            AdminScaffold(navController = navController) { innerPadding ->
+                ManageUsersScreen(modifier = Modifier.padding(innerPadding))
             }
         }
 
         composable<AdminManageComicsRoute> {
-            // TODO: Admin Manage Comics UI - Add new chapters, catalog terms (Section 8.2)
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Admin: Manage Comics Catalog")
+            AdminScaffold(navController = navController) { innerPadding ->
+                ManageComicsScreen(modifier = Modifier.padding(innerPadding))
+            }
+        }
+
+        composable<AdminProfileRoute> {
+            AdminScaffold(navController = navController) { innerPadding ->
+                AdminProfileScreen(
+                    onLogout = onLogout,
+                    modifier = Modifier.padding(innerPadding)
+                )
             }
         }
     }

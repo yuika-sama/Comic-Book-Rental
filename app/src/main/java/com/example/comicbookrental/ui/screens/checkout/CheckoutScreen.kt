@@ -83,7 +83,7 @@ fun CheckoutScreen(
 @Composable
 private fun CheckoutContent(
     items: List<CartItem>,
-    totalPrice: Long,
+    totalPrice: Double,
     selectedPaymentMethod: PaymentMethod,
     onPaymentMethodClick: (PaymentMethod) -> Unit,
     onBackClick: () -> Unit,
@@ -181,7 +181,7 @@ private fun CheckoutContent(
         Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
         Text(
-            text = "TOTAL: ${totalPrice.toVnd()}",
+            text = "TOTAL: $totalPrice",
             style = MaterialTheme.typography.titleLarge.copy(
                 fontFamily = Anton
             )
@@ -273,7 +273,7 @@ private fun CheckoutItemSummary(
             )
 
             Text(
-                text = item.totalPrice().toVnd(),
+                text = "${item.totalPrice()}",
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontFamily = Anton
                 )

@@ -106,7 +106,7 @@ fun CartItemCard(
 
 
             Text(
-                text = "${item.pricePerDay.toVnd()}/day",
+                text = "$ ${item.pricePerDay}/day",
                 style = MaterialTheme.typography.titleSmall.copy(
                     fontFamily = Anton
                 )
@@ -127,7 +127,7 @@ fun CartItemCard(
             )
 
             Text(
-                text = item.totalPrice().toVnd(),
+                text = "$ ${item.totalPrice()}",
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontFamily = Anton
                 )

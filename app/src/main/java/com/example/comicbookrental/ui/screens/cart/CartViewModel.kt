@@ -2,8 +2,9 @@ package com.example.comicbookrental.ui.screens.cart
 
 import androidx.lifecycle.ViewModel
 import com.example.comicbookrental.data.entities.Comic
-import com.example.comicbookrental.data.entities.CartItem
+//import com.example.comicbookrental.data.entities.CartItem
 import com.example.comicbookrental.data.entities.MILLIS_PER_DAY
+import com.example.comicbookrental.data.entities.toCartItem
 import com.example.comicbookrental.data.entities.totalPrice
 import com.example.comicbookrental.domain.repository.CartRepository
 import com.example.comicbookrental.data.repositories.cart.CartRepositoryImpl
@@ -45,15 +46,17 @@ class CartViewModel : ViewModel() {
     ) {
         if (!isValidDateRange(startDate, endDate)) return
 
-        val cartItem = CartItem(
-            comicId = comic.id,
-            comicTitle = comic.title,
-            comicAuthor = comic.author,
-            comicCoverUrl = comic.coverImageUrl,
-            pricePerDay = comic.rentalPrice.toLong(),
-            startDate = startDate,
-            endDate = endDate
-        )
+        val cartItem = comic.toCartItem(startDate, endDate)
+
+//        val cartItem = CartItem(
+//            comicId = comic.id,
+//            comicTitle = comic.title,
+//            comicAuthor = comic.author,
+//            comicCoverUrl = comic.coverImageUrl,
+//            pricePerDay = comic.rentalPrice.toLong(),
+//            startDate = startDate,
+//            endDate = endDate
+//        )
 
         repository.addOrUpdateCartItem(cartItem)
 
@@ -98,13 +101,6 @@ class CartViewModel : ViewModel() {
 
         return rentalDays <= MAX_RENTAL_DAYS
     }
-
-//    private fun String.toPricePerDay(): Long {
-//        // "15,000 ₫" → "15000" → 15000L
-//        return filter { it.isDigit() }
-//            .toLongOrNull()
-//            ?: 0L
-//    }
 
 
 }

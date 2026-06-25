@@ -36,6 +36,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.comicbookrental.data.entities.Rental
 import com.example.comicbookrental.data.entities.ReaderPageEntity
 import com.example.comicbookrental.data.entities.RentalStatus
+import com.example.comicbookrental.ui.components.commonComponents.PanelRushTopBarBack
 import com.example.comicbookrental.ui.components.readerPageComponent.ReaderExpiredContent
 import com.example.comicbookrental.ui.components.readerPageComponent.ReaderLoading
 import com.example.comicbookrental.ui.theme.Anton
@@ -62,38 +63,51 @@ fun ReaderScreen(
         viewModel.loadReader(rentalId)
     }
 
-    when {
-        uiState.isLoading -> {
-            ReaderLoading()
-        }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        PanelRushTopBarBack(
+            onMenuClick = onBackClick,
+            onNotificationsClick = {}
+        )
 
-        rental == null -> {
-            ReaderNotFound(
-                onBackClick = onBackClick
-            )
-        }
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            when {
+                uiState.isLoading -> ReaderLoading()
 
-        rental.isExpired() -> {
-            ReaderExpiredContent(
-                rental = rental,
-                onBackClick = onBackClick,
-                onExtendRentalClick = onExtendRentalClick
-            )
-        }
+                rental == null -> {
+                    ReaderNotFound(
+                        onBackClick = onBackClick
+                    )
+                }
 
-        uiState.pages.isEmpty() -> {
-            ReaderNoPages(
-                onBackClick = onBackClick
-            )
-        }
+                rental.isExpired() -> {
+                    ReaderExpiredContent(
+                        rental = rental,
+                        onBackClick = onBackClick,
+                        onExtendRentalClick = onExtendRentalClick
+                    )
+                }
 
-        else -> {
-            ReaderContent(
-                rental = rental,
-                pages = uiState.pages,
-                readingMode = uiState.readingMode,
-                onReadingModeChange = viewModel::changeReadingMode,
-            )
+                uiState.pages.isEmpty() -> {
+                    ReaderNoPages(
+                        onBackClick = onBackClick
+                    )
+                }
+
+                else -> {
+                    ReaderContent(
+                        rental = rental,
+                        pages = uiState.pages,
+                        readingMode = uiState.readingMode,
+                        onReadingModeChange = viewModel::changeReadingMode
+                    )
+                }
+            }
         }
     }
 }
@@ -116,7 +130,6 @@ private fun ReaderContent(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        Spacer(modifier = Modifier.size(20.dp))
 
         Row(
             modifier = Modifier

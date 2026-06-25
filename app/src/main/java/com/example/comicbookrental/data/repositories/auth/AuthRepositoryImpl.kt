@@ -1,5 +1,6 @@
 package com.example.comicbookrental.data.repositories.auth
 
+import com.example.comicbookrental.data.entities.UserRole
 import com.example.comicbookrental.data.mock.AuthMockData
 import com.example.comicbookrental.domain.repository.AuthRepository
 import com.example.comicbookrental.utils.StoreManager
@@ -23,14 +24,26 @@ class AuthRepositoryImpl @Inject constructor(
         {
             val credentials = storeManager.getUsersCredentials()
             val savedPassword = credentials[email.trim()]
+            val isAdmin = email.trim() in AuthMockData.ADMIN_EMAILS
 
             when
             {
                 email == AuthMockData.ERROR_EMAIL -> throw AuthMockData.SERVER_ERROR
                 savedPassword != null && savedPassword == password -> {
+                    if (!isAdmin && email.trim() in storeManager.getBannedUserEmails()) {
+                        throw AuthMockData.BANNED_ERROR
+                    }
                     val currentProfile = storeManager.getUserProfile()
-                    val isVerified = if (currentProfile.email == email) currentProfile.isEmailVerified else false
-                    storeManager.saveUserProfile(currentProfile.copy(email = email.trim(), isEmailVerified = isVerified))
+                    val isVerified = isAdmin ||
+                        (if (currentProfile.email == email) currentProfile.isEmailVerified else false)
+                    val role = if (isAdmin) UserRole.ADMIN else UserRole.USER
+                    storeManager.saveUserProfile(
+                        currentProfile.copy(
+                            email = email.trim(),
+                            isEmailVerified = isVerified,
+                            role = role
+                        )
+                    )
                     if (rememberMe){
                         storeManager.setLoggedIn(true)
                     }
@@ -43,6 +56,8 @@ class AuthRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
+    override fun getCurrentRole(): UserRole = storeManager.getUserProfile().role
 
     override suspend fun oAuthLogin(): Result<Unit>
     {

@@ -64,7 +64,7 @@ fun Comic.toDetailUi(
     title = title,
     creators = author,
     publisher = publisher,
-    genres = listOf(genre),
+    genres = genres,
     rating = avgRating.toFloatOrNull() ?: 0f,
     reviewCount = ratingsCount,
     coverUrl = coverImageUrl,

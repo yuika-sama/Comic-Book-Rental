@@ -14,5 +14,6 @@ data class User(
     val rentedCount: Int = 128,
     val activeCount: Int = 14,
     val avatarUrl: String = "",
-    val isEmailVerified: Boolean = false
+    val isEmailVerified: Boolean = false,
+    val role: UserRole = UserRole.USER
 )
