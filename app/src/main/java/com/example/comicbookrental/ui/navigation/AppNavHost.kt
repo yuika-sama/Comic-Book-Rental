@@ -33,6 +33,7 @@ import com.example.comicbookrental.ui.screens.checkout.CheckoutScreen
 import com.example.comicbookrental.ui.screens.profile.ProfileScreen
 import com.example.comicbookrental.ui.screens.profile_detail.ProfileDetailScreen
 import com.example.comicbookrental.ui.screens.search.SearchRoute
+import com.example.comicbookrental.ui.screens.onboarding.OnboardingScreen
 import com.example.comicbookrental.utils.StoreManager
 
 @Composable
@@ -43,10 +44,18 @@ fun AppNavHost(){
     val checkoutRepository = remember { CheckoutRepositoryImpl() }
     val context = LocalContext.current
     val storeManager = remember { StoreManager(context) }
-    val startGraph: Any = when {
-        !storeManager.isLoggedIn() -> AuthGraph
-        storeManager.getUserProfile().role.isAdmin -> AdminGraph
-        else -> CatalogGraph
+//    val startGraph: Any = when {
+//        !storeManager.isLoggedIn() -> AuthGraph
+//        storeManager.getUserProfile().role.isAdmin -> AdminGraph
+//        else -> CatalogGraph
+    val startGraph = remember {
+        if (!storeManager.isOnboardingCompleted()) {
+            OnboardingRoute
+        } else if (storeManager.isLoggedIn()) {
+            CatalogGraph
+        } else {
+            AuthGraph
+        }
     }
 
     val tabs = listOf(
@@ -126,6 +135,17 @@ fun AppNavHost(){
             startDestination = startGraph,
             modifier = Modifier.padding(innerPadding)
         ) {
+            composable<OnboardingRoute> {
+                OnboardingScreen(
+                    onComplete = {
+                        storeManager.setOnboardingCompleted(true)
+                        navController.navigate(if (storeManager.isLoggedIn()) CatalogGraph else AuthGraph) {
+                            popUpTo(OnboardingRoute) { inclusive = true }
+                        }
+                    }
+                )
+            }
+
             authGraph(navController)
             catalogGraph(navController)
             rentalGraph(navController)
