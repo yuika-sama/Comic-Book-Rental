@@ -16,7 +16,7 @@ import com.example.comicbookrental.ui.theme.InkBlack
 
 fun Modifier.comicHardShadow(
     shape: Shape = RoundedCornerShape(Dimens.Radius.Card),
-    offset: DpOffset = Dimens.Elevation.Resting,
+    offset: Dp = Dimens.Elevation.Resting,
     color: Color = InkBlack,
 ): Modifier = this.drawBehind {
     val outline = shape.createOutline(size, layoutDirection, this)

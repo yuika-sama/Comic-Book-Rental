@@ -7,11 +7,11 @@ import com.example.comicbookrental.data.entities.PaymentMethod
 import com.example.comicbookrental.data.entities.Rental
 import com.example.comicbookrental.data.entities.RentalStatus
 import com.example.comicbookrental.data.entities.totalPrice
-import com.example.comicbookrental.data.repositories.cart.CartRepository
+import com.example.comicbookrental.domain.repository.CartRepository
+import com.example.comicbookrental.domain.repository.RentalRepository
 import com.example.comicbookrental.data.repositories.cart.CartRepositoryImpl
 import com.example.comicbookrental.data.repositories.checkout.CheckoutRepository
 import com.example.comicbookrental.data.repositories.checkout.CheckoutRepositoryImpl
-import com.example.comicbookrental.data.repositories.rental.RentalRepository
 import com.example.comicbookrental.data.repositories.rental.RentalRepositoryImpl
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -142,7 +142,7 @@ fun ManageLegacyPage(onNext: () -> Unit)
                     .fillMaxWidth()
                     .comicHardShadow(
                         shape = RoundedCornerShape(0.dp),
-                        offset = DpOffset(8.dp, 8.dp),
+                        offset = 8.dp,
                         color = InkBlack
                     )
                     .background(Color.White)
@@ -276,7 +276,7 @@ fun ManageLegacyPage(onNext: () -> Unit)
                     .fillMaxWidth()
                     .comicHardShadow(
                         shape = RoundedCornerShape(0.dp),
-                        offset = DpOffset(8.dp, 8.dp),
+                        offset = 8.dp,
                         color = InkBlack
                     )
                     .background(Primary)
@@ -361,7 +361,7 @@ fun ManageLegacyPage(onNext: () -> Unit)
                     .fillMaxWidth()
                     .comicHardShadow(
                         shape = RoundedCornerShape(0.dp),
-                        offset = DpOffset(8.dp, 8.dp),
+                        offset = 8.dp,
                         color = InkBlack
                     )
                     .background(Color(0xFFFFE0D0))
@@ -401,7 +401,7 @@ fun ManageLegacyPage(onNext: () -> Unit)
                     .fillMaxWidth()
                     .comicHardShadow(
                         shape = RoundedCornerShape(0.dp),
-                        offset = DpOffset(8.dp, 8.dp),
+                        offset = 8.dp,
                         color = InkBlack
                     )
                     .background(Color.White)

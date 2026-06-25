@@ -81,7 +81,7 @@ fun ImmersiveReadingPage(onNext: () -> Unit, onSkip: () -> Unit)
                 .weight(1f)
                 .comicHardShadow(
                     shape = RoundedCornerShape(8.dp),
-                    offset = DpOffset(8.dp, 8.dp),
+                    offset = 8.dp,
                     color = InkBlack
                 )
                 .clip(RoundedCornerShape(8.dp))

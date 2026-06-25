@@ -138,7 +138,7 @@ private fun MyRentalsContent(
             }
         }
     }
-}
+
 
 @Composable
 private fun RentalTabs(

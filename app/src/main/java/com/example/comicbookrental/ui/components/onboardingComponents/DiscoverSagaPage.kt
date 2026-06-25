@@ -59,7 +59,7 @@ fun DiscoverSagaPage(onNext: () -> Unit, onSkip: () -> Unit)
                     .padding(top = 16.dp, end = 8.dp)
                     .comicHardShadow(
                         shape = androidx.compose.foundation.shape.RoundedCornerShape(4.dp),
-                        offset = DpOffset(8.dp, 8.dp),
+                        offset = 8.dp,
                         color = InkBlack
                     )
                     .clip(RoundedCornerShape(4.dp))
