@@ -28,6 +28,8 @@ fun ProfileScreen(
     onCartClick: () -> Unit,
     onWishlistClick: () -> Unit,
     onHistoryClick: () -> Unit,
+    onSettingsClick: () -> Unit,
+    onNotificationsClick: () -> Unit,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
@@ -50,7 +52,9 @@ fun ProfileScreen(
             onProfileDetailClick = onProfileDetailClick,
             onCartClick = onCartClick,
             onWishlistClick = onWishlistClick,
-            onHistoryClick = onHistoryClick
+            onHistoryClick = onHistoryClick,
+            onSettingsClick = onSettingsClick,
+            onNotificationsClick = onNotificationsClick
         )
         Spacer(modifier = Modifier.height(32.dp))
         BrutalistButton(

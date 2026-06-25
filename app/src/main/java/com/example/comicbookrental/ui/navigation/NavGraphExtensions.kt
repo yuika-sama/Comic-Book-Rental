@@ -29,6 +29,7 @@ import com.example.comicbookrental.ui.screens.notifications.NotificationScreen
 import com.example.comicbookrental.ui.screens.rentals.MyRentalsScreen
 import com.example.comicbookrental.ui.screens.verify_otp.VerifyOtpScreen
 import com.example.comicbookrental.ui.screens.reset_password.ResetPasswordScreen
+import com.example.comicbookrental.ui.screens.settings.SettingsScreen
 
 fun NavGraphBuilder.authGraph(navController: NavHostController)
 {
@@ -195,8 +196,11 @@ fun NavGraphBuilder.profileExtensionsGraph(
     }
 
     composable<NotificationsRoute> {
-        // TODO: Notification Settings / Center UI - Turn on/off Push or Email alerts (Section 8.1)
         NotificationScreen()
+    }
+
+    composable<SettingsRoute> {
+        SettingsScreen()
     }
 }
 

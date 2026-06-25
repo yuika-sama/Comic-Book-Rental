@@ -78,9 +78,17 @@ fun AppNavHost(){
         currentDestination?.hasRoute<ProfileDetailRoute>() == true -> "PROFILE EDIT"
         currentDestination?.hasRoute<WishlistRoute>() == true -> "MY WISHLIST"
         currentDestination?.hasRoute<NotificationsRoute>() == true -> "NOTIFICATIONS"
+        currentDestination?.hasRoute<SettingsRoute>() == true -> "SETTINGS"
         else -> ""
     }
 
+    val isShowSecondaryTopBar = currentDestination?.hierarchy?.any() { dest ->
+        dest.hasRoute<ComicDetailRoute>() ||
+                dest.hasRoute<ProfileDetailRoute>() ||
+                dest.hasRoute<WishlistRoute>() ||
+                dest.hasRoute<NotificationsRoute>() ||
+                dest.hasRoute<SettingsRoute>()
+    } == true
 
     Scaffold(
         topBar = {
@@ -103,6 +111,15 @@ fun AppNavHost(){
                         },
                         onNotificationsClick = { navController.navigate(NotificationsRoute) },
                         onNavigateToCartClick = { navController.navigate(CartRoute) }
+                    )
+                }
+            } else if (isShowSecondaryTopBar) {
+                Box(modifier = Modifier.statusBarsPadding()) {
+                    SecondaryTopBar(
+                        title = "SETTINGS",
+                        onBackClick = { navController.popBackStack() },
+                        onCartClick = { navController.navigate(CartRoute) },
+                        isShowCart = false
                     )
                 }
             }
@@ -210,6 +227,12 @@ fun AppNavHost(){
                     },
                     onHistoryClick = {
                         navController.navigate(MyRentalsRoute)
+                    },
+                    onSettingsClick = {
+                        navController.navigate(SettingsRoute)
+                    },
+                    onNotificationsClick = {
+                        navController.navigate(NotificationsRoute)
                     }
                 )
             }

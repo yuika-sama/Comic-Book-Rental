@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -24,6 +26,8 @@ fun ProfileMenuSection(
     onCartClick: () -> Unit = {},
     onWishlistClick: () -> Unit = {},
     onHistoryClick: () -> Unit = {},
+    onSettingsClick: () -> Unit = {},
+    onNotificationsClick: () -> Unit = {},
     cartBadgeCount: Int = 3
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -40,5 +44,7 @@ fun ProfileMenuSection(
         ProfileMenuItem(Icons.Default.ShoppingCart, "MY CART", badge = if (cartBadgeCount > 0) cartBadgeCount else null, onClick = onCartClick)
         ProfileMenuItem(Icons.Default.FavoriteBorder, "INTERESTED (WISHLIST)", onClick = onWishlistClick)
         ProfileMenuItem(Icons.AutoMirrored.Filled.List, "RENTED HISTORY", onClick = onHistoryClick)
+        ProfileMenuItem(Icons.Default.Notifications, "NOTIFICATIONS", onClick = onNotificationsClick)
+        ProfileMenuItem(Icons.Default.Settings, "SETTINGS", onClick = onSettingsClick)
     }
 }

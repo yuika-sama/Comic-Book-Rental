@@ -16,6 +16,7 @@ import kotlinx.serialization.Serializable
 @Serializable object WishlistRoute
 @Serializable object PaymentMethodsRoute
 @Serializable object NotificationsRoute
+@Serializable object SettingsRoute
 @Serializable object ProfileDetailRoute
 
 @Serializable object CartRoute

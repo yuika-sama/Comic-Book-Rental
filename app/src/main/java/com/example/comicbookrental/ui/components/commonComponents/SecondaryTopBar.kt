@@ -26,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.comicbookrental.ui.theme.Anton
@@ -37,8 +36,9 @@ fun SecondaryTopBar(
     title: String,
     onBackClick: () -> Unit,
     onCartClick: () -> Unit = {},
-    showHeartIcon: Boolean = false,
+    isShowHeart: Boolean = false,
     isInterested: Boolean = false,
+    isShowCart: Boolean = true,
     onInterestedClick: () -> Unit = {}
 ) {
     Column(
@@ -80,7 +80,7 @@ fun SecondaryTopBar(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (showHeartIcon) {
+                if (isShowHeart) {
                     Icon(
                         imageVector = if (isInterested) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                         contentDescription = "Interested",
@@ -91,14 +91,16 @@ fun SecondaryTopBar(
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                 }
-                Icon(
-                    imageVector = Icons.Default.ShoppingCart,
-                    contentDescription = "Cart",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier
-                        .size(28.dp)
-                        .clickable { onCartClick() }
-                )
+                if (isShowCart){
+                    Icon(
+                        imageVector = Icons.Default.ShoppingCart,
+                        contentDescription = "Cart",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier
+                            .size(28.dp)
+                            .clickable { onCartClick() }
+                    )
+                }
             }
         }
         HorizontalDivider(color = InkBlack, thickness = 3.dp)
