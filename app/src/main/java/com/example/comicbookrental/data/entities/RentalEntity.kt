@@ -20,7 +20,10 @@ data class Rental(
 
     val dueDate: Long,
 
-    val status: RentalStatus
+    val status: RentalStatus,
+
+    val pricePerDay: Double
+
 )
 enum class RentalStatus {
     ACTIVE,

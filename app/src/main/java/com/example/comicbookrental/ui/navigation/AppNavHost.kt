@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,8 +45,7 @@ import com.example.comicbookrental.ui.screens.onboarding.OnboardingScreen
 import com.example.comicbookrental.utils.StoreManager
 
 @Composable
-fun AppNavHost()
-{
+fun AppNavHost() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -57,51 +57,41 @@ fun AppNavHost()
     var previousDestinationRoute by remember { mutableStateOf<String?>(null) }
     val topBarState = remember { mutableStateOf(TopBarState()) }
 
-    androidx.compose.runtime.LaunchedEffect(currentDestination) {
+    LaunchedEffect(currentDestination) {
         val currentRoute = currentDestination?.route
-        if (currentRoute != null && previousDestinationRoute != null && currentRoute != previousDestinationRoute)
-        {
+        if (currentRoute != null && previousDestinationRoute != null && currentRoute != previousDestinationRoute) {
             showGlobalLoading = true
             kotlinx.coroutines.delay(1500)
             showGlobalLoading = false
         }
         previousDestinationRoute = currentRoute
     }
-//    val startGraph: Any = when {
-//        !storeManager.isLoggedIn() -> AuthGraph
-//        storeManager.getUserProfile().role.isAdmin -> AdminGraph
-//        else -> CatalogGraph
+
     val startGraph = remember {
-        if (!storeManager.isOnboardingCompleted())
-        {
+        if (!storeManager.isOnboardingCompleted()) {
             OnboardingRoute
-        }
-        else if (storeManager.isLoggedIn())
-        {
+        } else if (storeManager.isLoggedIn()) {
             if (storeManager.getUserProfile().role.isAdmin) AdminGraph else CatalogGraph
-        }
-        else
-        {
+        } else {
             AuthGraph
         }
     }
 
-        val tabs = listOf(
+    val tabs = listOf(
         NavigationTab("Home", HomeRoute, Icons.Default.Home),
         NavigationTab("Search", SearchRoute, Icons.Default.Search),
         NavigationTab("Rental", MyRentalsRoute, Icons.Default.Book),
         NavigationTab("Profile", ProfileRoute, Icons.Default.Person),
     )
 
-    val showBottomBar = currentDestination?.hierarchy?.any() { dest ->
+    val showBottomBar = currentDestination?.hierarchy?.any { dest ->
         dest.hasRoute<HomeRoute>() ||
                 dest.hasRoute<MyRentalsRoute>() ||
                 dest.hasRoute<ProfileRoute>() ||
                 dest.hasRoute<SearchRoute>()
     } == true
 
-    val title = when
-    {
+    val title = when {
         currentDestination?.hasRoute<ComicDetailRoute>() == true -> "COMIC DETAIL"
         currentDestination?.hasRoute<ProfileDetailRoute>() == true -> "PROFILE EDIT"
         currentDestination?.hasRoute<WishlistRoute>() == true -> "MY WISHLIST"
@@ -110,7 +100,7 @@ fun AppNavHost()
         else -> ""
     }
 
-    val isShowSecondaryTopBar = currentDestination?.hierarchy?.any() { dest ->
+    val isShowSecondaryTopBar = currentDestination?.hierarchy?.any { dest ->
         dest.hasRoute<ComicDetailRoute>() ||
                 dest.hasRoute<ProfileDetailRoute>() ||
                 dest.hasRoute<WishlistRoute>() ||
@@ -119,33 +109,26 @@ fun AppNavHost()
     } == true
 
     CompositionLocalProvider(LocalTopBarState provides topBarState) {
+        // Đặt Box bao ngoài cùng để quản lý LoadingScreen đè lên UI
         Box(modifier = Modifier.fillMaxSize()) {
             Scaffold(
                 topBar = {
-                    if (showBottomBar)
-                    {
-                        Box(
-                            modifier = Modifier.statusBarsPadding()
-                        ) {
+                    if (showBottomBar) {
+                        Box(modifier = Modifier.statusBarsPadding()) {
                             PanelRushTopBar(
                                 onMenuClick = {
                                     val currentRoute = currentDestination?.route
-                                    if (currentRoute != HomeRoute.toString())
-                                    {
+                                    if (currentRoute != HomeRoute.toString()) {
                                         navController.navigate(HomeRoute)
-                                    }
-                                    else
-                                    {
-                                        Log.d("Topbar Icon Click: ", "Current is home route")
+                                    } else {
+                                        Log.d("Topbar", "Current is home route")
                                     }
                                 },
                                 onNotificationsClick = { navController.navigate(NotificationsRoute) },
                                 onNavigateToCartClick = { navController.navigate(CartRoute) }
                             )
                         }
-                    }
-                    else if (isShowSecondaryTopBar)
-                    {
+                    } else if (isShowSecondaryTopBar) {
                         Box(modifier = Modifier.statusBarsPadding()) {
                             SecondaryTopBar(
                                 title = title,
@@ -160,11 +143,8 @@ fun AppNavHost()
                     }
                 },
                 bottomBar = {
-                    if (showBottomBar)
-                    {
-                        Box(
-                            modifier = Modifier.navigationBarsPadding()
-                        ) {
+                    if (showBottomBar) {
+                        Box(modifier = Modifier.navigationBarsPadding()) {
                             PanelRushBottomBar(
                                 tabs = tabs,
                                 currentDestination = currentDestination,
@@ -187,20 +167,12 @@ fun AppNavHost()
                     startDestination = startGraph,
                     modifier = Modifier.padding(innerPadding)
                 ) {
-                    composable<OnboardingRoute> {
-                        OnboardingScreen(
-                            onComplete = {
-                                storeManager.setOnboardingCompleted(true)
-                                navController.navigate(if (storeManager.isLoggedIn()) CatalogGraph else AuthGraph) {
-                                    popUpTo(OnboardingRoute) { inclusive = true }
-                                }
-                            }
-                        )
-                    }
-
                     authGraph(navController)
                     catalogGraph(navController)
-                    rentalGraph(navController)
+                    rentalGraph(
+                        navController = navController,
+                        checkoutRepository = checkoutRepository
+                    )
                     profileExtensionsGraph(navController)
                     adminGraph(navController) {
                         storeManager.logOut()
@@ -219,9 +191,7 @@ fun AppNavHost()
 
                     composable<CartRoute> {
                         CartScreen(
-                            onBackClick = {
-                                navController.popBackStack()
-                            },
+                            onBackClick = { navController.popBackStack() },
                             onCheckoutClick = { cartItems ->
                                 checkoutRepository.prepareCartCheckout(cartItems)
                                 navController.navigate(CheckoutRoute)
@@ -231,14 +201,10 @@ fun AppNavHost()
 
                     composable<CheckoutRoute> {
                         CheckoutScreen(
-                            onBackClick = {
-                                navController.popBackStack()
-                            },
+                            onBackClick = { navController.popBackStack() },
                             onViewRentalsClick = {
                                 navController.navigate(MyRentalsRoute) {
-                                    popUpTo(CheckoutRoute) {
-                                        inclusive = true
-                                    }
+                                    popUpTo(CheckoutRoute) { inclusive = true }
                                 }
                             }
                         )
@@ -251,56 +217,25 @@ fun AppNavHost()
                                     popUpTo(0) { inclusive = true }
                                 }
                             },
-                            onProfileDetailClick = {
-                                navController.navigate(ProfileDetailRoute)
-                            },
-                            onCartClick = {
-                                navController.navigate(CartRoute)
-                            },
-                            onWishlistClick = {
-                                navController.navigate(WishlistRoute)
-                            },
-                            onHistoryClick = {
-                                navController.navigate(MyRentalsRoute)
-                            },
-                            onSettingsClick = {
-                                navController.navigate(SettingsRoute)
-                            },
-                            onNotificationsClick = {
-                                navController.navigate(NotificationsRoute)
-                            }
+                            onProfileDetailClick = { navController.navigate(ProfileDetailRoute) },
+                            onCartClick = { navController.navigate(CartRoute) },
+                            onWishlistClick = { navController.navigate(WishlistRoute) },
+                            onHistoryClick = { navController.navigate(MyRentalsRoute) },
+                            onSettingsClick = { navController.navigate(SettingsRoute) },
+                            onNotificationsClick = { navController.navigate(NotificationsRoute) }
                         )
                     }
 
                     composable<ProfileDetailRoute> {
                         ProfileDetailScreen(
-                            onBackClick = {
-                                navController.popBackStack()
-                            },
-                            onCartClick = {
-                                navController.navigate(CartRoute) {
-                                    if (!storeManager.isOnboardingCompleted())
-                                    {
-                                        OnboardingRoute
-                                    }
-                                    else if (storeManager.isLoggedIn())
-                                    {
-                                        if (storeManager.getUserProfile().role.isAdmin) AdminGraph else CatalogGraph
-                                    }
-                                    else
-                                    {
-                                        AuthGraph
-                                    }
-                                }
-                            }
+                            onBackClick = { navController.popBackStack() },
+                            onCartClick = { navController.navigate(CartRoute) } // Đã sửa lỗi NavOptions
                         )
                     }
                 }
-                
-                if (showGlobalLoading)
-                {
-                    LoadingScreen()
-                }
+            }
+            if (showGlobalLoading) {
+                LoadingScreen()
             }
         }
     }

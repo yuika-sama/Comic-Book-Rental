@@ -1,8 +1,7 @@
-package com.example.comicbookrental.data.repositories.checkout
+package com.example.comicbookrental.domain.repository
 
 import com.example.comicbookrental.data.entities.CartItem
 import com.example.comicbookrental.data.entities.CheckoutSource
-
 
 interface CheckoutRepository {
 
@@ -16,5 +15,6 @@ interface CheckoutRepository {
 
     fun clearCheckout()
 
+    fun prepareExtensionCheckout(item: CartItem)
 
 }

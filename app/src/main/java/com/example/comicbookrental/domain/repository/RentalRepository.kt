@@ -14,4 +14,6 @@ interface RentalRepository {
 
     fun getNextRentalId(): Int
 
+    fun updateRental(rental: Rental)
+
 }

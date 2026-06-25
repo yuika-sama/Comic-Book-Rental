@@ -14,7 +14,10 @@ data class CartItem(
     val pricePerDay: Double,
 
     val startDate: Long,
-    val endDate: Long
+    val endDate: Long,
+
+    val extensionRentalId: Int? = null
+
 )
 
 /** Builds a [CartItem] for [this] comic over the chosen rental window. Shared by the

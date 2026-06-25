@@ -10,7 +10,7 @@ import com.example.comicbookrental.data.entities.totalPrice
 import com.example.comicbookrental.domain.repository.CartRepository
 import com.example.comicbookrental.domain.repository.RentalRepository
 import com.example.comicbookrental.data.repositories.cart.CartRepositoryImpl
-import com.example.comicbookrental.data.repositories.checkout.CheckoutRepository
+import com.example.comicbookrental.domain.repository.CheckoutRepository
 import com.example.comicbookrental.data.repositories.checkout.CheckoutRepositoryImpl
 import com.example.comicbookrental.data.repositories.rental.RentalRepositoryImpl
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -94,7 +94,8 @@ class CheckoutViewModel : ViewModel() {
                     comicCoverUrl = item.comicCoverUrl,
                     rentalDate = item.startDate,
                     dueDate = item.endDate,
-                    status = RentalStatus.ACTIVE
+                    status = RentalStatus.ACTIVE,
+                    pricePerDay = item.pricePerDay
                 )
             )
         }

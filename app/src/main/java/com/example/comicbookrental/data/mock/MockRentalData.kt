@@ -16,6 +16,7 @@ object MockRentalData {
             comicCoverUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAcXGr6r1HemXimBqcdQ2rIrAltN95YCLjwjQknzwnAA&s=10",
             rentalDate = System.currentTimeMillis() - DAY,
             dueDate = System.currentTimeMillis() + 6 * DAY,
+            pricePerDay = 1.99,
             status = RentalStatus.ACTIVE
         ),
         Rental(
@@ -26,6 +27,7 @@ object MockRentalData {
             comicCoverUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFxxYZ8_Cbg5YN1uEo1-RfK1Uq16uNY4JJ3-i7bbqxqn4vZl-mpfC4VLg&s=10",
             rentalDate = System.currentTimeMillis() - DAY,
             dueDate = System.currentTimeMillis() + 6 * DAY,
+            pricePerDay = 1.99,
             status = RentalStatus.ACTIVE
         ),
         Rental(
@@ -36,6 +38,7 @@ object MockRentalData {
             comicCoverUrl = "https://pbs.twimg.com/media/Fh72_hYXkAMTZZ3.jpg",
             rentalDate = System.currentTimeMillis() - DAY,
             dueDate = System.currentTimeMillis() + 6 * DAY,
+            pricePerDay = 1.99,
             status = RentalStatus.ACTIVE
         ),
         Rental(
@@ -46,6 +49,7 @@ object MockRentalData {
             comicCoverUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-g1PV_IrIiWZMhewfUosHJhLFjBx79XbJ0KSFQOxy-A&s",
             rentalDate = System.currentTimeMillis() - 10 * DAY,
             dueDate = System.currentTimeMillis() - DAY,
+            pricePerDay = 1.99,
             status = RentalStatus.EXPIRED
         )
     )
