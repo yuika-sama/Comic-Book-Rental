@@ -169,7 +169,7 @@ private fun CheckoutContent(
             )
 
             PaymentMethodButton(
-                text = "SAVED",
+                text = "BANKING",
                 selected = selectedPaymentMethod == PaymentMethod.SAVED_CARD,
                 onClick = {
                     onPaymentMethodClick(PaymentMethod.SAVED_CARD)

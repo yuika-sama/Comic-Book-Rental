@@ -59,8 +59,7 @@ fun RentOptionCard(
         MaterialTheme.colorScheme.onSurfaceVariant
     }
 
-    val actionContainer = if (highlighted) MaterialTheme.colorScheme.surface else ink
-    val actionContent = if (highlighted) ink else MaterialTheme.colorScheme.onPrimary
+    val actionContainer = MaterialTheme.colorScheme.surface
 
     Column(
         modifier = modifier
@@ -104,12 +103,12 @@ fun RentOptionCard(
                 onClick = onRent,
                 modifier = Modifier.weight(1f),
                 containerColor = actionContainer,
-                contentColor = actionContent,
+                contentColor = ink,
             )
             CartIconButton(
                 onClick = onAddToCart,
                 containerColor = actionContainer,
-                contentColor = actionContent,
+                contentColor = ink,
                 ink = ink,
             )
         }
