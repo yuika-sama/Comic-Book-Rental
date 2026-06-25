@@ -17,6 +17,20 @@ data class CartItem(
     val endDate: Long
 )
 
+/** Builds a [CartItem] for [this] comic over the chosen rental window. Shared by the
+ *  "Add to cart" and "Rent Now" flows so both produce identical cart entries. */
+fun Comic.toCartItem(startDate: Long, endDate: Long): CartItem {
+    return CartItem(
+        comicId = id,
+        comicTitle = title,
+        comicAuthor = author,
+        comicCoverUrl = coverImageUrl,
+        pricePerDay = rentalPrice.toLong(),
+        startDate = startDate,
+        endDate = endDate,
+    )
+}
+
 fun CartItem.rentalDays(): Long {
     return ((endDate - startDate) / MILLIS_PER_DAY)
         .coerceAtLeast(1L)

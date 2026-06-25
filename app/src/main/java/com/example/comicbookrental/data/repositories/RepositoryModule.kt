@@ -2,6 +2,10 @@ package com.example.comicbookrental.data.repositories
 
 import com.example.comicbookrental.domain.repository.CartRepository
 import com.example.comicbookrental.data.repositories.cart.CartRepositoryImpl
+import com.example.comicbookrental.domain.repository.AdminComicRepository
+import com.example.comicbookrental.data.repositories.admin.AdminComicRepositoryImpl
+import com.example.comicbookrental.domain.repository.AdminUserRepository
+import com.example.comicbookrental.data.repositories.admin.AdminUserRepositoryImpl
 import com.example.comicbookrental.domain.repository.ComicRepository
 import com.example.comicbookrental.data.repositories.comic.ComicRepositoryImpl
 import com.example.comicbookrental.data.repositories.profile.ProfileRepositoryImpl
@@ -21,6 +25,14 @@ abstract class RepositoryModule
 {
     @Binds
     abstract fun bindComicRepository(impl: ComicRepositoryImpl): ComicRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAdminComicRepository(impl: AdminComicRepositoryImpl): AdminComicRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAdminUserRepository(impl: AdminUserRepositoryImpl): AdminUserRepository
 
     @Binds
     @Singleton

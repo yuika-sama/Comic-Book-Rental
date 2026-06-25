@@ -37,7 +37,7 @@ class SearchViewModel @Inject constructor(
 
     private val optionsFlow = comicRepository.getAllComics().map { all ->
         FilterOptions(
-            genres = all.map { it.genre }.distinct().sorted(),
+            genres = all.flatMap { it.genres }.distinct().sorted(),
             authors = all.map { it.author }.distinct().sorted(),
             years = all.map { it.releaseDate.take(4) }.distinct().sortedDescending(),
         )
@@ -131,7 +131,7 @@ private data class FilterOptions(
 )
 
 private fun Comic.matches(f: SearchFilters): Boolean {
-    if (f.genres.isNotEmpty() && genre !in f.genres) return false
+    if (f.genres.isNotEmpty() && genres.none { it in f.genres }) return false
     if (f.authors.isNotEmpty() && author !in f.authors) return false
     f.minRating?.let { if ((avgRating.toFloatOrNull() ?: 0f) < it) return false }
     if (f.years.isNotEmpty() && releaseDate.take(4) !in f.years) return false

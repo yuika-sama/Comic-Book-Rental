@@ -53,7 +53,8 @@ class LoginViewModel @Inject constructor(
             result.fold(
                 onSuccess = { isVerified ->
                     if (isVerified){
-                        _uiState.update { it.copy(isLoading = false, isSuccess = true) }
+                        val isAdmin = repository.getCurrentRole().isAdmin
+                        _uiState.update { it.copy(isLoading = false, isSuccess = true, isAdmin = isAdmin) }
                     } else {
                         repository.sendOtp(currentState.email)
                         _uiState.update { it.copy(isLoading = false, requiresVerification = true) }

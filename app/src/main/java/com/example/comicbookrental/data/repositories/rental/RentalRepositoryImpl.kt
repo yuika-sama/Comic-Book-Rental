@@ -3,8 +3,9 @@ package com.example.comicbookrental.data.repositories.rental
 import com.example.comicbookrental.data.mock.MockRentalData
 import com.example.comicbookrental.data.entities.Rental
 import com.example.comicbookrental.domain.repository.RentalRepository
+import javax.inject.Inject
 
-class RentalRepositoryImpl : RentalRepository
+class RentalRepositoryImpl @Inject constructor() : RentalRepository
 {
 
     override fun getAllRentals(): List<Rental> {

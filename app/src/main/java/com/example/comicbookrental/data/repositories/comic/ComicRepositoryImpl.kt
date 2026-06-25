@@ -83,7 +83,7 @@ class ComicRepositoryImpl @Inject constructor(
 
     override fun getGenres(): Flow<List<String>> {
         return comicsFlow.map { list ->
-            list.map { it.genre }
+            list.flatMap { it.genres }
                 .distinct()
                 .sorted()
         }

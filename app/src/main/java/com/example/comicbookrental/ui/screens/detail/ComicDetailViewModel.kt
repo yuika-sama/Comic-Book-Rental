@@ -32,7 +32,7 @@ class ComicDetailViewModel @Inject constructor(
             ComicDetailUiState.NotFound
         } else {
             val similar = allComics
-                .filter { it.genre == comic.genre && it.id != comic.id }
+                .filter { other -> other.id != comic.id && other.genres.any { it in comic.genres } }
                 .take(SIMILAR_LIMIT)
             ComicDetailUiState.Content(
                 comic = comic,

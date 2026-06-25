@@ -42,7 +42,11 @@ fun AppNavHost(){
     val checkoutRepository = remember { CheckoutRepositoryImpl() }
     val context = LocalContext.current
     val storeManager = remember { StoreManager(context) }
-    val startGraph = if (storeManager.isLoggedIn()) CatalogGraph else AuthGraph
+    val startGraph: Any = when {
+        !storeManager.isLoggedIn() -> AuthGraph
+        storeManager.getUserProfile().role.isAdmin -> AdminGraph
+        else -> CatalogGraph
+    }
 
     val tabs = listOf(
         NavigationTab("Home", HomeRoute, Icons.Default.Home),
@@ -126,6 +130,12 @@ fun AppNavHost(){
             catalogGraph(navController)
             rentalGraph(navController)
             profileExtensionsGraph(navController)
+            adminGraph(navController) {
+                storeManager.logOut()
+                navController.navigate(AuthGraph) {
+                    popUpTo(0) { inclusive = true }
+                }
+            }
 
             composable<SearchRoute> {
                 SearchRoute(

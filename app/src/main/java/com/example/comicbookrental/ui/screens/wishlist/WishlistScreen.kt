@@ -230,12 +230,12 @@ private fun WishlistScreenPreview() {
         WishlistScreen(
             comics = listOf(
                 Comic(
-                    id = 1, title = "Ghost Runner #1", coverImageUrl = "", genre = "Action",
+                    id = 1, title = "Ghost Runner #1", coverImageUrl = "", genres = listOf("Action"),
                     author = "Jax Vane", publisher = "Titan", description = "",
                     avgRating = "4.9", rentalPrice = 1.99, releaseDate = "2026",
                 ),
                 Comic(
-                    id = 2, title = "Neon Noir", coverImageUrl = "", genre = "Noir",
+                    id = 2, title = "Neon Noir", coverImageUrl = "", genres = listOf("Noir"),
                     author = "K. Murdock", publisher = "Titan", description = "",
                     avgRating = "5.0", rentalPrice = 2.49, releaseDate = "2026",
                 ),

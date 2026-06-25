@@ -61,7 +61,8 @@ class VerifyOtpViewModel @Inject constructor(
             val result = repository.verifyOtp(currentState.email, otpString)
             result.fold(
                 onSuccess = {
-                    _uiState.update { it.copy(isLoading = false, isSuccess = true) }
+                    val isAdmin = repository.getCurrentRole().isAdmin
+                    _uiState.update { it.copy(isLoading = false, isSuccess = true, isAdmin = isAdmin) }
                 },
                 onFailure = { exception ->
                     _uiState.update {

@@ -28,7 +28,7 @@ import com.example.comicbookrental.ui.theme.Dimens
 @Composable
 fun VerifyOtpScreen(
     email: String,
-    onVerifySuccess: () -> Unit = {},
+    onVerifySuccess: (isAdmin: Boolean) -> Unit = {},
     onBackClick: () -> Unit = {},
     viewModel: VerifyOtpViewModel = hiltViewModel()
 ){
@@ -41,7 +41,7 @@ fun VerifyOtpScreen(
 
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
-            onVerifySuccess()
+            onVerifySuccess(state.isAdmin)
             viewModel.resetSuccessState()
         }
     }
