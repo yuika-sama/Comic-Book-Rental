@@ -53,10 +53,7 @@ import com.example.comicbookrental.ui.theme.ComicBookRentalTheme
 import com.example.comicbookrental.ui.theme.Dimens
 
 
-/** Whether the date-range dialog was opened to add the comic to the cart or to rent it right away. */
-private enum class DetailPickerMode { ADD_TO_CART, RENT_NOW }
 
-/** Whether the date-range dialog was opened to add the comic to the cart or to rent it right away. */
 private enum class DetailPickerMode { ADD_TO_CART, RENT_NOW }
 
 @Composable

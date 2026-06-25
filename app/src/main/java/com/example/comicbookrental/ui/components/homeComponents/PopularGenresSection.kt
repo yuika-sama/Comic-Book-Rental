@@ -25,6 +25,7 @@ fun PopularGenresSection(
     genres: List<String>,
     onGenreClick: (String) -> Unit,
     modifier: Modifier = Modifier,
+    selectedGenre: String? = null,
 ) {
     Column(
         modifier = modifier
@@ -48,7 +49,8 @@ fun PopularGenresSection(
                 GenreCard(
                     label = genre,
                     accent = genreAccent(index),
-                    filled = index % 2 == 0,
+                    filled = false,
+                    selected = genre == selectedGenre,
                     onClick = { onGenreClick(genre) },
                 )
             }

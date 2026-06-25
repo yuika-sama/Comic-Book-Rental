@@ -16,7 +16,10 @@
     "reviews": [
       { "userName": "GrandLine", "rating": 5, "comment": "The greatest adventure ever drawn. Oda's worldbuilding has no equal.", "commentDate": 1704067200000 },
       { "userName": "T. Nakamura", "rating": 5, "comment": "Started it on a whim, now I'm 1000 chapters deep. Worth every page.", "commentDate": 1710000000000 },
-      { "userName": "strawhat_fan", "rating": 4, "comment": "Slow arcs here and there, but the payoffs are legendary.", "commentDate": 1715000000000 }
+      { "userName": "strawhat_fan", "rating": 4, "comment": "Slow arcs here and there, but the payoffs are legendary.", "commentDate": 1715000000000 },
+      { "userName": "L. Esposito", "rating": 5, "comment": "Wano arc alone is worth the entire journey. Pure spectacle.", "commentDate": 1719000000000 },
+      { "userName": "gomu_gomu", "rating": 5, "comment": "Made me laugh and cry within the same chapter. A treasure.", "commentDate": 1720500000000 },
+      { "userName": "C. Watanabe", "rating": 4, "comment": "Huge cast can be hard to track, but the emotion always lands.", "commentDate": 1722000000000 }
     ]
   },
   {
@@ -73,7 +76,9 @@
     "isFeatured": false,
     "reviews": [
       { "userName": "walls_down", "rating": 5, "comment": "Every twist recontextualizes the whole story. Masterful plotting.", "commentDate": 1705000000000 },
-      { "userName": "E. Vogt", "rating": 4, "comment": "Art rough early on but the storytelling more than makes up for it.", "commentDate": 1716000000000 }
+      { "userName": "E. Vogt", "rating": 4, "comment": "Art rough early on but the storytelling more than makes up for it.", "commentDate": 1716000000000 },
+      { "userName": "survey_corps", "rating": 5, "comment": "The basement reveal broke my brain. Genius foreshadowing.", "commentDate": 1719800000000 },
+      { "userName": "A. Brandt", "rating": 5, "comment": "Bleak, brilliant, and unforgettable. The ending divides people but I loved it.", "commentDate": 1721500000000 }
     ]
   },
   {
@@ -148,7 +153,9 @@
     "isFeatured": true,
     "reviews": [
       { "userName": "water_breathing", "rating": 5, "comment": "Pure-hearted hero and gorgeous action. Easy to love.", "commentDate": 1702000000000 },
-      { "userName": "K. Abe", "rating": 4, "comment": "Story is simple but the emotional beats really land.", "commentDate": 1714000000000 }
+      { "userName": "K. Abe", "rating": 4, "comment": "Story is simple but the emotional beats really land.", "commentDate": 1714000000000 },
+      { "userName": "nezuko_box", "rating": 5, "comment": "The Mugen Train arc had me in tears. Stunning paneling.", "commentDate": 1719200000000 },
+      { "userName": "T. Fischer", "rating": 4, "comment": "Predictable at times, but the sibling bond carries it beautifully.", "commentDate": 1720800000000 }
     ]
   },
   {
@@ -186,7 +193,10 @@
     "isFeatured": true,
     "reviews": [
       { "userName": "pochita", "rating": 5, "comment": "Chaotic, hilarious, and oddly heartfelt. Fujimoto is fearless.", "commentDate": 1706000000000 },
-      { "userName": "D. Cole", "rating": 4, "comment": "Wild ride that refuses to play it safe. Loved it.", "commentDate": 1718000000000 }
+      { "userName": "D. Cole", "rating": 4, "comment": "Wild ride that refuses to play it safe. Loved it.", "commentDate": 1718000000000 },
+      { "userName": "denji_devil", "rating": 5, "comment": "Part 1 is a perfect rollercoaster. The Katana Man arc is unreal.", "commentDate": 1719500000000 },
+      { "userName": "M. Okada", "rating": 5, "comment": "Emotional gut-punches hidden under all the chaos. Brilliant.", "commentDate": 1721000000000 },
+      { "userName": "makima_fan", "rating": 3, "comment": "Great art, but some arcs feel rushed. Still worth reading.", "commentDate": 1722500000000 }
     ]
   }
 ]

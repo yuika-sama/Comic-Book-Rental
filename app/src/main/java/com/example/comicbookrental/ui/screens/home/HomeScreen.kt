@@ -37,6 +37,7 @@ fun HomeRoute(
     HomeScreen(
         uiState = uiState,
         onComicClick = onComicClick,
+        onGenreClick = viewModel::onGenreSelect,
     )
 }
 
@@ -81,6 +82,7 @@ fun HomeScreen(
                     PopularGenresSection(
                         genres = sections.genres,
                         onGenreClick = onGenreClick,
+                        selectedGenre = uiState.selectedGenre,
                     )
                 }
                 item {
