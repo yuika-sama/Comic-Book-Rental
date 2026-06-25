@@ -33,7 +33,7 @@ fun VerifyOtpScreen(
     viewModel: VerifyOtpViewModel = hiltViewModel()
 ){
     val state by viewModel.uiState.collectAsState()
-    val focusRequesters = remember { List(5) { FocusRequester() } }
+    val focusRequesters = remember { List(state.otpLength) { FocusRequester() } }
 
     LaunchedEffect(email) {
         viewModel.initEmail(email)
@@ -73,7 +73,8 @@ fun VerifyOtpScreen(
             onResendClick = viewModel::resendOtp,
             isLoading = state.isLoading || state.isResending,
             resendCooldownSeconds = state.resendCooldown,
-            errorMessage = state.errorMessage
+            errorMessage = state.errorMessage,
+            otpLength = state.otpLength
         )
 
         Spacer(modifier = Modifier.weight(1f))

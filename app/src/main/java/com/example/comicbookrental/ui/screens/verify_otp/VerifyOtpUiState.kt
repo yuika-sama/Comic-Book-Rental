@@ -8,5 +8,6 @@ data class VerifyOtpUiState(
     val isAdmin: Boolean = false,
     val errorMessage: String? = null,
     val isResending: Boolean = false,
-    val resendCooldown: Int = 0
+    val resendCooldown: Int = 0,
+    val otpLength: Int = 5,
 )

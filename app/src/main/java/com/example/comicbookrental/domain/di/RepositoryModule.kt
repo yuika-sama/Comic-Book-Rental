@@ -1,18 +1,21 @@
-package com.example.comicbookrental.data.repositories
+package com.example.comicbookrental.domain.di
 
-import com.example.comicbookrental.domain.repository.CartRepository
-import com.example.comicbookrental.data.repositories.cart.CartRepositoryImpl
-import com.example.comicbookrental.domain.repository.AdminComicRepository
 import com.example.comicbookrental.data.repositories.admin.AdminComicRepositoryImpl
-import com.example.comicbookrental.domain.repository.AdminUserRepository
 import com.example.comicbookrental.data.repositories.admin.AdminUserRepositoryImpl
-import com.example.comicbookrental.domain.repository.ComicRepository
+import com.example.comicbookrental.data.repositories.auth.AuthRepositoryImpl
+import com.example.comicbookrental.data.repositories.cart.CartRepositoryImpl
 import com.example.comicbookrental.data.repositories.comic.ComicRepositoryImpl
+import com.example.comicbookrental.data.repositories.notification.NotificationRepositoryImpl
 import com.example.comicbookrental.data.repositories.profile.ProfileRepositoryImpl
-import com.example.comicbookrental.domain.repository.RentalRepository
 import com.example.comicbookrental.data.repositories.rental.RentalRepositoryImpl
+import com.example.comicbookrental.domain.repository.AdminComicRepository
+import com.example.comicbookrental.domain.repository.AdminUserRepository
+import com.example.comicbookrental.domain.repository.AuthRepository
+import com.example.comicbookrental.domain.repository.CartRepository
+import com.example.comicbookrental.domain.repository.ComicRepository
 import com.example.comicbookrental.domain.repository.NotificationRepository
 import com.example.comicbookrental.domain.repository.ProfileRepository
+import com.example.comicbookrental.domain.repository.RentalRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -40,7 +43,7 @@ abstract class RepositoryModule
 
     @Binds
     @Singleton
-    abstract fun bindNotificationRepository(impl: com.example.comicbookrental.data.repositories.notification.NotificationRepositoryImpl): NotificationRepository
+    abstract fun bindNotificationRepository(impl: NotificationRepositoryImpl): NotificationRepository
 
     @Binds
     @Singleton
@@ -49,4 +52,12 @@ abstract class RepositoryModule
     @Binds
     @Singleton
     abstract fun bindRentalRepository(impl: RentalRepositoryImpl): RentalRepository
+
+
+    @Binds
+    @Singleton
+    abstract fun bindAuthRepository(
+        authRepositoryImpl: AuthRepositoryImpl
+    ): AuthRepository
+
 }

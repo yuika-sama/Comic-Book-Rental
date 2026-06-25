@@ -43,6 +43,7 @@ import com.example.comicbookrental.ui.screens.profile_detail.ProfileDetailScreen
 import com.example.comicbookrental.ui.screens.search.SearchRoute
 import com.example.comicbookrental.ui.screens.onboarding.OnboardingScreen
 import com.example.comicbookrental.utils.StoreManager
+import kotlinx.coroutines.delay
 
 @Composable
 fun AppNavHost()
@@ -63,7 +64,7 @@ fun AppNavHost()
         if (currentRoute != null && previousDestinationRoute != null && currentRoute != previousDestinationRoute)
         {
             showGlobalLoading = true
-            kotlinx.coroutines.delay(1500)
+            delay(1500)
             showGlobalLoading = false
         }
         previousDestinationRoute = currentRoute
@@ -117,7 +118,6 @@ fun AppNavHost()
     } == true
 
     CompositionLocalProvider(LocalTopBarState provides topBarState) {
-        // Đặt Box bao ngoài cùng để quản lý LoadingScreen đè lên UI
         Box(modifier = Modifier.fillMaxSize()) {
             Scaffold(
                 topBar = {
@@ -263,7 +263,7 @@ fun AppNavHost()
                     composable<ProfileDetailRoute> {
                         ProfileDetailScreen(
                             onBackClick = { navController.popBackStack() },
-                            onCartClick = { navController.navigate(CartRoute) } // Đã sửa lỗi NavOptions
+                            onCartClick = { navController.navigate(CartRoute) }
                         )
                     }
                 }

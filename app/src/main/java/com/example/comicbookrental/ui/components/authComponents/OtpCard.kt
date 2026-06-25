@@ -29,6 +29,7 @@ fun OtpCard(
     isLoading: Boolean = false,
     resendCooldownSeconds: Int = 0,
     errorMessage: String? = null,
+    otpLength: Int = 5,
     modifier: Modifier = Modifier
 ){
     ComicCard(
@@ -72,7 +73,7 @@ fun OtpCard(
         }
 
         OtpInputRow(
-            otpCount = 5,
+            otpCount = otpLength,
             otpValues = otpValues,
             onOtpChange = onOtpChange,
             focusRequesters = focusRequesters
