@@ -1,4 +1,4 @@
-package com.example.comicbookrental.ui.utils
+package com.example.comicbookrental.utils
 
 fun isStrongPassword(password: String): Boolean{
     val passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!\\-_*])(?=\\S+$).{8,}$".toRegex()
