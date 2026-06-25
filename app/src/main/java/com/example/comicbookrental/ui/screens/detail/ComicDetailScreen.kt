@@ -38,6 +38,7 @@ import com.example.comicbookrental.ui.components.commonComponents.rememberComicT
 import com.example.comicbookrental.ui.components.detailComponents.ComicTitleBlock
 import com.example.comicbookrental.ui.components.commonComponents.ComicTopBar
 import com.example.comicbookrental.ui.components.commonComponents.HazardBanner
+import com.example.comicbookrental.ui.components.commonComponents.SecondaryTopBar
 import com.example.comicbookrental.ui.components.detailComponents.HeroCoverFrame
 import com.example.comicbookrental.ui.components.detailComponents.RentOptionCard
 import com.example.comicbookrental.ui.components.detailComponents.ReviewUi
@@ -192,7 +193,7 @@ fun ComicDetailScreen(
             .background(MaterialTheme.colorScheme.background)
             .halftoneBackground(),
     ) {
-        com.example.comicbookrental.ui.components.commonComponents.SecondaryTopBar(
+        SecondaryTopBar(
             title = "COMIC DETAIL",
             onBackClick = onBack,
             onCartClick = onCartClick,

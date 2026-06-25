@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
@@ -47,7 +48,7 @@ fun AppNavHost(){
     val tabs = listOf(
         NavigationTab("Home", HomeRoute, Icons.Default.Home),
         NavigationTab("Search", SearchRoute, Icons.Default.Search),
-        NavigationTab("Cart", CartRoute, Icons.Default.ShoppingCart),
+        NavigationTab("Rental", MyRentalsRoute, Icons.Default.Book),
         NavigationTab("Profile", ProfileRoute, Icons.Default.Person),
     )
 
@@ -67,10 +68,9 @@ fun AppNavHost(){
         else -> ""
     }
 
+
     Scaffold(
         topBar = {
-
-
             if (showBottomBar)
             {
                 Box(

@@ -104,14 +104,3 @@ fun SecondaryTopBar(
         HorizontalDivider(color = InkBlack, thickness = 3.dp)
     }
 }
-
-@Preview
-@Composable
-private fun SecondaryTopBarPreview() {
-    SecondaryTopBar(
-        title = "Comic Detail",
-        onBackClick = {},
-        showHeartIcon = true,
-        isInterested = true
-    )
-}
