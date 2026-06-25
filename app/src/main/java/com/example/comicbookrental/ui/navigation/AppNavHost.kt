@@ -52,7 +52,7 @@ fun AppNavHost(){
         if (!storeManager.isOnboardingCompleted()) {
             OnboardingRoute
         } else if (storeManager.isLoggedIn()) {
-            CatalogGraph
+            if (storeManager.getUserProfile().role.isAdmin) AdminGraph else CatalogGraph
         } else {
             AuthGraph
         }

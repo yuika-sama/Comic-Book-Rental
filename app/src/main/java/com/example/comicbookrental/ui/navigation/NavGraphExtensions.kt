@@ -39,8 +39,14 @@ fun NavGraphBuilder.authGraph(navController: NavHostController)
                 onRegisterClick = { navController.navigate(RegisterRoute) },
                 onForgotPasswordClick = { navController.navigate(ForgetPassword) },
                 onLoginSuccess = { isAdmin ->
-                    navController.navigate(if (isAdmin) AdminGraph else CatalogGraph) {
-                        popUpTo(AuthGraph) { inclusive = true }
+                    if (isAdmin) {
+                        navController.navigate(AdminGraph) {
+                            popUpTo(AuthGraph) { inclusive = true }
+                        }
+                    } else {
+                        navController.navigate(CatalogGraph) {
+                            popUpTo(AuthGraph) { inclusive = true }
+                        }
                     }
                 },
                 onNavigateToVerify = { email ->

@@ -170,10 +170,14 @@ class StoreManager @Inject constructor(
         saveObject("app_notifications", notifications)
 
     // Auth manager
-    fun getUsersCredentials(): Map<String, String> = getObject(
-        "users_credentials",
-        AuthMockData.SEED_USER_CREDENTIALS
-    )
+    fun getUsersCredentials(): Map<String, String> {
+        val stored = getObject<Map<String, String>?>("users_credentials", null)
+        return if (stored == null) {
+            AuthMockData.SEED_USER_CREDENTIALS
+        } else {
+            AuthMockData.SEED_USER_CREDENTIALS + stored
+        }
+    }
 
     fun saveUsersCredentials(users: Map<String, String>) = saveObject("users_credentials", users)
 
