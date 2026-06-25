@@ -39,14 +39,19 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.comicbookrental.ui.components.commonComponents.BrutalistButton
 import com.example.comicbookrental.ui.components.commonComponents.comicHardShadow
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.InkBlack
 import com.example.comicbookrental.ui.theme.Primary
+
+private data class GenreItem(
+    val genre: String,
+    val imageUrl: String
+)
 
 @Composable
 fun ChooseSectorPage(
@@ -63,6 +68,19 @@ fun ChooseSectorPage(
         "POST-APOCALYPTIC",
         "FANTASY"
     )
+    val imageList = listOf(
+        "https://render.fineartamerica.com/images/images-profile-flow/400/images/artworkimages/mediumlarge/3/frequency-increase-sol-luckman.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMCNXg8Dp9cdVCSK-_xo1jXM2GBoFUB-y5Ag&s",
+        "https://www.nme.com/wp-content/uploads/2024/05/NME-WISP-PLAYLIST-STORY-HERO-CREDIT-KRISTEN-JAN-WONG@2000x1270-696x442.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbQ1ufHEPMbT_E1izPJyWpig-o3NIlksU-UQ&s",
+        "https://preview.redd.it/regarding-the-paintings-i-did-for-shoegaze-albums-have-i-v0-eutn3bstdz3h1.jpg?width=640&crop=smart&auto=webp&s=daefc493d1640faf36dfa3ba2daf6bdc2ef654a5",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiAefuObBkFH1FIGp2mtE5yqXKLBYbLw2Usw&s"
+    )
+
+    val genreItems = mockGenres.zip(imageList) { genre, url ->
+        GenreItem(genre, url)
+    }
+
 
     Column(
         modifier = Modifier
@@ -76,26 +94,14 @@ fun ChooseSectorPage(
                 .fillMaxWidth()
                 .background(Color.White)
                 .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = Icons.Default.Menu,
-                contentDescription = "Menu",
-                tint = InkBlack,
-                modifier = Modifier.size(24.dp)
-            )
             Text(
                 text = "PANEL RUSH",
                 fontFamily = Anton,
                 fontSize = 20.sp,
                 color = Primary
-            )
-            Icon(
-                imageVector = Icons.Outlined.Notifications,
-                contentDescription = "Notifications",
-                tint = InkBlack,
-                modifier = Modifier.size(24.dp)
             )
         }
 
@@ -134,15 +140,15 @@ fun ChooseSectorPage(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.weight(1f)
             ) {
-                items(mockGenres) { genre ->
-                    val isSelected = selectedGenres.contains(genre)
+                items(genreItems) { item ->
+                    val isSelected = selectedGenres.contains(item.genre)
                     Box(
                         modifier = Modifier
                             .aspectRatio(0.8f)
-                            .clickable { onGenreClick(genre) }
+                            .clickable { onGenreClick(item.genre) }
                             .comicHardShadow(
                                 shape = RoundedCornerShape(0.dp),
-                                offset = 8.dp,
+                                offset = 4.dp,
                                 color = InkBlack
                             )
                             .background(Color.White)
@@ -153,15 +159,18 @@ fun ChooseSectorPage(
                             .padding(8.dp)
                     ) {
                         // Image placeholder
-                        Box(
+                        AsyncImage(
+                            model = item.imageUrl,
+                            contentDescription = null,
                             modifier = Modifier
                                 .fillMaxSize()
-                                .background(Color.DarkGray)
+                                .background(InkBlack)
+                                .border(2.dp, Color.Cyan)
                         )
 
                         // Text overlay
                         Text(
-                            text = genre,
+                            text = item.genre,
                             fontFamily = Anton,
                             color = Color.White,
                             fontSize = 18.sp,
@@ -228,40 +237,6 @@ fun ChooseSectorPage(
                 modifier = Modifier.fillMaxWidth(),
 //                enabled = isEnabled
             )
-        }
-
-        HorizontalDivider(thickness = 3.dp, color = InkBlack)
-
-        // Mock Bottom Nav
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.White)
-                .padding(vertical = 8.dp),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            val navItems = listOf(
-                Pair("HOME", Icons.Default.Home),
-                Pair("BROWSE", Icons.Default.Search),
-                Pair("RENTALS", Icons.AutoMirrored.Filled.LibraryBooks),
-                Pair("PROFILE", Icons.Default.Person)
-            )
-
-            navItems.forEach { (label, icon) ->
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = label,
-                        tint = if (label == "BROWSE") Primary else InkBlack
-                    )
-                    Text(
-                        text = label,
-                        fontSize = 10.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = if (label == "BROWSE") Primary else InkBlack
-                    )
-                }
-            }
         }
     }
 }

@@ -37,7 +37,6 @@ import com.example.comicbookrental.ui.components.commonComponents.BrutalistButto
 import com.example.comicbookrental.ui.components.commonComponents.BrutalistTextField
 import com.example.comicbookrental.ui.components.commonComponents.ComicButton
 import com.example.comicbookrental.ui.components.commonComponents.ComicButtonVariant
-import com.example.comicbookrental.ui.components.commonComponents.ComicTopBar
 import com.example.comicbookrental.ui.components.profileComponents.HeroIdentityCard
 import com.example.comicbookrental.ui.components.authComponents.PasswordStrengthEvaluator
 import com.example.comicbookrental.ui.components.profileComponents.ProfileInformationCard
@@ -83,7 +82,7 @@ fun ProfileDetailScreen(
             title = "PROFILE EDIT",
             onBackClick = onBackClick,
             onCartClick = onCartClick,
-            showHeartIcon = false
+            isShowHeart = false
         )
 
         Column(

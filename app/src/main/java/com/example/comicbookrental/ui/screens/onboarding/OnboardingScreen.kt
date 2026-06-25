@@ -90,7 +90,8 @@ fun OnboardingScreen(
             )
 
             2 -> ManageLegacyPage(
-                onNext = { viewModel.nextPage() }
+                onNext = { viewModel.nextPage() },
+                onSkip = { viewModel.skip() }
             )
 
             3 -> ChooseSectorPage(

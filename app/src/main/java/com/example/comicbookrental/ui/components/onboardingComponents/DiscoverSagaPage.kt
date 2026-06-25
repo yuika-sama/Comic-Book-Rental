@@ -28,9 +28,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.comicbookrental.ui.components.commonComponents.BrutalistButton
 import com.example.comicbookrental.ui.components.commonComponents.comicHardShadow
 import com.example.comicbookrental.ui.theme.Anton
@@ -40,12 +40,15 @@ import com.example.comicbookrental.ui.theme.Primary
 @Composable
 fun DiscoverSagaPage(onNext: () -> Unit, onSkip: () -> Unit)
 {
+    val imageUrlBanner = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbbp9gYpspjJMmJD_B8TTLdtvpD_KGkodwIQ&s"
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
             .padding(16.dp),
-        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
@@ -58,7 +61,7 @@ fun DiscoverSagaPage(onNext: () -> Unit, onSkip: () -> Unit)
                     .fillMaxSize()
                     .padding(top = 16.dp, end = 8.dp)
                     .comicHardShadow(
-                        shape = androidx.compose.foundation.shape.RoundedCornerShape(4.dp),
+                        shape = RoundedCornerShape(4.dp),
                         offset = 8.dp,
                         color = InkBlack
                     )
@@ -70,10 +73,17 @@ fun DiscoverSagaPage(onNext: () -> Unit, onSkip: () -> Unit)
                         RoundedCornerShape(4.dp)
                     )
             ) {
-                Box(
+//                Box(
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .background(Color(0xFF2A1C16))
+//                )
+                AsyncImage(
+                    model = imageUrlBanner,
+                    contentDescription = null,
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color(0xFF2A1C16))
+                        .background(InkBlack)
                 )
             }
 
@@ -88,7 +98,7 @@ fun DiscoverSagaPage(onNext: () -> Unit, onSkip: () -> Unit)
             ) {
                 Text(
                     text = "NEW!",
-                    fontFamily = com.example.comicbookrental.ui.theme.Anton,
+                    fontFamily = Anton,
                     color = Color.White,
                     fontSize = 20.sp
                 )
@@ -228,7 +238,13 @@ fun DiscoverSagaPage(onNext: () -> Unit, onSkip: () -> Unit)
                 modifier = Modifier
                     .width(24.dp)
                     .height(6.dp)
-                    .background(InkBlack)
+                    .background(Primary)
+                    .border(1.dp, InkBlack)
+            )
+            Box(
+                modifier = Modifier
+                    .size(8.dp)
+                    .border(2.dp, InkBlack)
             )
             Box(
                 modifier = Modifier

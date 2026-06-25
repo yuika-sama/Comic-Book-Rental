@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
@@ -32,6 +33,7 @@ import com.example.comicbookrental.ui.screens.checkout.CheckoutScreen
 import com.example.comicbookrental.ui.screens.profile.ProfileScreen
 import com.example.comicbookrental.ui.screens.profile_detail.ProfileDetailScreen
 import com.example.comicbookrental.ui.screens.search.SearchRoute
+import com.example.comicbookrental.ui.screens.onboarding.OnboardingScreen
 import com.example.comicbookrental.utils.StoreManager
 
 @Composable
@@ -42,12 +44,24 @@ fun AppNavHost(){
     val checkoutRepository = remember { CheckoutRepositoryImpl() }
     val context = LocalContext.current
     val storeManager = remember { StoreManager(context) }
-    val startGraph = if (storeManager.isLoggedIn()) CatalogGraph else AuthGraph
+//    val startGraph: Any = when {
+//        !storeManager.isLoggedIn() -> AuthGraph
+//        storeManager.getUserProfile().role.isAdmin -> AdminGraph
+//        else -> CatalogGraph
+    val startGraph = remember {
+        if (!storeManager.isOnboardingCompleted()) {
+            OnboardingRoute
+        } else if (storeManager.isLoggedIn()) {
+            if (storeManager.getUserProfile().role.isAdmin) AdminGraph else CatalogGraph
+        } else {
+            AuthGraph
+        }
+    }
 
     val tabs = listOf(
         NavigationTab("Home", HomeRoute, Icons.Default.Home),
         NavigationTab("Search", SearchRoute, Icons.Default.Search),
-        NavigationTab("Cart", CartRoute, Icons.Default.ShoppingCart),
+        NavigationTab("Rental", MyRentalsRoute, Icons.Default.Book),
         NavigationTab("Profile", ProfileRoute, Icons.Default.Person),
     )
 
@@ -64,13 +78,20 @@ fun AppNavHost(){
         currentDestination?.hasRoute<ProfileDetailRoute>() == true -> "PROFILE EDIT"
         currentDestination?.hasRoute<WishlistRoute>() == true -> "MY WISHLIST"
         currentDestination?.hasRoute<NotificationsRoute>() == true -> "NOTIFICATIONS"
+        currentDestination?.hasRoute<SettingsRoute>() == true -> "SETTINGS"
         else -> ""
     }
 
+    val isShowSecondaryTopBar = currentDestination?.hierarchy?.any() { dest ->
+        dest.hasRoute<ComicDetailRoute>() ||
+                dest.hasRoute<ProfileDetailRoute>() ||
+                dest.hasRoute<WishlistRoute>() ||
+                dest.hasRoute<NotificationsRoute>() ||
+                dest.hasRoute<SettingsRoute>()
+    } == true
+
     Scaffold(
         topBar = {
-
-
             if (showBottomBar)
             {
                 Box(
@@ -90,6 +111,15 @@ fun AppNavHost(){
                         },
                         onNotificationsClick = { navController.navigate(NotificationsRoute) },
                         onNavigateToCartClick = { navController.navigate(CartRoute) }
+                    )
+                }
+            } else if (isShowSecondaryTopBar) {
+                Box(modifier = Modifier.statusBarsPadding()) {
+                    SecondaryTopBar(
+                        title = title,
+                        onBackClick = { navController.popBackStack() },
+                        onCartClick = { navController.navigate(CartRoute) },
+                        isShowCart = currentDestination?.hasRoute<SettingsRoute>() != true && currentDestination?.hasRoute<NotificationsRoute>() != true
                     )
                 }
             }
@@ -122,6 +152,17 @@ fun AppNavHost(){
             startDestination = startGraph,
             modifier = Modifier.padding(innerPadding)
         ) {
+            composable<OnboardingRoute> {
+                OnboardingScreen(
+                    onComplete = {
+                        storeManager.setOnboardingCompleted(true)
+                        navController.navigate(if (storeManager.isLoggedIn()) CatalogGraph else AuthGraph) {
+                            popUpTo(OnboardingRoute) { inclusive = true }
+                        }
+                    }
+                )
+            }
+
             authGraph(navController)
             catalogGraph(navController)
             rentalGraph(
@@ -129,6 +170,12 @@ fun AppNavHost(){
                 checkoutRepository = checkoutRepository
             )
             profileExtensionsGraph(navController)
+            adminGraph(navController) {
+                storeManager.logOut()
+                navController.navigate(AuthGraph) {
+                    popUpTo(0) { inclusive = true }
+                }
+            }
 
             composable<SearchRoute> {
                 SearchRoute(
@@ -183,6 +230,12 @@ fun AppNavHost(){
                     },
                     onHistoryClick = {
                         navController.navigate(MyRentalsRoute)
+                    },
+                    onSettingsClick = {
+                        navController.navigate(SettingsRoute)
+                    },
+                    onNotificationsClick = {
+                        navController.navigate(NotificationsRoute)
                     }
                 )
             }

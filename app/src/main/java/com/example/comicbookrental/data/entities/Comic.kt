@@ -8,7 +8,7 @@ data class Comic(
     val id: Int,
     val title: String,
     val coverImageUrl: String,
-    val genre: String,
+    val genres: List<String> = emptyList(),
     val author: String,
     val publisher: String,
     val description: String,
@@ -18,8 +18,11 @@ data class Comic(
     val viewCount: Int = 0,
     val ratingsCount: Int = 0,
     val isFeatured: Boolean = false,
+    val latestChapter: Int = 1,
     val reviews: List<Review> = emptyList(),
-)
+) {
+    val genreLabel: String get() = genres.joinToString(", ")
+}
 
 @Serializable
 data class Review(
