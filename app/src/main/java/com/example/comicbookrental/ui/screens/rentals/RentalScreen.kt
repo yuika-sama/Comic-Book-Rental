@@ -8,12 +8,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -89,38 +93,25 @@ private fun MyRentalsContent(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
+            .padding(Dimens.Spacing.ScreenPadding)
     ) {
-        // TopBar is now handled by AppNavHost
-
-        Column(modifier = Modifier.padding(Dimens.Spacing.ScreenPadding)) {
-            Spacer(modifier = Modifier.height(4.dp))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth(0.18f)
-                .height(4.dp)
-                .background(MaterialTheme.colorScheme.primary)
-        )
-
-        Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
-
-        Row(modifier = Modifier.fillMaxWidth()) {
-            RentalTabButton(
-                text = "ACTIVE",
-                selected = selectedTab == RentalTab.ACTIVE,
-                onClick = { selectedTab = RentalTab.ACTIVE },
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "MY RENTALS",
+                style = MaterialTheme.typography.headlineMedium.copy(
+                    fontFamily = Anton
+                ),
                 modifier = Modifier.weight(1f)
             )
 
-            RentalTabButton(
-                text = "HISTORY",
-                selected = selectedTab == RentalTab.HISTORY,
-                onClick = { selectedTab = RentalTab.HISTORY },
-                modifier = Modifier.weight(1f)
+            RentalTabs(
+                selectedTab = selectedTab,
+                onTabSelected = { selectedTab = it }
             )
         }
-
-        Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
         if (displayedRentals.isEmpty()) {
             RentalEmptyState(
@@ -147,6 +138,45 @@ private fun MyRentalsContent(
             }
         }
     }
+
+
+@Composable
+private fun RentalTabs(
+    selectedTab: RentalTab,
+    onTabSelected: (RentalTab) -> Unit
+) {
+    val ink = MaterialTheme.extendedColors.ink
+
+    Row(
+        modifier = Modifier
+            .width(145.dp)
+            .height(30.dp)
+            .border(
+                width = Dimens.Border.Standard,
+                color = ink
+            )
+    ) {
+        RentalTabButton(
+            text = "ACTIVE",
+            selected = selectedTab == RentalTab.ACTIVE,
+            onClick = { onTabSelected(RentalTab.ACTIVE) },
+            modifier = Modifier.weight(1f)
+        )
+
+        Box(
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(Dimens.Border.Standard)
+                .background(ink)
+        )
+
+        RentalTabButton(
+            text = "HISTORY",
+            selected = selectedTab == RentalTab.HISTORY,
+            onClick = { onTabSelected(RentalTab.HISTORY) },
+            modifier = Modifier.weight(1f)
+        )
+    }
 }
 
 @Composable
@@ -156,28 +186,19 @@ private fun RentalTabButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val ink = MaterialTheme.extendedColors.ink
-
     Box(
         modifier = modifier
-            .height(44.dp)
+            .fillMaxHeight()
             .background(
-                if (selected) {
-                    MaterialTheme.colorScheme.primary
-                } else {
-                    MaterialTheme.colorScheme.surface
-                }
-            )
-            .border(
-                width = Dimens.Border.Standard,
-                color = ink
+                if (selected) MaterialTheme.colorScheme.primary
+                else MaterialTheme.colorScheme.surface
             )
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.labelMedium.copy(
+            style = MaterialTheme.typography.labelSmall.copy(
                 fontFamily = Anton
             ),
             color = if (selected) {
@@ -221,9 +242,3 @@ private fun RentalEmptyState(
     }
 }
 
-
-@Preview
-@Composable
-fun RentalPreview(){
-    MyRentalsScreen()
-}

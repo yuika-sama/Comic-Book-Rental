@@ -142,7 +142,7 @@ fun ChooseSectorPage(
                             .clickable { onGenreClick(genre) }
                             .comicHardShadow(
                                 shape = RoundedCornerShape(0.dp),
-                                offset = DpOffset(4.dp, 4.dp),
+                                offset = 8.dp,
                                 color = InkBlack
                             )
                             .background(Color.White)

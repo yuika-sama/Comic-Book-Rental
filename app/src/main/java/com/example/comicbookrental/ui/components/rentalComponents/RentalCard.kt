@@ -5,11 +5,16 @@ import com.example.comicbookrental.ui.components.commonComponents.ComicButtonVar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -22,6 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.comicbookrental.data.entities.Rental
 import com.example.comicbookrental.data.entities.RentalStatus
+import com.example.comicbookrental.ui.components.cartComponents.CartComicCover
 import com.example.comicbookrental.ui.components.commonComponents.comicHardShadow
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.Dimens
@@ -192,21 +198,9 @@ private fun RentalTimeRemaining(
             )
         }
 
-        LinearProgressIndicator(
-            progress = { progress },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(8.dp)
-                .border(
-                    width = Dimens.Border.Standard,
-                    color = MaterialTheme.extendedColors.ink
-                ),
-            color = if (isExpired) {
-                MaterialTheme.colorScheme.error
-            } else {
-                MaterialTheme.colorScheme.primary
-            },
-            trackColor = MaterialTheme.colorScheme.surfaceVariant
+        ComicRentalProgressBar(
+            progress = progress,
+            isExpired = isExpired
         )
     }
 }
@@ -216,4 +210,40 @@ private fun Long.toFormattedDate(): String {
         "dd/MM/yyyy",
         java.util.Locale.getDefault()
     ).format(java.util.Date(this))
+}
+
+@Composable
+private fun ComicRentalProgressBar(
+    progress: Float,
+    isExpired: Boolean
+) {
+    val ink = MaterialTheme.extendedColors.ink
+    val safeProgress = progress.coerceIn(0f, 1f)
+
+    val fillColor = if (isExpired) {
+        MaterialTheme.colorScheme.error
+    } else {
+        MaterialTheme.colorScheme.primary
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(10.dp)
+            .background(ink)
+            .padding(Dimens.Border.Standard)
+    ) {
+        BoxWithConstraints(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(maxWidth * safeProgress)
+                    .fillMaxHeight()
+                    .background(fillColor)
+            )
+        }
+    }
 }

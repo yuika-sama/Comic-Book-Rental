@@ -1,5 +1,6 @@
 package com.example.comicbookrental.ui.theme
 
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 
 
@@ -56,6 +57,7 @@ object Dimens {
     object Elevation {
         val None = 0.dp
         val Resting = 4.dp      // default popped-out look (4x4 ink offset)
+        val RestingOffset  = DpOffset(4.dp, 4.dp)
         val Raised = 6.dp       // pressed / hovered lift
     }
 

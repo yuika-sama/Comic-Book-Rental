@@ -22,22 +22,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.comicbookrental.data.entities.CartItem
 import com.example.comicbookrental.ui.components.commonComponents.ComicButton
+import com.example.comicbookrental.ui.components.commonComponents.ComicButton
+import com.example.comicbookrental.ui.components.commonComponents.ComicButtonVariant
 import com.example.comicbookrental.ui.components.cartComponents.CartItemCard
 import com.example.comicbookrental.ui.theme.Anton
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.utils.toVnd
 
-@Preview
+
 @Composable
 fun CartScreen(
     viewModel: CartViewModel = viewModel(),
-    onCheckoutClick: () -> Unit = {}
+    onCheckoutClick: (List<CartItem>) -> Unit
 ) {
+
     val uiState by viewModel.uiState.collectAsState()
 
     var editingItem by remember {
@@ -86,7 +88,7 @@ private fun CartContent(
     totalPrice: Long,
     onRemoveItem: (Int) -> Unit,
     onEditDatesClick: (CartItem) -> Unit,
-    onCheckoutClick: () -> Unit
+    onCheckoutClick: (List<CartItem>) -> Unit
 ) {
     if (cartItems.isEmpty()) {
         CartEmptyState()
@@ -155,11 +157,11 @@ private fun CartContent(
 
         ComicButton(
             text = "Proceed To Checkout",
-            onClick = onCheckoutClick,
-            modifier = Modifier
-                .fillMaxWidth(),
-
-
+            onClick = {
+                onCheckoutClick(cartItems)
+            },
+            modifier = Modifier.fillMaxWidth(),
+            variant = ComicButtonVariant.Primary
         )
     }
 }
