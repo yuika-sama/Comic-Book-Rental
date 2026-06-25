@@ -1,7 +1,6 @@
 package com.example.comicbookrental.ui.screens.admin.manage_users
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -12,16 +11,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.comicbookrental.ui.components.adminComponents.AdminEmptyState
+import com.example.comicbookrental.ui.components.adminComponents.AdminErrorState
+import com.example.comicbookrental.ui.components.adminComponents.AdminLoadingState
 import com.example.comicbookrental.ui.components.adminComponents.AdminUserCard
 import com.example.comicbookrental.ui.components.adminComponents.UserActionDialog
 import com.example.comicbookrental.ui.components.commonComponents.BrutalistTextField
@@ -51,16 +48,21 @@ fun ManageUsersScreen(
         Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
         when (uiState) {
-            is ManageUsersUiState.Loading -> LoadingState()
+            is ManageUsersUiState.Loading -> AdminLoadingState()
 
-            is ManageUsersUiState.Error -> ErrorState(
+            is ManageUsersUiState.Error -> AdminErrorState(
                 message = (uiState as ManageUsersUiState.Error).message
             )
 
             is ManageUsersUiState.Content -> {
                 val users = (uiState as ManageUsersUiState.Content).users
                 if (users.isEmpty()) {
-                    EmptyState(isSearching = editor.searchQuery.isNotBlank())
+                    AdminEmptyState(
+                        message = if (editor.searchQuery.isNotBlank())
+                            "No users match your search."
+                        else
+                            "No users yet."
+                    )
                 } else {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
@@ -86,37 +88,6 @@ fun ManageUsersScreen(
             ban = action.ban,
             onConfirm = viewModel::onActionConfirm,
             onDismiss = viewModel::onActionDismiss
-        )
-    }
-}
-
-@Composable
-private fun LoadingState() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
-    }
-}
-
-@Composable
-private fun ErrorState(message: String) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(
-            text = message,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.error,
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-@Composable
-private fun EmptyState(isSearching: Boolean) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(
-            text = if (isSearching) "No users match your search." else "No users yet.",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center
         )
     }
 }

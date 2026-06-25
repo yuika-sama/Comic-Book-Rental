@@ -1,10 +1,9 @@
-package com.example.comicbookrental.ui.screens.search
+package com.example.comicbookrental.ui.components.searchComponents
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.FlowRowScope
@@ -29,6 +28,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.example.comicbookrental.ui.components.commonComponents.GenreButton
 import com.example.comicbookrental.ui.components.commonComponents.SectionHeader
+import com.example.comicbookrental.ui.screens.search.RATING_FILTER_OPTIONS
+import com.example.comicbookrental.ui.screens.search.SearchFilters
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.extendedColors
 
@@ -273,7 +274,6 @@ private fun FilterSection(
     }
 }
 
-/** Selectable filter chip — reuses [GenreButton], flipping its colors when selected. */
 @Composable
 private fun ToggleChip(
     label: String,
