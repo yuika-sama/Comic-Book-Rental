@@ -9,20 +9,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
-data class SettingsState(
-    val appNotificationsEnabled: Boolean = true,
-    val emailNotificationsEnabled: Boolean = false, // mocked
-    val darkModeEnabled: Boolean = false, // mocked
-    val saveDataMode: Boolean = false // mocked
-)
-
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val storeManager: StoreManager
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(SettingsState())
-    val uiState: StateFlow<SettingsState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(SettingsUiState())
+    val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
 
     init {
         _uiState.update {

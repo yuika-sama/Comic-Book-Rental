@@ -49,7 +49,8 @@ fun ResetPasswordScreen(
     onPasswordResetSuccess: () -> Unit = {},
     onCancelClick: () -> Unit = {},
     viewModel: ResetPasswordViewModel = hiltViewModel()
-) {
+)
+{
     val state by viewModel.uiState.collectAsState()
     val ink = MaterialTheme.extendedColors.ink
 
@@ -58,7 +59,8 @@ fun ResetPasswordScreen(
     }
 
     LaunchedEffect(state.isSuccess) {
-        if (state.isSuccess) {
+        if (state.isSuccess)
+        {
             onPasswordResetSuccess()
             viewModel.resetSuccessState()
         }
@@ -102,9 +104,9 @@ fun ResetPasswordScreen(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
-                
+
                 Spacer(modifier = Modifier.height(Dimens.Spacing.ListItemSpacing))
-                
+
                 Text(
                     text = "Lock your vault with a high-security access key.",
                     style = MaterialTheme.typography.bodyMedium,
@@ -115,7 +117,8 @@ fun ResetPasswordScreen(
 
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
-                if (state.errorMessage != null) {
+                if (state.errorMessage != null)
+                {
                     Text(
                         text = state.errorMessage!!,
                         color = MaterialTheme.colorScheme.error,
@@ -164,7 +167,8 @@ fun ResetPasswordScreen(
                     }
                 )
 
-                if (state.newPasswordErrorMessage != null) {
+                if (state.newPasswordErrorMessage != null)
+                {
                     Text(
                         text = state.newPasswordErrorMessage!!,
                         color = MaterialTheme.colorScheme.error,
@@ -175,10 +179,13 @@ fun ResetPasswordScreen(
                             .padding(top = Dimens.Spacing.ListItemSpacing)
                     )
                 }
-                
+
                 Spacer(modifier = Modifier.height(Dimens.Spacing.ListItemSpacing))
-                
-                PasswordStrengthEvaluator(strength = state.passwordStrength, label = state.passwordStrengthLabel)
+
+                PasswordStrengthEvaluator(
+                    strength = state.passwordStrength,
+                    label = state.passwordStrengthLabel
+                )
 
                 Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
 
@@ -219,7 +226,8 @@ fun ResetPasswordScreen(
                     }
                 )
 
-                if (state.confirmPasswordErrorMessage != null) {
+                if (state.confirmPasswordErrorMessage != null)
+                {
                     Text(
                         text = state.confirmPasswordErrorMessage!!,
                         color = MaterialTheme.colorScheme.error,
@@ -238,7 +246,7 @@ fun ResetPasswordScreen(
                     onClick = { viewModel.resetPassword() },
                     modifier = Modifier.fillMaxWidth()
                 )
-                
+
                 Spacer(modifier = Modifier.height(Dimens.Spacing.StackMd))
 
                 ComicButton(
@@ -249,14 +257,15 @@ fun ResetPasswordScreen(
                 )
             }
         }
-        
+
         Spacer(modifier = Modifier.height(Dimens.Spacing.SectionSpacing))
     }
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFFFCF9F8)
 @Composable
-private fun ResetPasswordPreview() {
+private fun ResetPasswordPreview()
+{
     ComicBookRentalTheme {
         ResetPasswordScreen(
             email = "comic.rent@gmail.com",
