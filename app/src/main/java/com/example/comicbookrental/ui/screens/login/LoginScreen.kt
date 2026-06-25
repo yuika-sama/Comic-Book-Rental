@@ -51,7 +51,7 @@ import com.example.comicbookrental.ui.theme.extendedColors
 
 @Composable
 fun LoginScreen(
-    onLoginSuccess: () -> Unit = {},
+    onLoginSuccess: (isAdmin: Boolean) -> Unit = {},
     onNavigateToVerify: (String) -> Unit = {},
     onRegisterClick: () -> Unit = {},
     onForgotPasswordClick: () -> Unit = {},
@@ -63,7 +63,7 @@ fun LoginScreen(
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess)
         {
-            onLoginSuccess()
+            onLoginSuccess(state.isAdmin)
             viewModel.resetSuccessState()
         }
     }

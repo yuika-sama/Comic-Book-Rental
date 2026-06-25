@@ -9,7 +9,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.example.comicbookrental.ui.theme.Dimens
 import com.example.comicbookrental.ui.theme.InkBlack
@@ -20,18 +19,13 @@ fun Modifier.comicHardShadow(
     color: Color = InkBlack,
 ): Modifier = this.drawBehind {
     val outline = shape.createOutline(size, layoutDirection, this)
-    translate(left = offset.toPx(), top = offset.toPx()) {
+    val offsetPx = offset.toPx()
+    translate(left = offsetPx, top = offsetPx) {
         drawOutline(outline = outline, color = color)
     }
 }
 
-/**
- * A subtle halftone (dot) texture drawn behind the content — the "nod to the printing process"
- * from DESIGN.md, used as the background of secondary surfaces / section gutters.
- *
- * Draws a regular grid of [dotColor] dots at low [alpha]. Layer it AFTER a solid
- * `.background(...)` so the dots sit on top of the paper fill.
- */
+
 fun Modifier.halftoneBackground(
     dotColor: Color = InkBlack,
     dotRadius: Dp = 1.dp,

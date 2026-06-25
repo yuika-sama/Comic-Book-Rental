@@ -8,6 +8,7 @@ import com.example.comicbookrental.data.entities.Comic
 import com.example.comicbookrental.data.entities.Rental
 import com.example.comicbookrental.data.entities.RentalStatus
 import com.example.comicbookrental.data.entities.User
+import com.example.comicbookrental.data.mock.AuthMockData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
@@ -147,7 +148,7 @@ class StoreManager @Inject constructor(
 
 
     // Banned user manager
-    fun getBannedUserEmails(): Set<String> = getObject("banned_users", emptySet())
+    fun getBannedUserEmails(): Set<String> = getObject("banned_users", AuthMockData.SEED_BANNED_EMAILS)
     fun saveBannedUserEmails(emails: Set<String>) = saveObject("banned_users", emails)
 
 
@@ -171,7 +172,7 @@ class StoreManager @Inject constructor(
     // Auth manager
     fun getUsersCredentials(): Map<String, String> = getObject(
         "users_credentials",
-        mapOf("namthegioi65@gmail.com" to "12345678")
+        AuthMockData.SEED_USER_CREDENTIALS
     )
 
     fun saveUsersCredentials(users: Map<String, String>) = saveObject("users_credentials", users)

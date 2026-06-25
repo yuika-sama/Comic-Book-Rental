@@ -35,6 +35,7 @@ import kotlinx.serialization.Serializable
 @Serializable object AdminDashboardRoute
 @Serializable object AdminManageUsersRoute
 @Serializable object AdminManageComicsRoute
+@Serializable object AdminProfileRoute
 
 @Serializable data class PaymentSuccessRoute(val orderId: String, val price: Double, val comicTitle: String)
 @Serializable object OnboardingRoute

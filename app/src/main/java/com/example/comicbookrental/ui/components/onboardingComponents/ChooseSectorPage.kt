@@ -39,7 +39,6 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.comicbookrental.ui.components.commonComponents.BrutalistButton
@@ -142,7 +141,7 @@ fun ChooseSectorPage(
                             .clickable { onGenreClick(genre) }
                             .comicHardShadow(
                                 shape = RoundedCornerShape(0.dp),
-                                offset = 8.dp,
+                                offset = 4.dp,
                                 color = InkBlack
                             )
                             .background(Color.White)

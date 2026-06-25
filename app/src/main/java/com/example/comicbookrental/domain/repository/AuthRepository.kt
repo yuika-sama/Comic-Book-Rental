@@ -1,8 +1,12 @@
 package com.example.comicbookrental.domain.repository
 
+import com.example.comicbookrental.data.entities.UserRole
+
 interface AuthRepository
 {
     suspend fun login(email: String, password: String, rememberMe: Boolean = false): Result<Boolean>
+
+    fun getCurrentRole(): UserRole
 
     suspend fun oAuthLogin(): Result<Unit>
 
