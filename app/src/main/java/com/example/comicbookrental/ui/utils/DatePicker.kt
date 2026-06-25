@@ -2,9 +2,11 @@ package com.example.comicbookrental.ui.screens.cart
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -95,7 +98,9 @@ fun ComicDateRangePickerDialog(
             shape = shape,
             color = MaterialTheme.colorScheme.surface
         ) {
-            Column {
+            Column(
+                modifier = Modifier.fillMaxHeight(0.9f)
+            ) {
                 Column(
                     modifier = Modifier
                         .padding(
@@ -165,21 +170,26 @@ fun ComicDateRangePickerDialog(
                     state = pickerState,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(500.dp),
+                        .weight(1f),
                     title = null,
                     headline = null,
                     showModeToggle = false
                 )
 
-                errorText?.let { error ->
-                    Text(
-                        text = error,
-                        modifier = Modifier.padding(
-                            horizontal = Dimens.Spacing.ScreenPadding
-                        ),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.error
-                    )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Dimens.Spacing.ScreenPadding)
+                        .height(24.dp),
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    errorText?.let { error ->
+                        Text(
+                            text = error,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
                 }
 
                 Row(
