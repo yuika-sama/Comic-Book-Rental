@@ -2,6 +2,7 @@ package com.example.comicbookrental.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.comicbookrental.data.entities.AppNotification
 import com.example.comicbookrental.data.entities.CartItem
 import com.example.comicbookrental.data.entities.Comic
 import com.example.comicbookrental.data.entities.Rental
@@ -25,8 +26,10 @@ class StoreManager @Inject constructor(
         coerceInputValues = true
     }
 
-    init {
-        if (!prefs.contains("cart_item")){
+    init
+    {
+        if (!prefs.contains("cart_item"))
+        {
             val now = System.currentTimeMillis()
             val initialCart = listOf(
                 CartItem(
@@ -51,7 +54,8 @@ class StoreManager @Inject constructor(
             saveCartItems(initialCart)
         }
 
-        if (!prefs.contains("rentals")){
+        if (!prefs.contains("rentals"))
+        {
             val now = System.currentTimeMillis()
             val day = 24 * 60 * 60 * 1000L
             val initialRentals = listOf(
@@ -80,16 +84,20 @@ class StoreManager @Inject constructor(
         }
     }
 
-    private inline fun <reified T> getObject(key: String, defaultValue: T): T {
+    private inline fun <reified T> getObject(key: String, defaultValue: T): T
+    {
         val stringValue = prefs.getString(key, null) ?: return defaultValue
-        return try {
+        return try
+        {
             json.decodeFromString<T>(stringValue)
-        } catch (_: Exception){
+        } catch (_: Exception)
+        {
             defaultValue
         }
     }
 
-    private inline fun <reified T> saveObject(key: String, value: T){
+    private inline fun <reified T> saveObject(key: String, value: T)
+    {
         val stringValue = json.encodeToString(value)
         prefs.edit().putString(key, stringValue).apply()
     }
@@ -104,18 +112,21 @@ class StoreManager @Inject constructor(
     fun saveRentals(rentals: List<Rental>) = saveObject("rentals", rentals)
 
     // User Profile manager
-    fun getUserProfile(): User = getObject("user_profile", User(
-        id = "1",
-        heroName = "YUIKA SAMA",
-        realName = "Nam Thế Giới",
-        email = "namthegioi65@gmail.com",
-        rank = "HEROIC",
-        phone = "+84 (09) 87 654 321",
-        region = "Ha Noi",
-        rentedCount = 128,
-        activeCount = 14,
-        avatarUrl = ""
-    ))
+    fun getUserProfile(): User = getObject(
+        "user_profile", User(
+            id = "1",
+            heroName = "YUIKA SAMA",
+            realName = "Nam Thế Giới",
+            email = "namthegioi65@gmail.com",
+            rank = "HEROIC",
+            phone = "+84 (09) 87 654 321",
+            region = "Ha Noi",
+            rentedCount = 128,
+            activeCount = 14,
+            avatarUrl = ""
+        )
+    )
+
     fun saveUserProfile(profile: User) = saveObject("user_profile", profile)
 
 
@@ -126,7 +137,8 @@ class StoreManager @Inject constructor(
 
     // Onboarding Manager
     fun isOnboardingCompleted(): Boolean = prefs.getBoolean("onboarding_completed", false)
-    fun setOnboardingCompleted(completed: Boolean) = prefs.edit().putBoolean("onboarding_completed", completed).apply()
+    fun setOnboardingCompleted(completed: Boolean) =
+        prefs.edit().putBoolean("onboarding_completed", completed).apply()
 
 
     // Favourite Genre manager
@@ -149,20 +161,27 @@ class StoreManager @Inject constructor(
 
     // Notification manager
     fun getNotificationsEnabled(): Boolean = prefs.getBoolean("notifications_enabled", true)
-    fun setNotificationsEnabled(enabled: Boolean) = prefs.edit().putBoolean("notifications_enabled", enabled).apply()
+    fun setNotificationsEnabled(enabled: Boolean) =
+        prefs.edit().putBoolean("notifications_enabled", enabled).apply()
+
+    fun getAppNotifications(): List<AppNotification> = getObject("app_notifications", emptyList())
+    fun saveAppNotifications(notifications: List<AppNotification>) =
+        saveObject("app_notifications", notifications)
 
     // Auth manager
     fun getUsersCredentials(): Map<String, String> = getObject(
         "users_credentials",
         mapOf("namthegioi65@gmail.com" to "12345678")
     )
+
     fun saveUsersCredentials(users: Map<String, String>) = saveObject("users_credentials", users)
 
     // Login
     fun isLoggedIn(): Boolean = prefs.getBoolean("is_logged_in", false)
-    fun setLoggedIn(loggedIn: Boolean) =  prefs.edit().putBoolean("is_logged_in", loggedIn).apply()
+    fun setLoggedIn(loggedIn: Boolean) = prefs.edit().putBoolean("is_logged_in", loggedIn).apply()
 
-    fun logOut(){
+    fun logOut()
+    {
         setLoggedIn(false)
 //        prefs.edit().remove("user_profile").apply()
     }

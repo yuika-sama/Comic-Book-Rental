@@ -17,13 +17,15 @@ import com.example.comicbookrental.ui.screens.wishlist.WishlistRoute as Wishlist
 import com.example.comicbookrental.ui.screens.login.LoginScreen
 import com.example.comicbookrental.ui.screens.register.RegisterScreen
 import com.example.comicbookrental.ui.screens.forgot_password.ForgotPasswordScreen
+import com.example.comicbookrental.ui.screens.notifications.NotificationScreen
 import com.example.comicbookrental.ui.screens.rentals.MyRentalsScreen
 import com.example.comicbookrental.ui.screens.verify_otp.VerifyOtpScreen
 import com.example.comicbookrental.ui.screens.reset_password.ResetPasswordScreen
 
-fun NavGraphBuilder.authGraph(navController: NavHostController){
-    navigation<AuthGraph>(startDestination = LoginRoute){
-        composable <LoginRoute>{
+fun NavGraphBuilder.authGraph(navController: NavHostController)
+{
+    navigation<AuthGraph>(startDestination = LoginRoute) {
+        composable<LoginRoute> {
             LoginScreen(
                 onRegisterClick = { navController.navigate(RegisterRoute) },
                 onForgotPasswordClick = { navController.navigate(ForgetPassword) },
@@ -45,7 +47,7 @@ fun NavGraphBuilder.authGraph(navController: NavHostController){
         composable<RegisterRoute> {
             RegisterScreen(
                 onLoginClick = { navController.popBackStack() },
-                onRegisterSuccess = { 
+                onRegisterSuccess = {
                     navController.navigate(LoginRoute) {
                         popUpTo(LoginRoute) { inclusive = true }
                     }
@@ -70,13 +72,16 @@ fun NavGraphBuilder.authGraph(navController: NavHostController){
             VerifyOtpScreen(
                 email = route.email,
                 onVerifySuccess = {
-                    if (route.isFromLogin){
-                        navController.navigate(CatalogGraph){
-                            popUpTo(AuthGraph){
+                    if (route.isFromLogin)
+                    {
+                        navController.navigate(CatalogGraph) {
+                            popUpTo(AuthGraph) {
                                 inclusive = true
                             }
                         }
-                    } else {
+                    }
+                    else
+                    {
                         navController.navigate(ChangePassword(route.email))
                     }
                 },
@@ -104,7 +109,8 @@ fun NavGraphBuilder.authGraph(navController: NavHostController){
 
 fun NavGraphBuilder.catalogGraph(
     navController: NavHostController
-){
+)
+{
     navigation<CatalogGraph>(startDestination = HomeRoute) {
         composable<HomeRoute> {
             HomeScreenEntry(
@@ -119,15 +125,19 @@ fun NavGraphBuilder.catalogGraph(
                 onComicClick = { comicId ->
                     navController.navigate(ComicDetailRoute(comicId))
                 },
+                onCartClick = { navController.navigate(CartRoute) }
             )
+        }
+        composable<NotificationsRoute> {
+            NotificationScreen()
         }
     }
 }
 
 fun NavGraphBuilder.rentalGraph(
     navController: NavHostController
-){
-    // TODO: Navigation between rental graph
+)
+{
     composable<MyRentalsRoute> {
         MyRentalsScreen(
             onNavigateToReader = { comicId ->
@@ -138,25 +148,26 @@ fun NavGraphBuilder.rentalGraph(
 
     composable<ReaderRoute> { backstackEntry ->
         val route = backstackEntry.toRoute<ReaderRoute>()
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ){
-            Text(
-                text = "Reading comic ${route.comicId}"
-            )
-        }
+        com.example.comicbookrental.ui.screens.reader_screen.ReaderScreen(
+            rentalId = route.comicId.toIntOrNull() ?: 0,
+            onBackClick = { navController.popBackStack() },
+            onExtendRentalClick = { rental ->
+                // TODO: Extend rental logic
+            }
+        )
     }
 }
 
 fun NavGraphBuilder.profileExtensionsGraph(
     navController: NavHostController
-) {
+)
+{
     composable<WishlistRoute> {
         WishlistScreenEntry(
             onBack = { navController.popBackStack() },
             onComicClick = { comicId -> navController.navigate(ComicDetailRoute(comicId)) },
             onExplore = { navController.navigate(HomeRoute) },
+            onCartClick = { navController.navigate(CartRoute) }
         )
     }
 
@@ -172,18 +183,14 @@ fun NavGraphBuilder.profileExtensionsGraph(
 
     composable<NotificationsRoute> {
         // TODO: Notification Settings / Center UI - Turn on/off Push or Email alerts (Section 8.1)
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(text = "Notification Settings")
-        }
+        NotificationScreen()
     }
 }
 
 fun NavGraphBuilder.adminGraph(
     navController: NavHostController
-) {
+)
+{
     navigation<AdminGraph>(startDestination = AdminManageComicsRoute) {
         composable<AdminDashboardRoute> {
             // TODO: Admin Dashboard UI - Dashboard summary & reports analytics (Section 8.2)

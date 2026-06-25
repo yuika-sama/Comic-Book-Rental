@@ -125,7 +125,7 @@ private fun RankBadge(rank: Int, accent: Color) {
     Box(
         modifier = Modifier
             .size(44.dp)
-            .comicHardShadow(shape = shape, offset = Dimens.Elevation.Resting, color = ink)
+            .comicHardShadow(shape = shape, color = ink)
             .clip(shape)
             .background(accent)
             .border(Dimens.Border.Standard, ink, shape),

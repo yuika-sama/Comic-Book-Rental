@@ -64,7 +64,7 @@ fun RentOptionCard(
 
     Column(
         modifier = modifier
-            .comicHardShadow(shape = shape, offset = Dimens.Elevation.Resting, color = ink)
+            .comicHardShadow(shape = shape, color = ink)
             .clip(shape)
             .background(container)
             .border(Dimens.Border.Standard, ink, shape)

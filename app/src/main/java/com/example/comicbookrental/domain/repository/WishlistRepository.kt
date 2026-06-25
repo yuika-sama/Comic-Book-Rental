@@ -1,4 +1,4 @@
-package com.example.comicbookrental.data.repositories.wishlist
+package com.example.comicbookrental.domain.repository
 
 import com.example.comicbookrental.data.entities.Comic
 

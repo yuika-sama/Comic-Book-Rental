@@ -60,6 +60,7 @@ import com.example.comicbookrental.ui.theme.extendedColors
 fun ComicDetailRoute(
     onBack: () -> Unit,
     onComicClick: (String) -> Unit,
+    onCartClick: () -> Unit,
     viewModel: ComicDetailViewModel = hiltViewModel(),
     cartViewModel: CartViewModel = viewModel(),
     wishlistViewModel: WishlistViewModel = viewModel(),
@@ -93,6 +94,7 @@ fun ComicDetailRoute(
                         }
                     },
                     onAddToCart = { showDatePicker = true },
+                    onCartClick = onCartClick,
                     onSimilarClick = { onComicClick(it.id) },
                 )
 
@@ -147,7 +149,7 @@ private fun DetailStatus(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        ComicTopBar(onBack = onBack)
+        // TopBar is now handled by AppNavHost
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -179,6 +181,7 @@ fun ComicDetailScreen(
     onBookmark: () -> Unit = {},
     onRent: (RentOptionUi) -> Unit = {},
     onAddToCart: (RentOptionUi) -> Unit = {},
+    onCartClick: () -> Unit = {},
     onDismissBonusNote: () -> Unit = {},
     onViewAllSimilar: () -> Unit = {},
     onSimilarClick: (SimilarTitleUi) -> Unit = {},
@@ -189,21 +192,13 @@ fun ComicDetailScreen(
             .background(MaterialTheme.colorScheme.background)
             .halftoneBackground(),
     ) {
-        ComicTopBar(
-            onBack = onBack,
-            title = state.title,
-            actions = {
-                TopBarIconButton(
-                    icon = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
-                    contentDescription = if (isFavorite) "Remove from wishlist" else "Add to wishlist",
-                    onClick = onBookmark,
-                    tint = if (isFavorite) {
-                        MaterialTheme.colorScheme.error
-                    } else {
-                        MaterialTheme.extendedColors.ink
-                    },
-                )
-            },
+        com.example.comicbookrental.ui.components.commonComponents.SecondaryTopBar(
+            title = "COMIC DETAIL",
+            onBackClick = onBack,
+            onCartClick = onCartClick,
+            showHeartIcon = true,
+            isInterested = isFavorite,
+            onInterestedClick = onBookmark
         )
 
         LazyColumn(

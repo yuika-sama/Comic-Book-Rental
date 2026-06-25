@@ -2,7 +2,7 @@ package com.example.comicbookrental.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.comicbookrental.data.repositories.comic.ComicRepository
+import com.example.comicbookrental.domain.repository.ComicRepository
 import com.example.comicbookrental.ui.model.toUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow

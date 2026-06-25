@@ -39,7 +39,7 @@ fun ReviewCard(
 
     Column(
         modifier = modifier
-            .comicHardShadow(shape = shape, offset = Dimens.Elevation.Resting, color = ink)
+            .comicHardShadow(shape = shape, color = ink)
             .clip(shape)
             .background(MaterialTheme.colorScheme.surface)
             .border(Dimens.Border.Standard, ink, shape)

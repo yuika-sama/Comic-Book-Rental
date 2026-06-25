@@ -1,4 +1,4 @@
-package com.example.comicbookrental.data.repositories.comic
+package com.example.comicbookrental.domain.repository
 
 import com.example.comicbookrental.data.entities.Comic
 import com.example.comicbookrental.data.entities.Review

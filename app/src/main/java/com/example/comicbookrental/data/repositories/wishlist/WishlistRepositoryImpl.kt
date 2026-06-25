@@ -2,8 +2,10 @@ package com.example.comicbookrental.data.repositories.wishlist
 
 import com.example.comicbookrental.data.entities.Comic
 import com.example.comicbookrental.data.mock.MockWishlistData
+import com.example.comicbookrental.domain.repository.WishlistRepository
 
-class WishlistRepositoryImpl : WishlistRepository {
+class WishlistRepositoryImpl : WishlistRepository
+{
 
     override fun getAll(): List<Comic> {
         return MockWishlistData.comics.toList()

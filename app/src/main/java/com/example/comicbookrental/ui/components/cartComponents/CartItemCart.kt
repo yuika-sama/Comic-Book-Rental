@@ -47,7 +47,6 @@ fun CartItemCard(
             .fillMaxWidth()
             .comicHardShadow(
                 shape = shape,
-                offset = Dimens.Elevation.Resting,
                 color = ink
             )
             .clip(shape)

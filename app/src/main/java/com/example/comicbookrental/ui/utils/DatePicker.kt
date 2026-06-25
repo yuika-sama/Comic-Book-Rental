@@ -83,7 +83,6 @@ fun ComicDateRangePickerDialog(
                 .padding(Dimens.Spacing.ScreenPadding)
                 .comicHardShadow(
                     shape = shape,
-                    offset = Dimens.Elevation.Resting,
                     color = ink
                 )
                 .border(

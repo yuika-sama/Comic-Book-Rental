@@ -2,7 +2,7 @@ package com.example.comicbookrental.ui.screens.wishlist
 
 import androidx.lifecycle.ViewModel
 import com.example.comicbookrental.data.entities.Comic
-import com.example.comicbookrental.data.repositories.wishlist.WishlistRepository
+import com.example.comicbookrental.domain.repository.WishlistRepository
 import com.example.comicbookrental.data.repositories.wishlist.WishlistRepositoryImpl
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

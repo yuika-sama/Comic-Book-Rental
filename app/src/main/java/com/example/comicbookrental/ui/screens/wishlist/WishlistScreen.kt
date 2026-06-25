@@ -56,6 +56,7 @@ fun WishlistRoute(
     onBack: () -> Unit,
     onComicClick: (String) -> Unit,
     onExplore: () -> Unit,
+    onCartClick: () -> Unit,
     wishlistViewModel: WishlistViewModel = viewModel(),
 ) {
     val comics by wishlistViewModel.items.collectAsStateWithLifecycle()
@@ -78,6 +79,7 @@ fun WishlistRoute(
                 )
             },
             onExplore = onExplore,
+            onCartClick = onCartClick,
         )
 
         ComicToastHost(
@@ -98,6 +100,7 @@ fun WishlistScreen(
     onRent: (Comic) -> Unit = {},
     onRemove: (Comic) -> Unit = {},
     onExplore: () -> Unit = {},
+    onCartClick: () -> Unit = {},
 ) {
     Column(
         modifier = modifier
@@ -105,7 +108,12 @@ fun WishlistScreen(
             .background(MaterialTheme.colorScheme.background)
             .halftoneBackground(),
     ) {
-        ComicTopBar(onBack = onBack, title = "Wishlist")
+        com.example.comicbookrental.ui.components.commonComponents.SecondaryTopBar(
+            title = "MY WISHLIST",
+            onBackClick = onBack,
+            onCartClick = onCartClick,
+            showHeartIcon = false
+        )
 
         LazyColumn(
             modifier = Modifier

@@ -2,21 +2,15 @@ package com.example.comicbookrental.ui.navigation
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -31,12 +25,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.comicbookrental.ui.components.commonComponents.PanelRushBottomBar
 import com.example.comicbookrental.ui.components.commonComponents.PanelRushTopBar
-import com.example.comicbookrental.data.repositories.checkout.CheckoutRepositoryImpl
+import com.example.comicbookrental.ui.components.commonComponents.SecondaryTopBar
 import com.example.comicbookrental.ui.screens.cart.CartScreen
-import com.example.comicbookrental.ui.screens.checkout.CheckoutScreen
 import com.example.comicbookrental.ui.screens.profile.ProfileScreen
 import com.example.comicbookrental.ui.screens.profile_detail.ProfileDetailScreen
-import com.example.comicbookrental.ui.screens.search.SearchRoute as SearchScreen
+import com.example.comicbookrental.ui.screens.search.SearchRoute
 import com.example.comicbookrental.utils.StoreManager
 
 @Composable
@@ -46,6 +39,7 @@ fun AppNavHost(){
     val currentDestination = navBackStackEntry?.destination
     val checkoutRepository = remember { CheckoutRepositoryImpl() }
     val context  = LocalContext.current
+    val context = LocalContext.current
     val storeManager = remember { StoreManager(context) }
     val startGraph = if (storeManager.isLoggedIn()) CatalogGraph else AuthGraph
 
@@ -56,54 +50,61 @@ fun AppNavHost(){
         NavigationTab("Profile", ProfileRoute, Icons.Default.Person),
     )
 
-    val showBottomBar = currentDestination?.hierarchy?.any() {dest ->
+    val showBottomBar = currentDestination?.hierarchy?.any() { dest ->
         dest.hasRoute<HomeRoute>() ||
-        dest.hasRoute<MyRentalsRoute>() ||
-        dest.hasRoute<CartRoute>() ||
-        dest.hasRoute<ProfileRoute>() ||
-        dest.hasRoute<SearchRoute>()
+                dest.hasRoute<MyRentalsRoute>() ||
+                dest.hasRoute<ProfileRoute>() ||
+                dest.hasRoute<SearchRoute>()
     } == true
+
+    val title = when
+    {
+        currentDestination?.hasRoute<ComicDetailRoute>() == true -> "COMIC DETAIL"
+        currentDestination?.hasRoute<ProfileDetailRoute>() == true -> "PROFILE EDIT"
+        currentDestination?.hasRoute<WishlistRoute>() == true -> "MY WISHLIST"
+        currentDestination?.hasRoute<NotificationsRoute>() == true -> "NOTIFICATIONS"
+        else -> ""
+    }
 
     Scaffold(
         topBar = {
-            // TODO: showTopBar based on current route
-            if (showBottomBar){
+
+
+            if (showBottomBar)
+            {
                 Box(
                     modifier = Modifier.statusBarsPadding()
-                ){
+                ) {
                     PanelRushTopBar(
                         onMenuClick = {
                             val currentRoute = currentDestination?.route
-                            if (currentRoute != HomeRoute.toString()){
+                            if (currentRoute != HomeRoute.toString())
+                            {
                                 navController.navigate(HomeRoute)
-                            } else {
-                                Log.d(
-                                    "Topbar Icon Click: ",
-                                    "Current is home route"
-                                )
+                            }
+                            else
+                            {
+                                Log.d("Topbar Icon Click: ", "Current is home route")
                             }
                         },
-                        onNotificationsClick = {
-                            // TODO: Navigate to Notification Screen
-                        },
-                        onNavigateToCartClick = {
-                            navController.navigate(CartRoute)
-                        }
+                        onNotificationsClick = { navController.navigate(NotificationsRoute) },
+                        onNavigateToCartClick = { navController.navigate(CartRoute) }
                     )
                 }
             }
         },
         bottomBar = {
-            if(showBottomBar){
+            if (showBottomBar)
+            {
                 Box(
                     modifier = Modifier.navigationBarsPadding()
-                ){
+                ) {
                     PanelRushBottomBar(
-                        tabs=tabs,
+                        tabs = tabs,
                         currentDestination = currentDestination,
-                        onTabClick = {tab ->
-                            navController.navigate(tab.route){
-                                popUpTo(navController.graph.findStartDestination().id){
+                        onTabClick = { tab ->
+                            navController.navigate(tab.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
                                     saveState = true
                                 }
                                 launchSingleTop = true
@@ -114,20 +115,19 @@ fun AppNavHost(){
                 }
             }
         }
-    ){ innerPadding ->
+    ) { innerPadding ->
         NavHost(
             navController = navController,
             startDestination = startGraph,
             modifier = Modifier.padding(innerPadding)
-        ){
+        ) {
             authGraph(navController)
             catalogGraph(navController)
             rentalGraph(navController)
             profileExtensionsGraph(navController)
-            adminGraph(navController)
 
             composable<SearchRoute> {
-                SearchScreen(
+                SearchRoute(
                     onComicClick = { comicId ->
                         navController.navigate(ComicDetailRoute(comicId.toString()))
                     }
@@ -158,7 +158,7 @@ fun AppNavHost(){
                 )
             }
 
-            composable<ProfileRoute>{
+            composable<ProfileRoute> {
                 ProfileScreen(
                     onLogOut = {
                         navController.navigate(AuthGraph) {
@@ -184,7 +184,8 @@ fun AppNavHost(){
                 ProfileDetailScreen(
                     onBackClick = {
                         navController.popBackStack()
-                    }
+                    },
+                    onCartClick = { navController.navigate(CartRoute) }
                 )
             }
         }

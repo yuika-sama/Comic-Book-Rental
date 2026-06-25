@@ -46,7 +46,8 @@ private enum class RentalTab {
 @Composable
 fun MyRentalsScreen(
     viewModel: RentalViewModel = viewModel(),
-    onNavigateToReader: (Int) -> Unit = {}
+    onNavigateToReader: (Int) -> Unit = {},
+    onBackClick: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -57,7 +58,8 @@ fun MyRentalsScreen(
         },
         onExtendClick = { rental ->
             viewModel.extendRental(rental.rentalId)
-        }
+        },
+        onBackClick = onBackClick
     )
 }
 
@@ -66,6 +68,7 @@ private fun MyRentalsContent(
     rentals: List<Rental>,
     onReadClick: (Rental) -> Unit,
     onExtendClick: (Rental) -> Unit,
+    onBackClick: () -> Unit
 ) {
     var selectedTab by remember {
         mutableStateOf(RentalTab.ACTIVE)
@@ -131,6 +134,7 @@ private fun MyRentalsContent(
                         onExtendClick = { onExtendClick(rental) }
                     )
                 }
+            }
             }
         }
     }

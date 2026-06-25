@@ -32,7 +32,7 @@ fun HotPickBadge(
     val ink = MaterialTheme.extendedColors.ink
     Box(
         modifier = modifier
-            .comicHardShadow(shape = shape, offset = Dimens.Elevation.Resting, color = ink)
+            .comicHardShadow(shape = shape, color = ink)
             .clip(shape)
             .background(containerColor)
             .border(Dimens.Border.Standard, ink, shape)
